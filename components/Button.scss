@@ -1,0 +1,36 @@
+.button-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  > * {
+    margin: 0 2px;
+  }
+}
+
+.button {
+  position: relative;
+  border: none;
+  background: none;
+  padding: 5px 10px;
+  border-radius: 2px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--base-background-hover);
+  }
+
+  &--primary {
+    background-color: var(--primary-colour);
+    color: var(--primary-contrast);
+
+    &:hover {
+      background-color: var(--primary-colour-hover);
+    }
+  }
+
+  &[disabled],
+  &[disabled]::hover {
+    background-color: var(--disabled-colour);
+  }
+}

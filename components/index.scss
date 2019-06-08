@@ -1,0 +1,88 @@
+$light-theme-colour: #7f7ec2;
+$dark-theme-colour: #fbd072;
+
+:root {
+  --font-size: 16px;
+  --font-family: 'Lucida Console', 'Courier New', monospace;
+
+  --faded-out: #eee;
+  --darken-filter-colour: #ddd;
+
+  // Default theme (dark)
+  --base-background: #333333;
+  --base-background-hover: #{lighten(#333, 10%)};
+  --base-contrast: #fff;
+  --primary-colour: #{$dark-theme-colour};
+  --primary-colour-hover: #{darken($dark-theme-colour, 10%)};
+  --primary-contrast: #000;
+  --alt-colour: #{$light-theme-colour};
+  --tooltip-background: #fff;
+  --tooltip-colour: #000;
+  // End theme
+
+  --danger-colour: #f00;
+  --disabled-colour: #bbb;
+}
+
+.theme {
+  transition: all ease-in-out 0.2s;
+
+  &--light {
+    --base-background: #fff;
+    --base-background-hover: #{darken(#fff, 10%)};
+    --base-contrast: #000;
+    --primary-colour: #{$light-theme-colour};
+    --primary-colour-hover: #{darken($light-theme-colour, 10%)};
+    --primary-contrast: #fff;
+    --alt-colour: #{$dark-theme-colour};
+    --tooltip-background: #000;
+    --tooltip-colour: #fff;
+  }
+}
+
+html {
+  font-size: var(--font-size);
+  font-family: var(--font-family);
+}
+
+body {
+  background-color: var(--base-background);
+  color: var(--base-contrast);
+}
+
+body,
+.page {
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* Page Styles */
+.page {
+  display: flex;
+  overflow: hidden;
+
+  &--column {
+    flex-direction: column;
+  }
+}
+
+/* Framework */
+.flex {
+  display: flex;
+
+  &--row {
+    flex-direction: row;
+  }
+
+  &--column {
+    flex-direction: column;
+  }
+
+  &--all {
+    flex: 1;
+  }
+
+  &--end {
+    justify-content: flex-end;
+  }
+}

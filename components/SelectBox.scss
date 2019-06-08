@@ -1,0 +1,26 @@
+.select-container::after {
+  content: '⌵';
+  position: absolute;
+  top: 0;
+  right: 5px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  font-weight: 700;
+  font-size: 0.75em;
+  pointer-events: none;
+}
+
+.select-box {
+  -webkit-appearance: none;
+  appearance: none;
+  display: flex;
+  justify-content: center;
+  width: calc(100% - 10px);
+  min-height: 25px;
+  padding: 5px;
+  border: none;
+  cursor: pointer;
+  box-sizing: content-box;
+  outline: none;
+}

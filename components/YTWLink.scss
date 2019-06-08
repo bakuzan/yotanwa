@@ -1,0 +1,8 @@
+.ytw-link {
+  display: flex;
+  color: var(--primary-colour);
+
+  &:hover {
+    color: var(--primary-colour-hover);
+  }
+}

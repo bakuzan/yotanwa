@@ -1,0 +1,73 @@
+@import './_mixins.scss';
+
+$tiers: (
+  ss: (
+    background: #ff00ff,
+    colour: #000000
+  ),
+  s: (
+    background: #ff0000,
+    colour: #000000
+  ),
+  a: (
+    background: #ffa500,
+    colour: #000000
+  ),
+  b: (
+    background: #ffff00,
+    colour: #000000
+  ),
+  c: (
+    background: #228b22,
+    colour: #ffffff
+  ),
+  d: (
+    background: #4169e1,
+    colour: #ffffff
+  ),
+  f: (
+    background: #000000,
+    colour: #ffffff
+  ),
+  unranked: (
+    background: #aaa,
+    colour: #000000
+  )
+);
+
+.tier {
+  display: flex;
+  max-width: 100%;
+
+  &__text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1 1 100px;
+    min-width: 50px;
+    max-width: 200px;
+    margin: 0;
+    font-size: 2em;
+
+    @each $tier, $value in $tiers {
+      &--tier_#{$tier} {
+        background-color: map-get($value, background);
+        color: map-get($value, colour);
+      }
+    }
+  }
+
+  &__items {
+    width: 100%;
+    grid-template-columns: repeat(auto-fit, 96px);
+    grid-gap: 1px;
+  }
+
+  @include respondTo(xxs) {
+    flex-direction: column;
+
+    &__text {
+      max-width: 100%;
+    }
+  }
+}

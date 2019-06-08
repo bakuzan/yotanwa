@@ -1,0 +1,10 @@
+.ytw-grid {
+  display: grid;
+  padding: 0 5px;
+  margin: 2px 0;
+  list-style-type: none;
+
+  &--uniform-rows {
+    grid-auto-rows: 1fr;
+  }
+}

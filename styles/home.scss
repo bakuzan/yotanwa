@@ -1,0 +1,23 @@
+.search-form {
+  margin: auto;
+  margin-top: 0;
+
+  &__options {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 10px 0;
+  }
+
+  &__submit {
+    flex: 1;
+    padding: 10px 20px;
+    font-size: 1.5em;
+  }
+}
+
+.theme-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px;
+  margin: 5px;
+}
