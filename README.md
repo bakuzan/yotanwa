@@ -20,7 +20,7 @@ To achieve the best results set your list to public and default to Completed.
 
 
 # Development
-## Prerequistes
+## Prerequisites
 [node](https://nodejs.org/en/)
 
 [yarn](https://yarnpkg.com/)
