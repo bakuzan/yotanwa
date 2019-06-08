@@ -20,12 +20,12 @@ To achieve the best results set your list to public and default to Completed.
 
 
 # Development
-## Prerequisites
+### Prerequisites
 [node](https://nodejs.org/en/)
 
 [yarn](https://yarnpkg.com/)
 
-## Steps
+### Steps
 - Clone the repo
 - run `yarn` in the project directory
 - run `npm run dev` to start the app
