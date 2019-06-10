@@ -11,4 +11,6 @@ function Loader() {
   );
 }
 
+Loader.displayName = 'Loader';
+
 export default Loader;

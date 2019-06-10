@@ -1,3 +1,5 @@
+@import '../styles/_mixins.scss';
+
 .tooltip {
   position: relative;
 
@@ -8,6 +10,7 @@
     bottom: 5px;
     left: 5px;
     width: auto;
+    height: auto;
     background-color: var(--tooltip-background);
     color: var(--tooltip-colour);
     padding: 5px;
@@ -17,6 +20,18 @@
     pointer-events: none;
     white-space: nowrap;
     z-index: 10;
+    font-size: 1rem;
+
+    &--wrap {
+      white-space: pre;
+    }
+    &--fixed {
+      position: fixed;
+
+      @include respondTo(xxs) {
+        left: 5px !important;
+      }
+    }
   }
 
   &--hovered {

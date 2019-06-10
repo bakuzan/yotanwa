@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import React, { useRef, useEffect, useState } from 'react';
 
@@ -33,5 +34,12 @@ function Image({ className, src, ...props }) {
     />
   );
 }
+
+Image.displayName = 'Image';
+
+Image.propTypes = {
+  src: PropTypes.string,
+  alt: PropTypes.string.isRequired
+};
 
 export default Image;

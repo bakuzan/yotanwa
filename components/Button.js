@@ -1,4 +1,5 @@
 import './Button.scss';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -17,5 +18,10 @@ function YTWButton({ className, isPrimary, children, ...props }) {
     </button>
   );
 }
+
+YTWButton.displayName = 'YTWButton';
+YTWButton.propTypes = {
+  isPrimary: PropTypes.bool
+};
 
 export default YTWButton;

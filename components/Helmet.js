@@ -37,6 +37,7 @@ function YTWHelmet({ title, description }) {
   );
 }
 
+YTWHelmet.displayName = 'YTWHelmet';
 YTWHelmet.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired

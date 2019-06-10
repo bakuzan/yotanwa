@@ -32,4 +32,6 @@ function Themer() {
   return null;
 }
 
+Themer.displayName = 'Themer';
+
 export default Themer;

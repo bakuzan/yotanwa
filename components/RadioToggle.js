@@ -1,4 +1,5 @@
 import './RadioToggle.scss';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import React, { useRef, useState } from 'react';
 
@@ -55,5 +56,12 @@ function RadioToggle({ className, label, icons = defaultIcons, ...props }) {
     </div>
   );
 }
+
+RadioToggle.displayName = 'RadioToggle';
+RadioToggle.propTypes = {
+  label: PropTypes.string.isRequired,
+  icons: PropTypes.arrayOf(PropTypes.string),
+  onChange: PropTypes.func.isRequired
+};
 
 export default RadioToggle;

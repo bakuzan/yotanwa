@@ -1,4 +1,5 @@
 import './Grid.scss';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -32,8 +33,17 @@ function Grid({
   );
 }
 
+Grid.displayName = 'Grid';
 Grid.defaultProps = {
-  noItemsText: 'No items'
+  noItemsText: 'No items',
+  uniformRows: false
+};
+
+Grid.propTypes = {
+  items: PropTypes.arrayOf(PropTypes.any),
+  noItemsText: PropTypes.string,
+  children: PropTypes.func,
+  uniformRows: PropTypes.bool
 };
 
 export default Grid;

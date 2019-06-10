@@ -196,9 +196,15 @@ export default class extends React.Component {
           )}
           {hasItems && !showSettings && (
             <div className="tiers">
-              {tiers.map(([tier, series]) => (
-                <Tier key={tier} tier={tier} items={series} />
-              ))}
+              {tiers.map(([tier, series]) => {
+                const scores = tierValues
+                  .filter(([_, t]) => t === tier)
+                  .map(([s]) => s);
+
+                return (
+                  <Tier key={tier} tier={tier} scores={scores} items={series} />
+                );
+              })}
             </div>
           )}
         </div>

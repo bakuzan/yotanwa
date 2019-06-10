@@ -1,5 +1,6 @@
 import './Input.scss';
 import './SelectBox.scss';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -39,9 +40,27 @@ const SelectBox = ({
   );
 };
 
+SelectBox.displayName = 'SelectBox';
 SelectBox.defaultProps = {
   disabled: false,
   children: null
+};
+
+SelectBox.propTypes = {
+  id: PropTypes.string.isRequired,
+  containerClassName: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool
+  ]).isRequired,
+  text: PropTypes.string.isRequired,
+  options: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onChange: PropTypes.func.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.arrayOf(PropTypes.node)
+  ])
 };
 
 export default SelectBox;
