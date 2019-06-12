@@ -12,34 +12,6 @@ $dark-theme-colour: #fbd072;
   --disabled-colour: #bbb;
 }
 
-.theme {
-  transition: all ease-in-out 0.2s;
-
-  &--light {
-    --base-background: #fff;
-    --base-background-hover: #{darken(#fff, 10%)};
-    --base-contrast: #000;
-    --primary-colour: #{$light-theme-colour};
-    --primary-colour-hover: #{darken($light-theme-colour, 10%)};
-    --primary-contrast: #fff;
-    --alt-colour: #{$dark-theme-colour};
-    --tooltip-background: #000;
-    --tooltip-colour: #fff;
-  }
-
-  &--dark {
-    --base-background: #333333;
-    --base-background-hover: #{lighten(#333, 10%)};
-    --base-contrast: #fff;
-    --primary-colour: #{$dark-theme-colour};
-    --primary-colour-hover: #{darken($dark-theme-colour, 10%)};
-    --primary-contrast: #000;
-    --alt-colour: #{$light-theme-colour};
-    --tooltip-background: #fff;
-    --tooltip-colour: #000;
-  }
-}
-
 html {
   font-size: var(--font-size);
   font-family: var(--font-family);
