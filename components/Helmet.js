@@ -1,4 +1,3 @@
-import './index.scss';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Head from 'next/head';
@@ -6,8 +5,8 @@ import Head from 'next/head';
 function YTWHelmet({ title, description }) {
   return (
     <Head>
-      <meta charset="utf-8" />
-      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta charSet="utf-8" />
+      <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
       <meta
         name="viewport"
         content="width=device-width, initial-scale=1, shrink-to-fit=no"

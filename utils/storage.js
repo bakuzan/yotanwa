@@ -1,27 +1,24 @@
-import defaultTiers from '../consts/defaultTiers';
-import isClient from './isClient';
+import defaultUserOptions from '../consts/defaultUserOptions';
 
-const STORE_KEY = 'ytwSettings';
+import isClient from './isClient';
+import cookies from './cookies';
 
 export default {
   DEFAULTS: {
-    isDarkTheme: false,
-    tierDistribution: Array.from([...new Map(defaultTiers).entries()]),
-    hiddenScores: []
+    ...defaultUserOptions
   },
   get(key) {
     if (!isClient()) {
-      return { ...this.DEFAULTS };
+      return;
     }
 
-    const values = JSON.parse(localStorage.getItem(STORE_KEY)) || this.DEFAULTS;
-    const data = { ...this.DEFAULTS, ...values };
-    return key ? data[key] : data;
+    return cookies.hasItem(key)
+      ? JSON.parse(cookies.getItem(key))
+      : this.DEFAULTS[key];
   },
   set(newValues) {
-    const values = this.get();
-    const updated = { ...values, ...newValues };
-    localStorage.setItem(STORE_KEY, JSON.stringify(updated));
-    return updated;
+    Object.keys(newValues).forEach((key) => {
+      cookies.setItem(key, newValues[key]);
+    });
   }
 };

@@ -54,8 +54,8 @@ SelectBox.propTypes = {
     PropTypes.number,
     PropTypes.bool
   ]).isRequired,
-  text: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(PropTypes.object).isRequired,
+  label: PropTypes.string.isRequired,
+  options: PropTypes.arrayOf(PropTypes.object),
   onChange: PropTypes.func.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.func,

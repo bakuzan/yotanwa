@@ -1,22 +1,20 @@
 import '../styles/search.scss';
 import React from 'react';
 
-import Helmet from '../components/Helmet';
 import Button from '../components/Button';
 import { NewTabLink, YTWLink } from '../components/YTWLink';
 import Tier from '../components/Tier';
-import Themer from '../components/Themer';
 import SelectBox from '../components/SelectBox';
 import Tickbox from '../components/Tickbox';
-import Footer from '../components/Footer';
 
-import { sources, types, ranks } from '../consts';
+import { sources, ranks } from '../consts';
 import defaultTiers from '../consts/defaultTiers';
 import usingMal from '../handlers/usingMal';
 import usingAnilist from '../handlers/usingAnilist';
 import getUserLinks from '../utils/getUserLinks';
 import generateTiers from '../utils/generateTiers';
 import storage from '../utils/storage';
+import processQuery from '../utils/processQuery';
 
 async function fetchListItems(source, username, type) {
   switch (source) {
@@ -31,10 +29,12 @@ async function fetchListItems(source, username, type) {
 export default class extends React.Component {
   constructor(props) {
     super(props);
+
+    const { cookies } = props;
     this.state = {
       showSettings: false,
-      tierDistribution: new Map(),
-      hiddenScores: new Set()
+      tierDistribution: new Map(cookies.tierDistribution),
+      hiddenScores: new Set(cookies.hiddenScores)
     };
 
     this.handleCustomTierChange = this.handleCustomTierChange.bind(this);
@@ -44,20 +44,12 @@ export default class extends React.Component {
   }
 
   static async getInitialProps({ query }) {
-    const { source = sources.MAL, type = types.ANIME, username } = query;
+    const { source, type, username } = processQuery(query);
 
     const { items, error } = await fetchListItems(source, username, type);
     const links = getUserLinks(source, username, type);
 
     return { items, error, username, source, type, links };
-  }
-
-  componentDidMount() {
-    const { tierDistribution, hiddenScores } = storage.get();
-    this.setState({
-      tierDistribution: new Map(tierDistribution),
-      hiddenScores: new Set(hiddenScores)
-    });
   }
 
   handleCustomTierChange(event) {
@@ -68,8 +60,11 @@ export default class extends React.Component {
   }
 
   handlePersistCustomTierChange() {
-    const tierDistribution = Array.from(this.state.tierDistribution.entries());
-    const hiddenScores = Array.from(this.state.hiddenScores);
+    const hiddenScores = Array.from(this.state.hiddenScores).join(',');
+    const tierDistribution = Array.from(this.state.tierDistribution.entries())
+      .map((x) => x.join('|'))
+      .join(',');
+
     storage.set({ tierDistribution, hiddenScores });
 
     this.setState({ showSettings: false });
@@ -99,11 +94,6 @@ export default class extends React.Component {
 
     return (
       <section className="page page--column tier-page">
-        <Helmet
-          title={`${username}'s ${source} ${type} tier - Tier List Generator`}
-          description={`Tier list generated using ${username}'s default ${source} ${type} list`}
-        />
-
         <header className="tier-page__header">
           <div className="flex flex--column flex--all">
             <h1 className="tier-page__title">{`${username}'s tier list`}</h1>
@@ -114,9 +104,6 @@ export default class extends React.Component {
             <p className="tier-page__subtitle">
               Type: <NewTabLink href={links.list}>{type}</NewTabLink>
             </p>
-          </div>
-          <div>
-            <Themer />
           </div>
         </header>
         <div className="tier-page__options">
@@ -151,7 +138,7 @@ export default class extends React.Component {
                 {tierValues.map(([k, v]) => {
                   const uid = `setting-${k}`;
                   return (
-                    <div className="settings__tier">
+                    <div className="settings__tier" key={uid}>
                       <Tickbox
                         id={`${uid}-active`}
                         name={`${uid}-active`}
@@ -208,7 +195,6 @@ export default class extends React.Component {
             </div>
           )}
         </div>
-        <Footer />
       </section>
     );
   }

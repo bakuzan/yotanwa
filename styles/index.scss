@@ -8,18 +8,6 @@ $dark-theme-colour: #fbd072;
   --faded-out: #eee;
   --darken-filter-colour: #ddd;
 
-  // Default theme (dark)
-  --base-background: #333333;
-  --base-background-hover: #{lighten(#333, 10%)};
-  --base-contrast: #fff;
-  --primary-colour: #{$dark-theme-colour};
-  --primary-colour-hover: #{darken($dark-theme-colour, 10%)};
-  --primary-contrast: #000;
-  --alt-colour: #{$light-theme-colour};
-  --tooltip-background: #fff;
-  --tooltip-colour: #000;
-  // End theme
-
   --danger-colour: #f00;
   --disabled-colour: #bbb;
 }
@@ -37,6 +25,18 @@ $dark-theme-colour: #fbd072;
     --alt-colour: #{$dark-theme-colour};
     --tooltip-background: #000;
     --tooltip-colour: #fff;
+  }
+
+  &--dark {
+    --base-background: #333333;
+    --base-background-hover: #{lighten(#333, 10%)};
+    --base-contrast: #fff;
+    --primary-colour: #{$dark-theme-colour};
+    --primary-colour-hover: #{darken($dark-theme-colour, 10%)};
+    --primary-contrast: #000;
+    --alt-colour: #{$light-theme-colour};
+    --tooltip-background: #fff;
+    --tooltip-colour: #000;
   }
 }
 

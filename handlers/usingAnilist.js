@@ -52,7 +52,7 @@ async function fetchList(user, type) {
 }
 
 module.exports = createHandler(async function handler(user, type) {
-  console.log(`search/anilist > ${type}, ${user}`);
+  console.info(`search/anilist > ${type}, ${user}`);
   const { data, errors } = await fetchList(user, type);
 
   if (errors && errors.length) {

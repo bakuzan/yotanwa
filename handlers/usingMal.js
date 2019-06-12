@@ -35,7 +35,7 @@ async function fetchWatchList(user, type) {
 }
 
 module.exports = createHandler(async function handler(user, type) {
-  console.log(`search/mal > ${type}, ${user}`);
+  console.info(`search/mal > ${type}, ${user}`);
   const list = await fetchWatchList(user, type);
   return { items: list.map(mapItem(type)), error: null };
 });

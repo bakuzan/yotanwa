@@ -29,7 +29,7 @@
 
     &::before,
     &:checked::before {
-      color: var(--base-colour);
+      color: var(--base-contrast);
       transition: all 0.3s;
       cursor: pointer;
       z-index: 1;
