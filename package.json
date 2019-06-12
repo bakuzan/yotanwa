@@ -1,6 +1,6 @@
 {
   "name": "yotanwa",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "private": true,
   "description": "Display your anime & manga lists as ranked tiers",
   "main": "index.jsx",
