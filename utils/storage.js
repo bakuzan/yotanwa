@@ -18,7 +18,7 @@ export default {
   },
   set(newValues) {
     Object.keys(newValues).forEach((key) => {
-      cookies.setItem(key, newValues[key]);
+      cookies.setItem(key, newValues[key], Infinity);
     });
   }
 };

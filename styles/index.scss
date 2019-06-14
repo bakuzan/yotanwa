@@ -1,6 +1,3 @@
-$light-theme-colour: #7f7ec2;
-$dark-theme-colour: #fbd072;
-
 :root {
   --font-size: 16px;
   --font-family: 'Lucida Console', 'Courier New', monospace;
@@ -8,8 +5,37 @@ $dark-theme-colour: #fbd072;
   --faded-out: #eee;
   --darken-filter-colour: #ddd;
 
+  --desaturated-blue: #7f7ec2;
+  --moderate-blue: #5d5bb2;
+  --soft-orange: #fbd072;
+  --bright-orange: #fabf40;
+
   --danger-colour: #f00;
   --disabled-colour: #bbb;
+}
+
+.theme--light {
+  --base-background: #fff;
+  --base-background-hover: #e6e6e6;
+  --base-contrast: #000;
+  --primary-colour: var(--desaturated-blue);
+  --primary-colour-hover: var(--moderate-blue);
+  --primary-contrast: #fff;
+  --alt-colour: var(--soft-orange);
+  --tooltip-background: #000;
+  --tooltip-colour: #fff;
+}
+
+.theme--dark {
+  --base-background: #333333;
+  --base-background-hover: #4d4d4d;
+  --base-contrast: #fff;
+  --primary-colour: var(--soft-orange);
+  --primary-colour-hover: var(--bright-orange);
+  --primary-contrast: #000;
+  --alt-colour: var(--desaturated-blue);
+  --tooltip-background: #fff;
+  --tooltip-colour: #000;
 }
 
 html {
