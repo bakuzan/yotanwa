@@ -31,7 +31,7 @@ function Tier({ tier, scores, items }) {
       <Grid className="tier__items" uniformRows items={items}>
         {(x) => (
           <li key={x.id}>
-            <Tooltip text={x.title}>
+            <Tooltip text={x.title} center highlight>
               <NewTabLink href={x.url}>
                 <Image
                   src={x.image}

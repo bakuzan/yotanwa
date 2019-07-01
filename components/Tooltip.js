@@ -10,21 +10,42 @@ function Tooltip({
   allowWrapping,
   usePosition,
   delay,
+  center,
+  highlight,
   ...props
 }) {
-  const [{ hovered, at }, setHovered] = useState({ hovered: false, at: [] });
   const timer = useRef();
+  const tooltip = useRef();
+  const [{ hovered, at, adjustment }, setHovered] = useState({
+    hovered: false,
+    at: [],
+    adjustment: null
+  });
 
-  const style = usePosition
-    ? { top: at[1], left: at[0], bottom: 'unset' }
-    : null;
+  let style = usePosition ? { top: at[1], left: at[0], bottom: 'unset' } : null;
+
+  const transform = adjustment
+    ? { transform: `translateX(${adjustment}px)` }
+    : {};
+  style = style ? { ...style, ...transform } : { ...transform };
 
   function handleEnter(e) {
     const { clientX, clientY } = e;
 
+    const rect = tooltip.current.getBoundingClientRect();
+    const contentWidth = tooltip.current.firstChild.offsetWidth;
+    const space = window.innerWidth - (rect.width + rect.left);
+    let adjustment = null;
+
+    if (contentWidth > rect.left + rect.width / 2) {
+      adjustment = -rect.left;
+    } else if (space < contentWidth) {
+      adjustment = -(contentWidth - space);
+    }
+
     clearTimeout(timer.current);
     timer.current = setTimeout(() => {
-      setHovered({ hovered: true, at: [clientX, clientY] });
+      setHovered({ hovered: true, at: [clientX, clientY], adjustment });
     }, delay);
   }
 
@@ -35,8 +56,10 @@ function Tooltip({
 
   return (
     <div
+      ref={tooltip}
       className={classNames('tooltip', className, {
-        'tooltip--hovered': hovered
+        'tooltip--hovered': hovered,
+        'tooltip--highlight': highlight && hovered
       })}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
@@ -46,7 +69,8 @@ function Tooltip({
         style={style}
         className={classNames('tooltip__content', {
           'tooltip__content--wrap': allowWrapping,
-          'tooltip__content--fixed': usePosition
+          'tooltip__content--fixed': usePosition,
+          'tooltip__content--center': center
         })}
       >
         {text}
@@ -60,13 +84,17 @@ Tooltip.displayName = 'Tooltip';
 Tooltip.defaultProps = {
   allowWrapping: false,
   usePosition: false,
+  center: false,
+  highlight: false,
   delay: 0
 };
 Tooltip.propTypes = {
   text: PropTypes.string.isRequired,
   allowWrapping: PropTypes.bool,
   usePosition: PropTypes.bool,
-  delay: PropTypes.number
+  delay: PropTypes.number,
+  center: PropTypes.bool,
+  highlight: PropTypes.bool
 };
 
 export default Tooltip;

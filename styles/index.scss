@@ -22,8 +22,8 @@
   --primary-colour-hover: var(--moderate-blue);
   --primary-contrast: #fff;
   --alt-colour: var(--soft-orange);
-  --tooltip-background: #000;
-  --tooltip-colour: #fff;
+  --tooltip-background: var(--primary-colour);
+  --tooltip-colour: var(--primary-contrast);
 }
 
 .theme--dark {
@@ -34,8 +34,8 @@
   --primary-colour-hover: var(--bright-orange);
   --primary-contrast: #000;
   --alt-colour: var(--desaturated-blue);
-  --tooltip-background: #fff;
-  --tooltip-colour: #000;
+  --tooltip-background: var(--primary-colour);
+  --tooltip-colour: var(--primary-contrast);
 }
 
 html {
