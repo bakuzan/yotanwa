@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 import Grid from '../components/Grid';
 import Image from '../components/Image';
+import Tooltip from '../components/Tooltip';
+import Button from '../components/Button';
 
 import { useDebounce } from '../hooks/useDebounce';
 import { usePrevious } from '../hooks/usePrevious';
@@ -54,8 +56,25 @@ export default function Characters() {
         <Grid className="characters" uniformRows items={searchResults}>
           {(x) => (
             <li key={x.id} className="character">
-              <Image src={x.image} alt={x.name} width={width} height={height} />
-              <div className="character__name">{x.name}</div>
+              <Tooltip text={x.name} center highlight>
+                <Button
+                  onClick={() => {
+                    const current = new Set(selectedIds);
+                    if (!current.delete(x.id)) {
+                      current.add(x.id);
+                    }
+
+                    setSelectedIds(current);
+                  }}
+                >
+                  <Image
+                    src={x.image}
+                    alt={x.name}
+                    width={width}
+                    height={height}
+                  />
+                </Button>
+              </Tooltip>
             </li>
           )}
         </Grid>

@@ -1,4 +1,18 @@
-const query = ``;
+const query = `
+query($search: String!) {
+  Page(page: 1, perPage: 10) {
+    characters(search: $search) {
+      id
+      name {
+        full
+      }
+      image {
+        medium
+      }
+    }
+  }
+}
+`;
 
 async function search(search) {
   const body = JSON.stringify({
