@@ -8,8 +8,7 @@ import { NewTabLink } from './YTWLink';
 import Image from './Image';
 import Tooltip from './Tooltip';
 
-const width = 96;
-const height = 125;
+import { width, height } from '../consts/imageSize';
 
 function Tier({ tier, scores, items }) {
   const classModifier = (tier !== '-' ? tier : 'unranked').toLowerCase();

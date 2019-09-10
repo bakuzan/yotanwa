@@ -18,13 +18,13 @@
   "license": "ISC",
   "dependencies": {
     "classnames": "^2.2.6",
-    "mal-scraper": "^2.6.2",
-    "next": "^8.1.0",
+    "mal-scraper": "^2.6.3",
+    "next": "^9.0.5",
     "node-fetch": "^2.6.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
     "@zeit/next-sass": "1.0.1",
-    "autoprefixer": "9.6.0",
+    "autoprefixer": "9.6.1",
     "node-sass": "^4.12.0",
     "postcss-scss": "^2.0.0"
   },
@@ -40,9 +40,9 @@
     }
   },
   "devDependencies": {
-    "husky": "^2.3.0",
-    "lint-staged": "^8.1.7",
-    "prettier": "^1.17.1",
+    "husky": "^3.0.5",
+    "lint-staged": "^9.2.5",
+    "prettier": "^1.18.2",
     "prop-types": "^15.7.2"
   },
   "browserslist": [
