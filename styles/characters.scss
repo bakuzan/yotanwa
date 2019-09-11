@@ -1,0 +1,10 @@
+.characters {
+  grid-template-columns: repeat(auto-fit, 116px); // img width + padding
+}
+
+.search-results,
+.search-selection {
+  max-width: 50vw;
+  // TODO
+  // Handle small screens!!
+}

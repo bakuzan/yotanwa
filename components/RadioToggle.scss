@@ -27,7 +27,7 @@ $radio-toggle--padding: 5px;
     top: #{1 + $radio-toggle--padding};
     left: $radio-toggle--padding;
 
-    background-color: var(--primary-colour);
+    background-color: #fafafa;
     width: 1.2em;
     height: 1.2em;
     border: 1px solid #4d4d4d;
@@ -53,9 +53,9 @@ $radio-toggle--padding: 5px;
     left: 1.7em;
   }
   &--focused .radio-toggle__control {
-    box-shadow: 0px 0px 2px 3px var(--alt-colour);
+    box-shadow: 0px 0px 2px 3px var(--radio-toggle--box-shadow-colour);
   }
   &:active .radio-toggle__control {
-    box-shadow: 0px 0px 5px 5px var(--alt-colour);
+    box-shadow: 0px 0px 5px 5px var(--radio-toggle--box-shadow-colour);
   }
 }

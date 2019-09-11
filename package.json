@@ -5,9 +5,9 @@
   "description": "Display your anime & manga lists as ranked tiers",
   "main": "index.jsx",
   "scripts": {
-    "dev": "next -p 7200",
-    "build": "next build",
-    "start": "next start -p $PORT",
+    "dev": "nodemon",
+    "build": "next build && tsc --project tsconfig.server.json",
+    "start": "cross-env NODE_ENV=production node dist/server/index.js",
     "pretty": "lint-staged"
   },
   "author": "bakuzan",
@@ -17,16 +17,20 @@
   },
   "license": "ISC",
   "dependencies": {
-    "classnames": "^2.2.6",
-    "mal-scraper": "^2.6.3",
-    "next": "^9.0.5",
-    "node-fetch": "^2.6.0",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
+    "@next/bundle-analyzer": "^9.0.5",
     "@zeit/next-sass": "1.0.1",
     "autoprefixer": "9.6.1",
+    "classnames": "^2.2.6",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "mal-scraper": "^2.6.3",
+    "next": "^9.0.5",
+    "next-offline": "^4.0.5",
+    "node-fetch": "^2.6.0",
     "node-sass": "^4.12.0",
-    "postcss-scss": "^2.0.0"
+    "postcss-scss": "^2.0.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
   },
   "lint-staged": {
     "*.{js,jsx,json,scss}": [
@@ -43,7 +47,16 @@
     "husky": "^3.0.5",
     "lint-staged": "^9.2.5",
     "prettier": "^1.18.2",
-    "prop-types": "^15.7.2"
+    "prop-types": "^15.7.2",
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^4.17.1",
+    "@types/next": "^8.0.6",
+    "@types/node": "^12.7.5",
+    "@zeit/next-typescript": "^1.1.1",
+    "cross-env": "^5.2.0",
+    "nodemon": "^1.19.2",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.6.3"
   },
   "browserslist": [
     ">1%",

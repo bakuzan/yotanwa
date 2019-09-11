@@ -5,4 +5,19 @@
   &:hover {
     color: var(--primary-colour-hover);
   }
+
+  &--nav {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    height: calc(100% - 10px);
+    padding: 5px 10px;
+
+    &:hover,
+    &.ytw-link--active {
+      background-color: var(--alt-colour);
+      color: var(--alt-contrast);
+    }
+  }
 }

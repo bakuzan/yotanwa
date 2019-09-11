@@ -1,9 +1,10 @@
 import '../styles/index.scss';
-import React from 'react';
-import App, { Container } from 'next/app';
+import * as React from 'react';
+import App from 'next/app';
 
 import Helmet from '../components/Helmet';
 import Themer from '../components/Themer';
+import { YTWLink } from '../components/YTWLink';
 import Footer from '../components/Footer';
 
 import processCookies from '../utils/processCookies';
@@ -29,12 +30,25 @@ class MyApp extends App {
     const { Component, pageProps, cookies, helmetProps } = this.props;
 
     return (
-      <Container>
+      <React.Fragment>
         <Helmet {...helmetProps} />
-        <Themer initialValue={cookies.isDarkTheme} />
-        <Component {...pageProps} cookies={cookies} />
+        <div className="app-header">
+          <nav className="app-header__nav">
+            <YTWLink nav href="/">
+              series
+            </YTWLink>
+            <YTWLink nav href="/characters">
+              characters
+            </YTWLink>
+          </nav>
+          <div className="flex flex--all"></div>
+          <Themer initialValue={cookies.isDarkTheme} />
+        </div>
+        <main>
+          <Component {...pageProps} cookies={cookies} />
+        </main>
         <Footer />
-      </Container>
+      </React.Fragment>
     );
   }
 }

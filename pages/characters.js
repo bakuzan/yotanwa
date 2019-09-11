@@ -1,9 +1,11 @@
+import '../styles/characters.scss';
 import React, { useEffect, useState } from 'react';
 
+import Button from '../components/Button';
 import Grid from '../components/Grid';
 import Image from '../components/Image';
+import Input from '../components/Input';
 import Tooltip from '../components/Tooltip';
-import Button from '../components/Button';
 
 import { useDebounce } from '../hooks/useDebounce';
 import { usePrevious } from '../hooks/usePrevious';
@@ -22,6 +24,7 @@ export default function Characters() {
       try {
         const response = await fetch(`/api/characters?term=${term}`);
         const result = await response.json();
+        console.log('Character search > ', result);
         setSearchResults(result.items);
       } catch (e) {
         // TODO handle this

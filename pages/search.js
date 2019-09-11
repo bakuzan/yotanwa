@@ -150,7 +150,7 @@ export default class extends React.Component {
                         key={k}
                         id={`${uid}-rank`}
                         name={k}
-                        label={k}
+                        label={`${k}`}
                         value={v}
                         onChange={this.handleCustomTierChange}
                       >

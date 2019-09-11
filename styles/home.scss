@@ -1,11 +1,20 @@
+@import './_mixins';
+
 .search-form {
-  margin: auto;
-  margin-top: 0;
+  max-width: 500px;
 
   &__options {
     display: flex;
     justify-content: space-evenly;
     margin: 10px 0;
+
+    @include respondTo(xxs) {
+      flex-direction: column;
+
+      .radio-group__label {
+        text-align: left;
+      }
+    }
   }
 
   &__submit {

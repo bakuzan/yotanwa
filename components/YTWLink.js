@@ -2,12 +2,22 @@ import './YTWLink.scss';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import React from 'react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-function YTWLink({ className, href, children, ...props }) {
+function YTWLink({ className, href, children, nav, ...props }) {
+  const router = useRouter();
+  const isActive = router.route === href;
   return (
     <Link href={href}>
-      <a {...props} className={classNames('ytw-link', className)}>
+      <a
+        {...props}
+        className={classNames(
+          'ytw-link',
+          { 'ytw-link--active': isActive, 'ytw-link--nav': nav },
+          className
+        )}
+      >
         {children}
       </a>
     </Link>
@@ -16,7 +26,8 @@ function YTWLink({ className, href, children, ...props }) {
 
 YTWLink.displayName = 'YTWLink';
 YTWLink.propTypes = {
-  href: PropTypes.string.isRequired
+  href: PropTypes.string.isRequired,
+  nav: PropTypes.bool
 };
 
 function NewTabLink({ children, ...props }) {

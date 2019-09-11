@@ -1,7 +1,7 @@
 .tier-page {
   &__header {
     display: flex;
-    padding: 5px;
+    margin: 5px 0 0;
   }
 
   &__title,
@@ -18,7 +18,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 5px;
+  }
+
+  &__header,
+  &__options {
+    padding: 5px;
+    background-color: var(--alt-colour);
+    color: var(--alt-contrast);
+
+    .ytw-link {
+      color: var(--alt-contrast);
+    }
   }
 
   &__content {

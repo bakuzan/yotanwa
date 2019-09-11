@@ -2,6 +2,8 @@
   --font-size: 16px;
   --font-family: 'Lucida Console', 'Courier New', monospace;
 
+  --header-height: 35px;
+
   --faded-out: #eee;
   --darken-filter-colour: #ddd;
 
@@ -22,8 +24,12 @@
   --primary-colour-hover: var(--moderate-blue);
   --primary-contrast: #fff;
   --alt-colour: var(--soft-orange);
+  --alt-contrast: #000;
+
   --tooltip-background: var(--primary-colour);
   --tooltip-colour: var(--primary-contrast);
+  --radio-toggle--control-colour: var(--alt-colour);
+  --radio-toggle--box-shadow-colour: var(--primary-contrast);
 }
 
 .theme--dark {
@@ -34,8 +40,12 @@
   --primary-colour-hover: var(--bright-orange);
   --primary-contrast: #000;
   --alt-colour: var(--desaturated-blue);
+  --alt-contrast: #fff;
+
   --tooltip-background: var(--primary-colour);
   --tooltip-colour: var(--primary-contrast);
+  --radio-toggle--control-colour: var(--alt-colour);
+  --radio-toggle--box-shadow-colour: var(--primary-contrast);
 }
 
 html {
@@ -48,10 +58,33 @@ body {
   color: var(--base-contrast);
 }
 
-body,
-.page {
+body {
   min-height: 100vh;
   margin: 0;
+}
+
+main {
+  min-height: calc(100vh - var(--header-height));
+  padding: 0 5px;
+}
+
+/* Header */
+.app-header {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  background-color: var(--primary-colour);
+  color: var(--primary-contrast);
+  height: var(--header-height);
+  box-shadow: 1px 1px 2px 1px var(--alt-colour);
+
+  .radio-toggle__control {
+    background-color: var(--radio-toggle--control-colour);
+  }
+}
+.app-header__nav {
+  display: flex;
+  height: 100%;
 }
 
 /* Page Styles */

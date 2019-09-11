@@ -10,9 +10,10 @@ class YTWError extends React.Component {
   }
 
   render() {
+    const { statusCode } = this.props;
     return (
       <div>
-        <Error statusCode={errorCode} />
+        <Error statusCode={statusCode} />
         <div>
           <YTWLink href="/">Return to home</YTWLink>
         </div>
