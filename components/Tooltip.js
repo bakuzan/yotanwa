@@ -12,6 +12,7 @@ function Tooltip({
   delay,
   center,
   highlight,
+  isEnabled,
   ...props
 }) {
   const timer = useRef();
@@ -31,6 +32,9 @@ function Tooltip({
 
   function handleEnter(e) {
     const { clientX, clientY } = e;
+    if (!isEnabled) {
+      return;
+    }
 
     const rect = tooltip.current.getBoundingClientRect();
     const contentWidth = tooltip.current.firstChild.offsetWidth;
@@ -50,6 +54,10 @@ function Tooltip({
   }
 
   function handleLeave() {
+    if (!isEnabled) {
+      return;
+    }
+
     clearTimeout(timer.current);
     setHovered({ hovered: false, at: [] });
   }
@@ -67,6 +75,7 @@ function Tooltip({
     >
       <div
         style={style}
+        aria-hidden={!isEnabled}
         className={classNames('tooltip__content', {
           'tooltip__content--wrap': allowWrapping,
           'tooltip__content--fixed': usePosition,
@@ -82,6 +91,7 @@ function Tooltip({
 
 Tooltip.displayName = 'Tooltip';
 Tooltip.defaultProps = {
+  isEnabled: true,
   allowWrapping: false,
   usePosition: false,
   center: false,
@@ -89,6 +99,7 @@ Tooltip.defaultProps = {
   delay: 0
 };
 Tooltip.propTypes = {
+  isEnabled: PropTypes.bool,
   text: PropTypes.string.isRequired,
   allowWrapping: PropTypes.bool,
   usePosition: PropTypes.bool,

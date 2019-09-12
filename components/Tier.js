@@ -12,11 +12,13 @@ import { width, height } from '../consts/imageSize';
 
 function Tier({ tier, scores, items }) {
   const classModifier = (tier !== '-' ? tier : 'unranked').toLowerCase();
+  const hasScores = scores.length > 0;
   const scoreStr = scores.join('\n\r');
 
   return (
     <div className="tier">
       <Tooltip
+        isEnabled={hasScores}
         delay={1000}
         usePosition
         allowWrapping
