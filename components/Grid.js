@@ -13,6 +13,7 @@ function Grid({
 }) {
   const passedNothing = !items;
   const hasItems = !passedNothing && items.length > 0;
+  const preventNoItemsText = noItemsText === false;
 
   return (
     <ul
@@ -23,7 +24,7 @@ function Grid({
       )}
       {...other}
     >
-      {!passedNothing && !hasItems && (
+      {!passedNothing && !hasItems && !preventNoItemsText && (
         <li key="NONE" className="ytw-grid__no-items-message">
           {noItemsText}
         </li>
@@ -40,9 +41,9 @@ Grid.defaultProps = {
 };
 
 Grid.propTypes = {
+  children: PropTypes.func,
   items: PropTypes.arrayOf(PropTypes.any),
   noItemsText: PropTypes.string,
-  children: PropTypes.func,
   uniformRows: PropTypes.bool
 };
 

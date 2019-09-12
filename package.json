@@ -7,8 +7,8 @@
   "scripts": {
     "dev": "nodemon",
     "build": "next build && tsc --project tsconfig.server.json",
-    "start": "cross-env NODE_ENV=production node dist/server/index.js",
-    "pretty": "lint-staged"
+    "start": "NODE_ENV=production node dist/server/index.js",
+    "lint": "tslint --fix -c tslint.json \"*/**/*.ts\""
   },
   "author": "bakuzan",
   "repository": {
@@ -33,29 +33,38 @@
     "react-dom": "^16.9.0"
   },
   "lint-staged": {
-    "*.{js,jsx,json,scss}": [
+    "*.{json}": [
+      "prettier --single-quote false --write",
+      "git add"
+    ],
+    "*.{js}": [
       "prettier --write",
+      "git add"
+    ],
+    "*.{ts}": [
+      "yarn run lint",
       "git add"
     ]
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run pretty"
+      "pre-commit": "lint-staged"
     }
   },
   "devDependencies": {
-    "husky": "^3.0.5",
-    "lint-staged": "^9.2.5",
-    "prettier": "^1.18.2",
-    "prop-types": "^15.7.2",
     "@types/dotenv": "^6.1.1",
     "@types/express": "^4.17.1",
     "@types/next": "^8.0.6",
     "@types/node": "^12.7.5",
-    "@zeit/next-typescript": "^1.1.1",
-    "cross-env": "^5.2.0",
+    "husky": "^3.0.5",
+    "lint-staged": "^9.2.5",
     "nodemon": "^1.19.2",
+    "prettier": "^1.18.2",
+    "prop-types": "^15.7.2",
     "ts-node": "^8.3.0",
+    "tslint": "^5.20.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
     "typescript": "^3.6.3"
   },
   "browserslist": [

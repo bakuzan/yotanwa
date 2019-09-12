@@ -1,0 +1,11 @@
+// TODO revisit these importants... get rid of
+.character {
+  &__button {
+    display: flex;
+    padding: 2px !important;
+
+    &:hover {
+      background-color: var(--base-background) !important;
+    }
+  }
+}

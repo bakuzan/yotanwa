@@ -5,9 +5,10 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-function YTWLink({ className, href, children, nav, ...props }) {
+function YTWLink({ className, href, nav, children, ...props }) {
   const router = useRouter();
   const isActive = router.route === href;
+
   return (
     <Link href={href}>
       <a
@@ -30,11 +31,16 @@ YTWLink.propTypes = {
   nav: PropTypes.bool
 };
 
-function NewTabLink({ children, ...props }) {
+function NewTabLink({ className, children, ...props }) {
   return (
-    <YTWLink {...props} target="_blank" rel="noopener noreferrer">
+    <a
+      {...props}
+      className={classNames('ytw-link', className)}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       {children}
-    </YTWLink>
+    </a>
   );
 }
 

@@ -1,0 +1,16 @@
+{
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
+  "linterOptions": {
+    "exclude": ["node_modules/**/*.ts", "dist/**/*.ts"],
+    "format": "verbose"
+  },
+  "rules": {
+    "prettier": true,
+    "interface-name": false,
+    "whitespace": [true, "check-module"],
+    "no-console": false,
+    "no-require-imports": true,
+    "quotemark": [true, "single"]
+  },
+  "rulesDirectory": ["tslint-plugin-prettier"]
+}

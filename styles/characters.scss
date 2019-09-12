@@ -1,10 +1,29 @@
-.characters {
-  grid-template-columns: repeat(auto-fit, 116px); // img width + padding
+.search-container {
+  &__input {
+    flex: 1;
+  }
+  &__button {
+    margin: 10px;
+  }
+}
+
+.feedback {
+  min-height: 1rem;
+  padding: 5px;
+}
+
+.grids-container {
+  display: flex;
 }
 
 .search-results,
 .search-selection {
-  max-width: 50vw;
+  width: 50vw;
   // TODO
   // Handle small screens!!
+}
+
+.characters {
+  grid-template-columns: repeat(auto-fit, 100px); // img width + padding
+  border: 1px solid var(--primary-colour);
 }

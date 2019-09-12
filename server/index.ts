@@ -1,8 +1,8 @@
 import { config } from 'dotenv';
 config();
 
-import next from 'next';
 import express from 'express';
+import next from 'next';
 
 import apiRoutes from './api';
 
@@ -17,7 +17,7 @@ server.use(express.json());
 server.listen(port);
 
 app.prepare().then(() => {
-  server.use('/api', apiRoutes);
+  server.use('/ytw', apiRoutes);
   server.get('*', (req, res) => handle(req, res));
 
   console.log(

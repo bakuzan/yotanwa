@@ -1,13 +1,20 @@
 import './Input.scss';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import React from 'react';
 
-function Input({ label, ...props }) {
+function Input({ className, inputClassName, label, ...props }) {
   return (
-    <div className="form-control form-control--with-float-label">
+    <div
+      className={classNames(
+        'form-control',
+        'form-control--with-float-label',
+        className
+      )}
+    >
       <input
         type="text"
-        className="form-control__input"
+        className={classNames('form-control__input', inputClassName)}
         placeholder=" "
         {...props}
       />
