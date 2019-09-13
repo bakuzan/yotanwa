@@ -1,6 +1,6 @@
 import defaultUserOptions from '../consts/defaultUserOptions';
 
-function converter(value) {
+function converter(value: string) {
   if (!value) {
     return null;
   }

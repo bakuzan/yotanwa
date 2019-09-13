@@ -6,7 +6,7 @@ import RadioGroup from '../components/RadioGroup';
 import Button from '../components/Button';
 import Loader from '../components/Loader';
 
-import { sourceOptions, typeOptions } from '../consts/queryOptions';
+import { sourceOptions, typeOptions } from '@/consts/queryOptions';
 
 export default class extends React.Component {
   constructor(props) {

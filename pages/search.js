@@ -1,4 +1,5 @@
 import '../styles/search.scss';
+import fetch from 'node-fetch';
 import React from 'react';
 
 import Button from '../components/Button';
@@ -9,24 +10,20 @@ import Tickbox from '../components/Tickbox';
 import Tooltip from '../components/Tooltip';
 import Image from '../components/Image';
 
-import { sources, ranks } from '../consts';
+import { Sources, Ranks } from '../consts';
 import { width, height } from '../consts/imageSize';
 import defaultTiers from '../consts/defaultTiers';
-import usingMal from '../handlers/usingMal';
-import usingAnilist from '../handlers/usingAnilist';
 import getUserLinks from '../utils/getUserLinks';
 import generateTiers from '../utils/generateTiers';
 import storage from '../utils/storage';
 import processQuery from '../utils/processQuery';
 
-async function fetchListItems(source, username, type) {
-  switch (source) {
-    case sources.ANILIST:
-      return await usingAnilist(username, type);
-    case sources.MAL:
-    default:
-      return await usingMal(username, type);
-  }
+async function fetchListItems(source = Sources.MAL, username, type) {
+  const response = await fetch(
+    `http://localhost:7200/api/${source}?username=${username}&type=${type}`
+  );
+
+  return await response.json();
 }
 
 export default class extends React.Component {
@@ -157,7 +154,7 @@ export default class extends React.Component {
                         value={v}
                         onChange={this.handleCustomTierChange}
                       >
-                        {ranks.map((r) => (
+                        {Ranks.map((r) => (
                           <option key={r} value={r}>
                             {r}
                           </option>

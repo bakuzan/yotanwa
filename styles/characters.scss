@@ -1,3 +1,14 @@
+.character-tier {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__save {
+    margin: 1rem 0;
+  }
+}
+
 .search-container {
   &__input {
     flex: 1;

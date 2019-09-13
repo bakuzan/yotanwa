@@ -1,7 +1,7 @@
 // From : https://github.com/madmurphy/cookies.js
 
 export default {
-  getItem: function(sKey) {
+  getItem(sKey: string) {
     if (!sKey) {
       return null;
     }
@@ -18,11 +18,18 @@ export default {
       ) || null
     );
   },
-  setItem: function(sKey, sValue, vEnd, sPath, sDomain, bSecure) {
+  setItem(
+    sKey: string,
+    sValue: string,
+    vEnd: any,
+    sPath: string,
+    sDomain: string,
+    bSecure: boolean
+  ) {
     if (!sKey || /^(?:expires|max\-age|path|domain|secure)$/i.test(sKey)) {
       return false;
     }
-    var sExpires = '';
+    let sExpires = '';
     if (vEnd) {
       switch (vEnd.constructor) {
         case Number:
@@ -60,7 +67,7 @@ export default {
 
     return true;
   },
-  removeItem: function(sKey, sPath, sDomain) {
+  removeItem(sKey: string, sPath: string, sDomain: string) {
     if (!this.hasItem(sKey)) {
       return false;
     }
@@ -71,7 +78,7 @@ export default {
       (sPath ? '; path=' + sPath : '');
     return true;
   },
-  hasItem: function(sKey) {
+  hasItem(sKey: string) {
     if (!sKey || /^(?:expires|max\-age|path|domain|secure)$/i.test(sKey)) {
       return false;
     }
@@ -81,18 +88,18 @@ export default {
         '\\s*\\='
     ).test(document.cookie);
   },
-  keys: function() {
-    var aKeys = document.cookie
+  keys() {
+    const aKeys = document.cookie
       .replace(/((?:^|\s*;)[^\=]+)(?=;|$)|^\s*|\s*(?:\=[^;]*)?(?:\1|$)/g, '')
       .split(/\s*(?:\=[^;]*)?;\s*/);
-    for (var nLen = aKeys.length, nIdx = 0; nIdx < nLen; nIdx++) {
+    for (let nLen = aKeys.length, nIdx = 0; nIdx < nLen; nIdx++) {
       aKeys[nIdx] = decodeURIComponent(aKeys[nIdx]);
     }
     return aKeys;
   },
-  clear: function(sPath, sDomain) {
-    var aKeys = this.keys();
-    for (var nLen = aKeys.length, nIdx = 0; nIdx < nLen; nIdx++) {
+  clear(sPath: string, sDomain: string) {
+    const aKeys = this.keys();
+    for (let nLen = aKeys.length, nIdx = 0; nIdx < nLen; nIdx++) {
       this.removeItem(aKeys[nIdx], sPath, sDomain);
     }
   }

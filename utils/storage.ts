@@ -1,13 +1,13 @@
 import defaultUserOptions from '../consts/defaultUserOptions';
 
-import isClient from './isClient';
 import cookies from './cookies';
+import isClient from './isClient';
 
 export default {
   DEFAULTS: {
     ...defaultUserOptions
   },
-  get(key) {
+  get(key: string) {
     if (!isClient()) {
       return;
     }
@@ -16,7 +16,7 @@ export default {
       ? JSON.parse(cookies.getItem(key))
       : this.DEFAULTS[key];
   },
-  set(newValues) {
+  set(newValues: { [key: string]: any }) {
     Object.keys(newValues).forEach((key) => {
       cookies.setItem(key, newValues[key], Infinity);
     });

@@ -1,4 +1,4 @@
-module.exports = new Map([
+export default new Map([
   [10, 'SS'],
   [9, 'S'],
   [8, 'A'],

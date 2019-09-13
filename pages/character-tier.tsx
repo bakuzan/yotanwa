@@ -9,12 +9,13 @@ import Tier from '@/components/Tier';
 import CharacterList from '@/components/CharacterList';
 import { CharacterCardDraggable } from '@/components/CharacterCard';
 import { YTWLink } from '@/components/YTWLink';
+import Button from '@/components/Button';
 
 import move from '@/utils/dragAndDrop/move';
 import reorder from '@/utils/dragAndDrop/reorder';
 import { MovePayload } from '../interfaces/MovePayload';
 
-const getListStyle = (isDraggingOver) => ({
+const getListStyle = (isDraggingOver: boolean) => ({
   backgroundColor: isDraggingOver ? 'var(--alt-colour)' : ''
 });
 
@@ -108,8 +109,15 @@ function CharacterTier({ items, error }) {
 
   return (
     <section className="page page--column character-tier">
-      <header>
+      <header className="character-tier__header">
         <h1 className="character-tier__title">Character Tier</h1>
+        <Button
+          className="character-tier__save"
+          isPrimary
+          onClick={() => console.log('SAVE NOT IMPLEMENTED')}
+        >
+          Save
+        </Button>
       </header>
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="grids-container">

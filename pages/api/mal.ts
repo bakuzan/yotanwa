@@ -1,24 +1,25 @@
-const scraper = require('mal-scraper');
+import scraper from 'mal-scraper';
 
-const createHandler = require('./createHandler');
-const { MAX_RESPONSE_COUNT } = require('../consts');
-const generateUniqueId = require('../utils/generateUniqueId');
+import { MAX_RESPONSE_COUNT } from '../../consts';
+import createHandler from '../../utils/createHandler';
+import generateUniqueId from '../../utils/generateUniqueId';
 
-const g = (s) => (s ? s : '');
+const g = (s: string) => (s ? s : '');
 
-function mapItem(type) {
+function mapItem(type: string) {
   return (item) => ({
     id: generateUniqueId(),
-    title: item[`${type}Title`],
     image: g(item[`${type}ImagePath`])
       .replace('/r/96x136', '')
       .replace(/\?.*$/, ''),
-    url: `https://myanimelist.net${item[`${type}Url`]}`,
-    score: item.score
+    score: item.score,
+    title: item[`${type}Title`],
+
+    url: `https://myanimelist.net${item[`${type}Url`]}`
   });
 }
 
-async function fetchWatchList(user, type) {
+async function fetchWatchList(user: string, type: string) {
   const results = [];
   let offset = 0;
 
@@ -34,8 +35,7 @@ async function fetchWatchList(user, type) {
   }
 }
 
-module.exports = createHandler(async function handler(user, type) {
-  console.info(`search/mal > ${type}, ${user}`);
+export default createHandler(async function handler(user, type) {
   const list = await fetchWatchList(user, type);
   return { items: list.map(mapItem(type)), error: null };
 });

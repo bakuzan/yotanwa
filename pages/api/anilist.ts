@@ -1,7 +1,7 @@
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
 
-const createHandler = require('./createHandler');
-const generateUniqueId = require('../utils/generateUniqueId');
+import createHandler from '../../utils/createHandler';
+import generateUniqueId from '../../utils/generateUniqueId';
 
 const query = `
   query($user: String, $type: MediaType) {
@@ -24,35 +24,37 @@ const query = `
   }
 `;
 
-function mapItem(type) {
+function mapItem(type: string) {
   return (item) => ({
     id: generateUniqueId(),
-    title: item.media.title.userPreferred,
     image: item.media.coverImage.medium,
-    url: `https://anilist.co/${type}/${item.mediaId}`,
-    score: item.score
+    score: item.score,
+    title: item.media.title.userPreferred,
+    url: `https://anilist.co/${type}/${item.mediaId}`
   });
 }
 
-async function fetchList(user, type) {
+async function fetchList(user: string, type: string) {
   const body = JSON.stringify({
     query,
     variables: { user, type: type.toUpperCase() }
   });
 
   const response = await fetch('https://graphql.anilist.co', {
-    method: 'POST',
+    body,
     headers: {
       'Content-Type': 'application/json'
     },
-    body
+    method: 'POST'
   });
 
   return response.json();
 }
 
-module.exports = createHandler(async function handler(user, type) {
-  console.info(`search/anilist > ${type}, ${user}`);
+export default createHandler(async function handler(
+  user: string,
+  type: string
+) {
   const { data, errors } = await fetchList(user, type);
 
   if (errors && errors.length) {
