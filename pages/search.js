@@ -6,6 +6,7 @@ import { NewTabLink, YTWLink } from '../components/YTWLink';
 import Tier from '../components/Tier';
 import SelectBox from '../components/SelectBox';
 import Tickbox from '../components/Tickbox';
+import Tooltip from '../components/Tooltip';
 import Image from '../components/Image';
 
 import { sources, ranks } from '../consts';
@@ -197,6 +198,7 @@ export default class extends React.Component {
                         <Tooltip text={data.title} center highlight>
                           <NewTabLink href={data.url}>
                             <Image
+                              isLazy={true}
                               src={data.image}
                               alt={data.title}
                               width={width}

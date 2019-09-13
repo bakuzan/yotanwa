@@ -1,4 +1,5 @@
 import '../styles/characters.scss';
+import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
@@ -51,7 +52,7 @@ export default function Characters() {
   return (
     <div className="page page--column">
       <div className="search-container">
-        <h1>Tier List Character Search</h1>
+        <h1>Character Search</h1>
         <p>
           Search for and select characters you would like to use in your tiered
           list.
@@ -88,7 +89,9 @@ export default function Characters() {
       <div className="grids-container">
         <div className="search-results">
           <Grid
-            className="characters"
+            className={classNames('characters', {
+              'characters--no-border': filteredSearchResults.length === 0
+            })}
             uniformRows
             noItemsText={false}
             items={filteredSearchResults}

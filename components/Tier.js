@@ -5,13 +5,14 @@ import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 
 import Grid from './Grid';
+import CharacterList from './CharacterList';
 import Tooltip from './Tooltip';
 
 const getListStyle = (isDraggingOver) => ({
   backgroundColor: isDraggingOver ? 'var(--alt-colour)' : ''
 });
 
-function Tier({ tier = '', scores, items, children }) {
+function Tier({ tier = '', scores, items, children, isDroppable }) {
   const classModifier = (tier !== '-' ? tier : 'unranked').toLowerCase();
   const hasScores = scores.length > 0;
   const scoreStr = scores.join('\n\r');
@@ -31,26 +32,37 @@ function Tier({ tier = '', scores, items, children }) {
       >
         {tier}
       </Tooltip>
-      <Droppable droppableId={tier}>
-        {(provided, snapshot) => (
-          <Grid
-            ref={provided.innerRef}
-            className="tier__items"
-            style={getListStyle(snapshot.isDraggingOver)}
-            noItemsText={false}
-            uniformRows
-            items={items}
-            footerChildren={provided.placeholder}
-          >
-            {(x, i) => <ItemTemplate key={x.id} index={i} data={x} />}
-          </Grid>
-        )}
-      </Droppable>
+      {isDroppable ? (
+        <Droppable droppableId={tier}>
+          {(provided, snapshot) => (
+            <ul
+              ref={provided.innerRef}
+              style={getListStyle(snapshot.isDraggingOver)}
+              className={classNames('tier__items', 'tier__items--bordered')}
+            >
+              <CharacterList showNoItemsEntry={false} items={items} />
+              {provided.placeholder}
+            </ul>
+          )}
+        </Droppable>
+      ) : (
+        <Grid
+          className="tier__items"
+          noItemsText={false}
+          uniformRows
+          items={items}
+        >
+          {(x, i) => <ItemTemplate key={x.id} index={i} data={x} />}
+        </Grid>
+      )}
     </div>
   );
 }
 
 Tier.displayName = 'Tier';
+Tier.defaultProps = {
+  isDroppable: false
+};
 Tier.propTypes = {
   tier: PropTypes.string.isRequired,
   scores: PropTypes.arrayOf(PropTypes.number).isRequired,
@@ -59,7 +71,8 @@ Tier.propTypes = {
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
     })
   ).isRequired,
-  children: PropTypes.func.isRequired
+  children: PropTypes.func.isRequired,
+  isDroppable: PropTypes.bool
 };
 
 export default Tier;

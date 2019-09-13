@@ -5,9 +5,8 @@ import React, { useReducer } from 'react';
 import { DropResult, DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 import { YTWCharacter } from '@/interfaces/YTWCharacter';
-import { MoveResult } from '@/interfaces/MoveResult';
-import Grid from '@/components/Grid';
 import Tier from '@/components/Tier';
+import CharacterList from '@/components/CharacterList';
 import { CharacterCardDraggable } from '@/components/CharacterCard';
 import { YTWLink } from '@/components/YTWLink';
 
@@ -116,7 +115,13 @@ function CharacterTier({ items, error }) {
         <div className="grids-container">
           <div className="tiers tiers--wide">
             {Array.from(state.tier.entries()).map(([tier, characters]) => (
-              <Tier key={tier} tier={tier} scores={[]} items={characters}>
+              <Tier
+                key={tier}
+                isDroppable
+                tier={tier}
+                scores={[]}
+                items={characters}
+              >
                 {({ index, data }) => (
                   <CharacterCardDraggable
                     key={data.id}
@@ -130,7 +135,7 @@ function CharacterTier({ items, error }) {
           <div className="character-selection">
             <Droppable droppableId="items">
               {(provided, snapshot) => (
-                <Grid
+                <ul
                   ref={provided.innerRef}
                   style={getListStyle(snapshot.isDraggingOver)}
                   className={classNames(
@@ -138,15 +143,10 @@ function CharacterTier({ items, error }) {
                     'character-selection__list',
                     { 'characters--no-items': state.items.length === 0 }
                   )}
-                  noItemsText="Drop a character here to unrank."
-                  uniformRows
-                  items={state.items}
-                  footerChildren={provided.placeholder}
                 >
-                  {(x: YTWCharacter, i: number) => (
-                    <CharacterCardDraggable key={x.id} index={i} data={x} />
-                  )}
-                </Grid>
+                  <CharacterList items={state.items} />
+                  {provided.placeholder}
+                </ul>
               )}
             </Droppable>
           </div>
@@ -156,8 +156,8 @@ function CharacterTier({ items, error }) {
   );
 }
 
-CharacterTier.getInitialProps = async ({ req }) => {
-  const { ids = '' } = req.query;
+CharacterTier.getInitialProps = async ({ query }) => {
+  const { ids = '' } = query;
 
   const response = await fetch(
     `http://localhost:7200/api/charactersByIds?ids=${ids}`

@@ -1,5 +1,5 @@
 // import fetch from 'node-fetch';
-import { AnilistCharactersResponse } from '@/shared/interfaces/AnilistCharactersResponse';
+import { AnilistCharactersResponse } from '@/interfaces/AnilistCharactersResponse';
 import { Request, Response } from 'express';
 
 /* tslint:disable:object-literal-sort-keys */

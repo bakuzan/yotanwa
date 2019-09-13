@@ -33,13 +33,19 @@
 }
 
 .characters {
+  display: grid;
   grid-template-columns: repeat(auto-fit, 96px); // img width
   grid-gap: 1px;
   border: 1px solid var(--primary-colour);
-  padding: 0 2px !important;
+  padding: 0 !important;
   margin: 0 !important;
+  list-style-type: none;
 
   &--no-items {
     min-height: var(--image-height);
+  }
+
+  &--no-border {
+    border: none;
   }
 }

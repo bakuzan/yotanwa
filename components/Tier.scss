@@ -60,10 +60,16 @@ $tiers: (
 
   &__items {
     width: 100%;
+    display: grid;
     grid-template-columns: repeat(auto-fit, 96px);
     grid-gap: 1px;
-    border: 1px solid var(--alt-colour);
-    margin: 0;
+    padding: 0 1px !important;
+    margin: 0 !important;
+    list-style-type: none;
+
+    &--bordered {
+      border: 1px solid var(--alt-colour);
+    }
   }
 
   @include respondTo(xxs) {

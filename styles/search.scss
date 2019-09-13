@@ -73,6 +73,8 @@
 }
 
 .tiers {
+  display: grid;
+  grid-gap: 1px;
   width: 100%;
 }
 

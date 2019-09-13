@@ -1,4 +1,4 @@
-import { AnilistCharactersResponse } from '@/shared/interfaces/AnilistCharactersResponse';
+import { AnilistCharactersResponse } from '@/interfaces/AnilistCharactersResponse';
 import { Request, Response } from 'express';
 // import fetch from 'node-fetch';
 
