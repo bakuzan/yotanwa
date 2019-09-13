@@ -2,7 +2,7 @@
 .character {
   &__button {
     display: flex;
-    padding: 2px !important;
+    padding: 0 !important;
 
     &:hover {
       background-color: var(--base-background) !important;

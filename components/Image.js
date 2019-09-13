@@ -6,7 +6,7 @@ import { useIntersect } from '../hooks/useIntersect';
 
 const DEAD_IMAGE = 'https://i.imgur.com/gKr1YhF.png';
 
-function Image({ className, src, ...props }) {
+const Image = React.memo(function Image({ className, src, ...props }) {
   const img = useRef();
   const isIntersecting = useIntersect(img, `${props.height * 1.5}px 0px`);
   const [imgSrc, setSource] = useState(null);
@@ -33,7 +33,7 @@ function Image({ className, src, ...props }) {
       }}
     />
   );
-}
+});
 
 Image.displayName = 'Image';
 

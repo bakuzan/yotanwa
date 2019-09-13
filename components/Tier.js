@@ -2,18 +2,20 @@ import './Tier.scss';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import React from 'react';
+import { Droppable } from 'react-beautiful-dnd';
 
 import Grid from './Grid';
-import { NewTabLink } from './YTWLink';
-import Image from './Image';
 import Tooltip from './Tooltip';
 
-import { width, height } from '../consts/imageSize';
+const getListStyle = (isDraggingOver) => ({
+  backgroundColor: isDraggingOver ? 'var(--alt-colour)' : ''
+});
 
-function Tier({ tier, scores, items }) {
+function Tier({ tier = '', scores, items, children }) {
   const classModifier = (tier !== '-' ? tier : 'unranked').toLowerCase();
   const hasScores = scores.length > 0;
   const scoreStr = scores.join('\n\r');
+  const ItemTemplate = children;
 
   return (
     <div className="tier">
@@ -29,22 +31,21 @@ function Tier({ tier, scores, items }) {
       >
         {tier}
       </Tooltip>
-      <Grid className="tier__items" uniformRows items={items}>
-        {(x) => (
-          <li key={x.id}>
-            <Tooltip text={x.title} center highlight>
-              <NewTabLink href={x.url}>
-                <Image
-                  src={x.image}
-                  alt={x.title}
-                  width={width}
-                  height={height}
-                />
-              </NewTabLink>
-            </Tooltip>
-          </li>
+      <Droppable droppableId={tier}>
+        {(provided, snapshot) => (
+          <Grid
+            ref={provided.innerRef}
+            className="tier__items"
+            style={getListStyle(snapshot.isDraggingOver)}
+            noItemsText={false}
+            uniformRows
+            items={items}
+            footerChildren={provided.placeholder}
+          >
+            {(x, i) => <ItemTemplate key={x.id} index={i} data={x} />}
+          </Grid>
         )}
-      </Grid>
+      </Droppable>
     </div>
   );
 }
@@ -55,13 +56,10 @@ Tier.propTypes = {
   scores: PropTypes.arrayOf(PropTypes.number).isRequired,
   items: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string,
-      title: PropTypes.string,
-      image: PropTypes.string,
-      url: PropTypes.string,
-      score: PropTypes.number
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
     })
-  ).isRequired
+  ).isRequired,
+  children: PropTypes.func.isRequired
 };
 
 export default Tier;

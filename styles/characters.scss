@@ -20,11 +20,26 @@
 .search-selection,
 .tiers {
   width: 50vw;
+
+  &--wide {
+    flex: 1;
+  }
   // TODO
   // Handle small screens!!
 }
 
+.character-selection {
+  width: 25vw;
+}
+
 .characters {
-  grid-template-columns: repeat(auto-fit, 100px); // img width + padding
+  grid-template-columns: repeat(auto-fit, 96px); // img width
+  grid-gap: 1px;
   border: 1px solid var(--primary-colour);
+  padding: 0 2px !important;
+  margin: 0 !important;
+
+  &--no-items {
+    min-height: var(--image-height);
+  }
 }

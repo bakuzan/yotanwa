@@ -1,21 +1,37 @@
 import './CharacterCard.scss';
-
+import classNames from 'classnames';
 import React from 'react';
+import { Draggable } from 'react-beautiful-dnd';
 
-import Button from '../components/Button';
-import Image from '../components/Image';
-import Tooltip from '../components/Tooltip';
+import Button from './Button';
+import Image from './Image';
+import Tooltip from './Tooltip';
 
 import { width, height } from '../consts/imageSize';
 
-function CharacterCard({ label, data, onClick }) {
+const getItemStyle = (draggableStyle, isDragging) => ({
+  cursor: 'grab',
+  userSelect: 'none',
+  boxShadow: isDragging ? '1px 1px 5px 1px var(--alt-colour)' : '',
+  ...draggableStyle
+});
+
+const CharacterCardBase = React.forwardRef(function CharacterCardBase(
+  { label, data, onClick, ...props },
+  ref
+) {
+  const clickHandler = onClick ? () => onClick(data) : null;
+  const ActionItem = clickHandler ? Button : 'div';
+
   return (
-    <li className="character">
+    <li className="character" ref={ref} {...props}>
       <Tooltip text={data.name} center highlight>
-        <Button
-          className="character__button"
+        <ActionItem
+          className={classNames('character__button', {
+            'character__button--no-click': !clickHandler
+          })}
           aria-label={label}
-          onClick={() => onClick(data)}
+          onClick={clickHandler}
         >
           <Image
             src={data.image}
@@ -23,12 +39,31 @@ function CharacterCard({ label, data, onClick }) {
             width={width}
             height={height}
           />
-        </Button>
+        </ActionItem>
       </Tooltip>
     </li>
   );
+});
+
+CharacterCardBase.displayName = 'CharacterCard';
+
+export const CharacterCard = CharacterCardBase;
+
+export function CharacterCardDraggable({ index, ...props }) {
+  return (
+    <Draggable draggableId={props.data.id} index={index}>
+      {(providedDraggable, snapshotDraggable) => (
+        <CharacterCardBase
+          {...props}
+          ref={providedDraggable.innerRef}
+          {...providedDraggable.draggableProps}
+          {...providedDraggable.dragHandleProps}
+          style={getItemStyle(
+            providedDraggable.draggableProps.style,
+            snapshotDraggable.isDragging
+          )}
+        />
+      )}
+    </Draggable>
+  );
 }
-
-CharacterCard.displayName = 'CharacterCard';
-
-export default CharacterCard;

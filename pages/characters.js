@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import Button from '../components/Button';
 import Grid from '../components/Grid';
 import Input from '../components/Input';
-import CharacterCard from '@/components/CharacterCard';
+import { CharacterCard } from '@/components/CharacterCard';
 
 import { useDebounce } from '../hooks/useDebounce';
 import { usePrevious } from '../hooks/usePrevious';

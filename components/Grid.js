@@ -3,23 +3,31 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import React from 'react';
 
-function Grid({
-  className,
-  items,
-  noItemsText,
-  uniformRows,
-  children,
-  ...other
-}) {
+const Grid = React.forwardRef(function Grid(
+  {
+    className,
+    items,
+    noItemsText,
+    uniformRows,
+    children,
+    footerChildren,
+    ...other
+  },
+  ref
+) {
   const passedNothing = !items;
   const hasItems = !passedNothing && items.length > 0;
   const preventNoItemsText = noItemsText === false;
 
   return (
     <ul
+      ref={ref}
       className={classNames(
         'ytw-grid',
-        { 'ytw-grid--uniform-rows': uniformRows },
+        {
+          'ytw-grid--uniform-rows': uniformRows,
+          'ytw-grid--no-items': !hasItems
+        },
         className
       )}
       {...other}
@@ -30,21 +38,24 @@ function Grid({
         </li>
       )}
       {hasItems && children && items.map(children)}
+      {footerChildren}
     </ul>
   );
-}
+});
 
 Grid.displayName = 'Grid';
 Grid.defaultProps = {
   noItemsText: 'No items',
-  uniformRows: false
+  uniformRows: false,
+  footerChildren: null
 };
 
 Grid.propTypes = {
   children: PropTypes.func,
   items: PropTypes.arrayOf(PropTypes.any),
-  noItemsText: PropTypes.string,
-  uniformRows: PropTypes.bool
+  noItemsText: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  uniformRows: PropTypes.bool,
+  footerChildren: PropTypes.oneOfType([PropTypes.node, PropTypes.element])
 };
 
 export default Grid;

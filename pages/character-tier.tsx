@@ -1,53 +1,51 @@
 import '../styles/characters.scss';
 import fetch from 'node-fetch';
+import classNames from 'classnames';
 import React, { useReducer } from 'react';
-import {
-  DropResult,
-  DragDropContext,
-  Droppable,
-  Draggable
-} from 'react-beautiful-dnd';
+import { DropResult, DragDropContext, Droppable } from 'react-beautiful-dnd';
 
-import { Character } from '@/shared/interfaces/Character';
+import { YTWCharacter } from '@/interfaces/YTWCharacter';
+import { MoveResult } from '@/interfaces/MoveResult';
 import Grid from '@/components/Grid';
 import Tier from '@/components/Tier';
-import CharacterCard from '@/components/CharacterCard';
+import { CharacterCardDraggable } from '@/components/CharacterCard';
 import { YTWLink } from '@/components/YTWLink';
 
 import move from '@/utils/dragAndDrop/move';
 import reorder from '@/utils/dragAndDrop/reorder';
+import { MovePayload } from '../interfaces/MovePayload';
 
-interface MoveResult {
-  droppable: Character[];
-  droppable2: Character[];
-}
+const getListStyle = (isDraggingOver) => ({
+  backgroundColor: isDraggingOver ? 'var(--alt-colour)' : ''
+});
 
 interface State {
-  items: Character[];
-  tier: Map<string, Character[]>;
+  items: YTWCharacter[];
+  tier: Map<string, YTWCharacter[]>;
 }
 
 function init(payload: any): State {
   return {
     items: payload.items,
     tier: ['S', 'A', 'B', 'C', 'D', 'E', 'F'].reduce(
-      (p: Map<string, Character[]>, t: string) => p.set(t, []),
+      (p: Map<string, YTWCharacter[]>, t: string) => p.set(t, []),
       new Map([])
     )
   };
 }
 
 const UPDATE = 'UPDATE';
-const UPDATE_LIST = 'UPDATE_LIST';
 
 function reducer(state: State, action: { type: string; [key: string]: any }) {
   switch (action.type) {
     case UPDATE:
-      console.log('UPDATE', action);
-      return state;
-    case UPDATE_LIST:
-      console.log('UPDATE', action);
-      return state;
+      return action.payload.reduce((p: State, up: MovePayload) => {
+        if (up.key === 'items') {
+          return { ...p, items: up.items };
+        }
+
+        return { ...p, tier: p.tier.set(up.key, up.items) };
+      }, state);
     default:
       return state;
   }
@@ -90,32 +88,25 @@ function CharacterTier({ items, error }) {
         destination.index
       );
 
-      dispatch({ type: UPDATE, key: source.droppableId, value: items });
+      dispatch({
+        type: UPDATE,
+        payload: [{ key: source.droppableId, items }]
+      });
     } else {
-      const resultFromMove: MoveResult = move(
-        this.getList(source.droppableId),
-        this.getList(destination.droppableId),
+      const payload = move(
+        getList(source.droppableId),
+        getList(destination.droppableId),
         source,
         destination
       );
 
       dispatch({
-        type: UPDATE_LIST,
-        payload: [
-          {
-            key: source.droppableId,
-            items: resultFromMove.droppable
-          },
-          {
-            key: destination.droppableId,
-            items: resultFromMove.droppable2
-          }
-        ]
+        type: UPDATE,
+        payload
       });
     }
   }
 
-  console.log('RENDER TIER', items, error);
   return (
     <section className="page page--column character-tier">
       <header>
@@ -123,24 +114,38 @@ function CharacterTier({ items, error }) {
       </header>
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="grids-container">
-          <div className="tiers">
-            {Array.from(state.tier).map(([tier, characters]) => (
-              <Tier key={tier} tier={tier} scores={[]} items={characters} />
+          <div className="tiers tiers--wide">
+            {Array.from(state.tier.entries()).map(([tier, characters]) => (
+              <Tier key={tier} tier={tier} scores={[]} items={characters}>
+                {({ index, data }) => (
+                  <CharacterCardDraggable
+                    key={data.id}
+                    index={index}
+                    data={data}
+                  />
+                )}
+              </Tier>
             ))}
           </div>
-          <div className="search-selection">
+          <div className="character-selection">
             <Droppable droppableId="items">
               {(provided, snapshot) => (
                 <Grid
                   ref={provided.innerRef}
-                  className="characters"
+                  style={getListStyle(snapshot.isDraggingOver)}
+                  className={classNames(
+                    'characters',
+                    'character-selection__list',
+                    { 'characters--no-items': state.items.length === 0 }
+                  )}
+                  noItemsText="Drop a character here to unrank."
                   uniformRows
                   items={state.items}
+                  footerChildren={provided.placeholder}
                 >
-                  {(x: Character, i: number) => (
-                    <CharacterCard key={x.id} index={i} data={x} />
+                  {(x: YTWCharacter, i: number) => (
+                    <CharacterCardDraggable key={x.id} index={i} data={x} />
                   )}
-                  {provided.placeholder}
                 </Grid>
               )}
             </Droppable>

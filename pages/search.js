@@ -6,8 +6,10 @@ import { NewTabLink, YTWLink } from '../components/YTWLink';
 import Tier from '../components/Tier';
 import SelectBox from '../components/SelectBox';
 import Tickbox from '../components/Tickbox';
+import Image from '../components/Image';
 
 import { sources, ranks } from '../consts';
+import { width, height } from '../consts/imageSize';
 import defaultTiers from '../consts/defaultTiers';
 import usingMal from '../handlers/usingMal';
 import usingAnilist from '../handlers/usingAnilist';
@@ -189,7 +191,22 @@ export default class extends React.Component {
                   .map(([s]) => s);
 
                 return (
-                  <Tier key={tier} tier={tier} scores={scores} items={series} />
+                  <Tier key={tier} tier={tier} scores={scores} items={series}>
+                    {({ data }) => (
+                      <li key={data.id}>
+                        <Tooltip text={data.title} center highlight>
+                          <NewTabLink href={data.url}>
+                            <Image
+                              src={data.image}
+                              alt={data.title}
+                              width={width}
+                              height={height}
+                            />
+                          </NewTabLink>
+                        </Tooltip>
+                      </li>
+                    )}
+                  </Tier>
                 );
               })}
             </div>

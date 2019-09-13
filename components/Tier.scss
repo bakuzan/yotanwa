@@ -38,6 +38,7 @@ $tiers: (
 .tier {
   display: flex;
   max-width: 100%;
+  min-height: var(--image-height);
 
   &__text {
     display: flex;
@@ -61,6 +62,8 @@ $tiers: (
     width: 100%;
     grid-template-columns: repeat(auto-fit, 96px);
     grid-gap: 1px;
+    border: 1px solid var(--alt-colour);
+    margin: 0;
   }
 
   @include respondTo(xxs) {

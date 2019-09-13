@@ -16,6 +16,11 @@ export default function getPageMeta(path, params) {
       title: 'Search for characters | Tier List Generator',
       description: 'Search for characters to use in creating a tier list.'
     };
+  } else if (path === '/character-tier') {
+    return {
+      title: 'Character tier | Tier List Generator',
+      description: 'Place the pre-selected characters into a tier.'
+    };
   }
 
   return { title: '', description: '' };
