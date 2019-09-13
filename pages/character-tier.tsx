@@ -2,6 +2,7 @@ import '../styles/characters.scss';
 import fetch from 'node-fetch';
 import classNames from 'classnames';
 import React, { useReducer } from 'react';
+
 import { DropResult, DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 import { YTWCharacter } from '@/interfaces/YTWCharacter';
@@ -168,7 +169,7 @@ CharacterTier.getInitialProps = async ({ query }) => {
   const { ids = '' } = query;
 
   const response = await fetch(
-    `http://localhost:7200/api/charactersByIds?ids=${ids}`
+    `${process.env.API_URL_BASE}/api/charactersByIds?ids=${ids}`
   );
   const result = await response.json();
 

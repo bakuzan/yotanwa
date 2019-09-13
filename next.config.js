@@ -6,8 +6,9 @@ const { config } = require('dotenv');
 
 config();
 
-const compose = (...fs) => (x) => fs.reduce((state, gs) => gs(state), x);
 const empty = 'empty';
+const isProd = process.env.NODE_ENV === 'production';
+const compose = (...fs) => (x) => fs.reduce((state, gs) => gs(state), x);
 
 const withSetup = (cfg) =>
   compose(
@@ -18,6 +19,9 @@ const withSetup = (cfg) =>
 
 module.exports = withSetup({
   distDir: 'dist',
+  env: {
+    API_URL_BASE: isProd ? '' : `http://localhost:${process.env.PORT}`
+  },
   postcssLoaderOptions: { parser: 'postcss-scss', autoprefixer: true },
   webpack: (webpackConfig) => {
     // Fixes npm packages
@@ -31,13 +35,5 @@ module.exports = withSetup({
     webpackConfig.resolve.alias['@'] = path.join(__dirname);
 
     return webpackConfig;
-  },
-
-  // VARIABLES
-  publicRuntimeConfig: {
-    // Will be available on both server and client
-  },
-  serverRuntimeConfig: {
-    // Will only be available on the server side
   }
 });

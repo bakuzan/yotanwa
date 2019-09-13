@@ -44,7 +44,7 @@ async function fetchListItems(
   type: string
 ) {
   const response = await fetch(
-    `http://localhost:7200/api/${source}?username=${username}&type=${type}`
+    `${process.env.API_URL_BASE}/api/${source}?username=${username}&type=${type}`
   );
 
   return await response.json();
