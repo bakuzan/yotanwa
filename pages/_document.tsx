@@ -1,10 +1,20 @@
 import classNames from 'classnames';
-import Document, { Html, Head, Main, NextScript } from 'next/document';
+import Document, {
+  Html,
+  Head,
+  Main,
+  NextScript,
+  DocumentContext
+} from 'next/document';
 
 import processCookies from '../utils/processCookies';
 
-class MyDocument extends Document {
-  static async getInitialProps(ctx) {
+type DocumentProps = {
+  cookies: any;
+};
+
+class MyDocument extends Document<DocumentProps> {
+  static async getInitialProps(ctx: DocumentContext) {
     const { req } = ctx;
     const cookies = processCookies(req ? req.headers.cookie : '');
 
@@ -15,6 +25,7 @@ class MyDocument extends Document {
 
   render() {
     const { cookies } = this.props;
+
     return (
       <Html>
         <Head />

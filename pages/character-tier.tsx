@@ -5,11 +5,11 @@ import React, { useReducer } from 'react';
 import { DropResult, DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 import { YTWCharacter } from '@/interfaces/YTWCharacter';
-import Tier from '@/components/Tier';
-import CharacterList from '@/components/CharacterList';
-import { CharacterCardDraggable } from '@/components/CharacterCard';
-import { YTWLink } from '@/components/YTWLink';
 import Button from '@/components/Button';
+import { CharacterCardDraggable } from '@/components/CharacterCard';
+import CharacterList from '@/components/CharacterList';
+import Tier from '@/components/Tier';
+import { YTWLink } from '@/components/YTWLink';
 
 import move from '@/utils/dragAndDrop/move';
 import reorder from '@/utils/dragAndDrop/reorder';

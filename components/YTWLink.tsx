@@ -1,11 +1,18 @@
 import './YTWLink.scss';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-function YTWLink({ className, href, nav, children, ...props }) {
+interface LinkProps {
+  className?: string;
+  href: string;
+  nav?: boolean;
+  children?: ReactNode;
+}
+
+function YTWLink({ className, href, nav, children, ...props }: LinkProps) {
   const router = useRouter();
   const isActive = router.route === href;
 
@@ -31,7 +38,13 @@ YTWLink.propTypes = {
   nav: PropTypes.bool
 };
 
-function NewTabLink({ className, children, ...props }) {
+interface NewTabLinkProps {
+  className?: string;
+  href: string;
+  children?: ReactNode;
+}
+
+function NewTabLink({ className, children, ...props }: NewTabLinkProps) {
   return (
     <a
       {...props}

@@ -38,7 +38,7 @@ $tiers: (
 .tier {
   display: flex;
   max-width: 100%;
-  min-height: var(--image-height);
+  min-height: calc(var(--image-height) + 2px);
 
   &__text {
     display: flex;

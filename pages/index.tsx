@@ -1,15 +1,20 @@
 import '../styles/home.scss';
 import React from 'react';
 
-import Input from '../components/Input';
-import RadioGroup from '../components/RadioGroup';
 import Button from '../components/Button';
+import Input from '../components/Input';
 import Loader from '../components/Loader';
+import RadioGroup from '../components/RadioGroup';
 
 import { sourceOptions, typeOptions } from '@/consts/queryOptions';
 
-export default class extends React.Component {
-  constructor(props) {
+type HomeState = {
+  submitted: boolean;
+  isLoading: boolean;
+};
+
+export default class extends React.Component<any, HomeState> {
+  constructor(props: any) {
     super(props);
     this.state = {
       submitted: false,

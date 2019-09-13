@@ -3,6 +3,11 @@ import Head from 'next/head';
 
 import { YTWLink } from '../components/YTWLink';
 
+interface ErrorProps {
+  statusCode: string;
+  title?: string;
+}
+
 const statusCodes = {
   400: 'Bad Request',
   404: 'This page could not be found',
@@ -10,7 +15,7 @@ const statusCodes = {
   500: 'Internal Server Error'
 };
 
-class YTWError extends React.Component {
+class YTWError extends React.Component<ErrorProps> {
   static getInitialProps({ res, err }) {
     const statusCode = res ? res.statusCode : err ? err.statusCode : null;
     return { statusCode };
@@ -50,16 +55,16 @@ const styles = {
     background: 'var(--base-background)',
     color: 'var(--base-colour)',
     height: '100vh',
-    textAlign: 'center',
+    textAlign: 'center' as 'center',
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'column' as 'column',
     alignItems: 'center',
     justifyContent: 'center'
   },
 
   desc: {
     display: 'inline-block',
-    textAlign: 'left',
+    textAlign: 'left' as 'left',
     lineHeight: '49px',
     height: '49px',
     verticalAlign: 'middle'
@@ -78,7 +83,7 @@ const styles = {
 
   h2: {
     fontSize: '14px',
-    fontWeight: 'normal',
+    fontWeight: 'normal' as 'normal',
     lineHeight: 'inherit',
     margin: 0,
     padding: 0

@@ -3,10 +3,11 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
+import { YTWCharacter } from '@/interfaces/YTWCharacter';
 import Button from '../components/Button';
+import { CharacterCard } from '@/components/CharacterCard';
 import Grid from '../components/Grid';
 import Input from '../components/Input';
-import { CharacterCard } from '@/components/CharacterCard';
 
 import { useDebounce } from '../hooks/useDebounce';
 import { usePrevious } from '../hooks/usePrevious';
@@ -14,9 +15,11 @@ import { usePrevious } from '../hooks/usePrevious';
 export default function Characters() {
   const router = useRouter();
   const [searchString, setSearchString] = useState('');
-  const [selectedCharacters, setSelectedCharacters] = useState([]);
-  const [searchResults, setSearchResults] = useState([]);
   const [message, setMessage] = useState('');
+  const [searchResults, setSearchResults] = useState<YTWCharacter[]>([]);
+  const [selectedCharacters, setSelectedCharacters] = useState<YTWCharacter[]>(
+    []
+  );
 
   const filteredSearchResults = searchResults.filter(
     (x) => !selectedCharacters.some((c) => c.id === x.id)
@@ -26,11 +29,11 @@ export default function Characters() {
   const prevSearchTerm = usePrevious(debouncedSearchTerm);
 
   useEffect(() => {
-    async function searchForCharacter(term) {
+    async function searchForCharacter(term: string) {
       try {
         const response = await fetch(`/ytw/characters?term=${term}`);
         const result = await response.json();
-        console.log('Character search > ', result);
+
         setSearchResults(result.items);
       } catch (e) {
         // TODO handle this
@@ -44,7 +47,7 @@ export default function Characters() {
     }
   }, [prevSearchTerm, debouncedSearchTerm]);
 
-  function updateCharacters(list) {
+  function updateCharacters(list: YTWCharacter[]) {
     setSelectedCharacters(list);
     setMessage('');
   }
@@ -96,12 +99,12 @@ export default function Characters() {
             noItemsText={false}
             items={filteredSearchResults}
           >
-            {(x) => (
+            {(x: YTWCharacter) => (
               <CharacterCard
                 key={x.id}
                 label="Click to select character"
                 data={x}
-                onClick={(data) => {
+                onClick={(data: YTWCharacter) => {
                   const newCharacters = [...selectedCharacters, data];
                   updateCharacters(newCharacters);
                 }}
@@ -116,12 +119,12 @@ export default function Characters() {
             noItemsText="No characters selected"
             items={selectedCharacters}
           >
-            {(x) => (
+            {(x: YTWCharacter) => (
               <CharacterCard
                 key={x.id}
                 label="Click to deselect character"
                 data={x}
-                onClick={(data) => {
+                onClick={(data: YTWCharacter) => {
                   const newCharacters = selectedCharacters.filter(
                     (c) => c.id !== data.id
                   );

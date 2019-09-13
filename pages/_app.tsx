@@ -2,7 +2,7 @@ import '../styles/index.scss';
 import * as React from 'react';
 import App from 'next/app';
 
-import Helmet from '../components/Helmet';
+import Helmet, { HelmetProps } from '../components/Helmet';
 import Themer from '../components/Themer';
 import { YTWLink } from '../components/YTWLink';
 import Footer from '../components/Footer';
@@ -11,7 +11,12 @@ import processCookies from '../utils/processCookies';
 import processQuery from '../utils/processQuery';
 import getPageMeta from '../utils/getPageMeta';
 
-class MyApp extends App {
+type AppProps = {
+  cookies: any;
+  helmetProps: HelmetProps;
+};
+
+class MyApp extends App<AppProps> {
   static async getInitialProps({ Component, ctx }) {
     const { pathname, req, query } = ctx;
     const params = processQuery(query);

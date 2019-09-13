@@ -6,7 +6,7 @@ import RadioToggle from './RadioToggle';
 import { useStorage } from '../hooks/useStorage';
 import Icons from '../consts/icons';
 
-function Themer({ initialValue }) {
+function Themer({ initialValue }: { initialValue: boolean }) {
   const [isClient, setIsClient] = useState(false);
   const [isDarkTheme, setTheme] = useStorage('isDarkTheme');
 

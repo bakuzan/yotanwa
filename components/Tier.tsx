@@ -4,15 +4,28 @@ import classNames from 'classnames';
 import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 
-import Grid from './Grid';
 import CharacterList from './CharacterList';
+import Grid from './Grid';
 import Tooltip from './Tooltip';
 
-const getListStyle = (isDraggingOver) => ({
+type TierItem = {
+  id: string | number;
+  [key: string]: any;
+};
+
+type TierProps = {
+  tier?: string;
+  scores: number[];
+  items: TierItem[];
+  children: (props: any) => any;
+  isDroppable?: boolean;
+};
+
+const getListStyle = (isDraggingOver: boolean) => ({
   backgroundColor: isDraggingOver ? 'var(--alt-colour)' : ''
 });
 
-function Tier({ tier = '', scores, items, children, isDroppable }) {
+function Tier({ tier = '', scores, items, children, isDroppable }: TierProps) {
   const classModifier = (tier !== '-' ? tier : 'unranked').toLowerCase();
   const hasScores = scores.length > 0;
   const scoreStr = scores.join('\n\r');
@@ -52,7 +65,9 @@ function Tier({ tier = '', scores, items, children, isDroppable }) {
           uniformRows
           items={items}
         >
-          {(x, i) => <ItemTemplate key={x.id} index={i} data={x} />}
+          {(x: TierItem, i: number) => (
+            <ItemTemplate key={x.id} index={i} data={x} />
+          )}
         </Grid>
       )}
     </div>

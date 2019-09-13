@@ -2,7 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Head from 'next/head';
 
-function YTWHelmet({ title, description }) {
+export type HelmetProps = {
+  title: string;
+  description: string;
+};
+
+function YTWHelmet({ title, description }: HelmetProps) {
   return (
     <Head>
       <meta charSet="utf-8" />

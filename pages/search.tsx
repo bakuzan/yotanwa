@@ -2,13 +2,14 @@ import '../styles/search.scss';
 import fetch from 'node-fetch';
 import React from 'react';
 
+import { YTWSeries } from '@/interfaces/YTWSeries';
 import Button from '../components/Button';
-import { NewTabLink, YTWLink } from '../components/YTWLink';
-import Tier from '../components/Tier';
+import Image from '../components/Image';
 import SelectBox from '../components/SelectBox';
 import Tickbox from '../components/Tickbox';
+import Tier from '../components/Tier';
 import Tooltip from '../components/Tooltip';
-import Image from '../components/Image';
+import { NewTabLink, YTWLink } from '../components/YTWLink';
 
 import { Sources, Ranks } from '../consts';
 import { width, height } from '../consts/imageSize';
@@ -18,7 +19,30 @@ import generateTiers from '../utils/generateTiers';
 import storage from '../utils/storage';
 import processQuery from '../utils/processQuery';
 
-async function fetchListItems(source = Sources.MAL, username, type) {
+type SearchProps = {
+  cookies: any;
+  username: string;
+  source: string;
+  type: string;
+  error: string;
+  items: YTWSeries[];
+  links: {
+    list: string;
+    profile: string;
+  };
+};
+
+type SearchState = {
+  showSettings: boolean;
+  tierDistribution: Map<number, string>;
+  hiddenScores: Set<number>;
+};
+
+async function fetchListItems(
+  source = Sources.MAL,
+  username: string,
+  type: string
+) {
   const response = await fetch(
     `http://localhost:7200/api/${source}?username=${username}&type=${type}`
   );
@@ -26,8 +50,8 @@ async function fetchListItems(source = Sources.MAL, username, type) {
   return await response.json();
 }
 
-export default class extends React.Component {
-  constructor(props) {
+export default class extends React.Component<SearchProps, SearchState> {
+  constructor(props: SearchProps) {
     super(props);
 
     const { cookies } = props;
@@ -52,8 +76,8 @@ export default class extends React.Component {
     return { items, error, username, source, type, links };
   }
 
-  handleCustomTierChange(event) {
-    const { name, value } = event.target;
+  handleCustomTierChange(event: Event) {
+    const { name, value } = event.target as HTMLSelectElement;
     this.setState((p) => ({
       tierDistribution: p.tierDistribution.set(Number(name), value)
     }));
@@ -70,7 +94,7 @@ export default class extends React.Component {
     this.setState({ showSettings: false });
   }
 
-  toggleHiddenScore(score) {
+  toggleHiddenScore(score: number) {
     this.setState((p) => {
       let hiddenScores = p.hiddenScores;
 
