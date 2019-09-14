@@ -2,12 +2,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Head from 'next/head';
 
+import { useGlobalStyles } from 'meiko/hooks/useGlobalStyles';
+
 export type HelmetProps = {
   title: string;
   description: string;
 };
 
 function YTWHelmet({ title, description }: HelmetProps) {
+  useGlobalStyles();
+
   return (
     <Head>
       <meta charSet="utf-8" />

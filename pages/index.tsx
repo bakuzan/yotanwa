@@ -1,9 +1,9 @@
 import '../styles/home.scss';
 import React from 'react';
 
-import Button from '../components/Button';
-import Input from '../components/Input';
-import Loader from '../components/Loader';
+import { Button } from 'meiko/Button';
+import Input from 'meiko/ClearableInput';
+import Loader from 'meiko/LoadingBouncer';
 import RadioGroup from '../components/RadioGroup';
 
 import { sourceOptions, typeOptions } from '@/consts/queryOptions';
@@ -14,6 +14,8 @@ type HomeState = {
 };
 
 export default class extends React.Component<any, HomeState> {
+  private timer: number = 0;
+
   constructor(props: any) {
     super(props);
     this.state = {
@@ -21,14 +23,16 @@ export default class extends React.Component<any, HomeState> {
       isLoading: false
     };
 
-    this.timer = null;
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   onSubmit() {
     this.setState({ submitted: true }, () => {
       clearTimeout(this.timer);
-      this.timer = setTimeout(() => this.setState({ isLoading: true }), 250);
+      this.timer = window.setTimeout(
+        () => this.setState({ isLoading: true }),
+        250
+      );
     });
   }
 
@@ -51,6 +55,7 @@ export default class extends React.Component<any, HomeState> {
               name="username"
               label="Username"
               required
+              autocomplete="on"
               disabled={isLoading}
             />
             <div className="search-form__options">
@@ -77,7 +82,7 @@ export default class extends React.Component<any, HomeState> {
                 <Button
                   type="submit"
                   className="search-form__submit"
-                  isPrimary
+                  btnStyle="primary"
                   disabled={submitted}
                 >
                   Search

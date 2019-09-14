@@ -1,13 +1,12 @@
-import './Input.scss';
 import './RadioGroup.scss';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 function RadioGroup({ label, options, ...props }) {
   return (
-    <div className="radio-group">
-      <div className="radio-group__label">{label}</div>
-      <div className="radio-group__options">
+    <div className="ytw-radio-group">
+      <div className="ytw-radio-group__label">{label}</div>
+      <div className="ytw-radio-group__options">
         {options.map(({ label: opLabel, ...op }) => {
           return (
             <div key={op.value} className="form-control">

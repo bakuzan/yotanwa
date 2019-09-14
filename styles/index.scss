@@ -1,3 +1,5 @@
+@import './_theme.scss';
+
 :root {
   --font-size: 16px;
   --font-family: 'Lucida Console', 'Courier New', monospace;
@@ -116,5 +118,15 @@ main {
 
   &--end {
     justify-content: flex-end;
+  }
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  > * {
+    margin: 0 2px;
   }
 }

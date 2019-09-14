@@ -1,4 +1,23 @@
-.radio-group {
+.form-control {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+
+  &__input {
+    background-color: inherit;
+    color: inherit;
+  }
+
+  &__label {
+    cursor: text;
+    opacity: 1;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+  }
+}
+
+.ytw-radio-group {
   padding: 5px;
 
   &__label {

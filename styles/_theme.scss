@@ -1,22 +1,4 @@
-.button-group {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  > * {
-    margin: 0 2px;
-  }
-}
-
-.button {
-  position: relative;
-  border: none;
-  background: none;
-  color: inherit;
-  padding: 5px 10px;
-  border-radius: 2px;
-  cursor: pointer;
-
+.button.button {
   &:hover {
     background-color: var(--base-background-hover);
   }
@@ -34,4 +16,24 @@
   &[disabled]::hover {
     background-color: var(--disabled-colour);
   }
+}
+
+.has-float-label {
+  .input {
+    &:focus {
+      border-bottom-color: var(--primary-colour);
+    }
+  }
+
+  .select-box {
+    outline: none;
+
+    &:focus {
+      border-bottom-color: var(--primary-colour);
+    }
+  }
+}
+
+.loading-bouncer__orb {
+  background-color: var(--primary-colour);
 }

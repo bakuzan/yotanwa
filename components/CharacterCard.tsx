@@ -4,9 +4,9 @@ import React, { HTMLAttributes } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 
 import { YTWCharacter } from '@/interfaces/YTWCharacter';
-import Button from './Button';
-import Image from './Image';
-import Tooltip from './Tooltip';
+import { Button } from 'meiko/Button';
+import Image from 'meiko/Image';
+import Tooltip from 'meiko/Tooltip';
 
 import { width, height } from '../consts/imageSize';
 

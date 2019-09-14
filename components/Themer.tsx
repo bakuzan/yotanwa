@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 
-import RadioToggle from './RadioToggle';
+import RadioToggle from 'meiko/RadioToggle';
 
 import { useStorage } from '../hooks/useStorage';
 import Icons from '../consts/icons';

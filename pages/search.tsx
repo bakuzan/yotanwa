@@ -2,13 +2,14 @@ import '../styles/search.scss';
 import fetch from 'node-fetch';
 import React from 'react';
 
+import { Button } from 'meiko/Button';
+import Image from 'meiko/Image';
+import SelectBox from 'meiko/SelectBox';
+import Tickbox from 'meiko/Tickbox';
+import Tooltip from 'meiko/Tooltip';
+
 import { YTWSeries } from '@/interfaces/YTWSeries';
-import Button from '../components/Button';
-import Image from '../components/Image';
-import SelectBox from '../components/SelectBox';
-import Tickbox from '../components/Tickbox';
 import Tier from '../components/Tier';
-import Tooltip from '../components/Tooltip';
 import { NewTabLink, YTWLink } from '../components/YTWLink';
 
 import { Sources, Ranks } from '../consts';
@@ -133,7 +134,7 @@ export default class extends React.Component<SearchProps, SearchState> {
         <div className="tier-page__options">
           <YTWLink href="/">Back to user search</YTWLink>
           <Button
-            isPrimary
+            btnStyle="primary"
             disabled={showSettings}
             onClick={() => this.setState({ showSettings: true })}
           >
@@ -199,7 +200,10 @@ export default class extends React.Component<SearchProps, SearchState> {
                 >
                   Reset to defaults
                 </Button>
-                <Button isPrimary onClick={this.handlePersistCustomTierChange}>
+                <Button
+                  btnStyle="primary"
+                  onClick={this.handlePersistCustomTierChange}
+                >
                   Ok
                 </Button>
               </div>

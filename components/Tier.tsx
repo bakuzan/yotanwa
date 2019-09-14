@@ -5,8 +5,8 @@ import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 
 import CharacterList from './CharacterList';
-import Grid from './Grid';
-import Tooltip from './Tooltip';
+import Grid from 'meiko/Grid';
+import Tooltip from 'meiko/Tooltip';
 
 type TierItem = {
   id: string | number;
