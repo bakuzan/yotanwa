@@ -1,6 +1,6 @@
 // import fetch from 'node-fetch';
-import { AnilistCharactersResponse } from '@/interfaces/AnilistCharactersResponse';
 import { Request, Response } from 'express';
+import { AnilistCharactersResponse } from '../../interfaces/AnilistCharactersResponse';
 
 /* tslint:disable:object-literal-sort-keys */
 const TEMP_DATA = [
