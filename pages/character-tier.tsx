@@ -2,11 +2,11 @@ import '../styles/characters.scss';
 import fetch from 'node-fetch';
 import classNames from 'classnames';
 import React, { useReducer } from 'react';
-
 import { DropResult, DragDropContext, Droppable } from 'react-beautiful-dnd';
 
+import { Button } from 'meiko/Button';
+
 import { YTWCharacter } from '@/interfaces/YTWCharacter';
-import Button from '@/components/Button';
 import { CharacterCardDraggable } from '@/components/CharacterCard';
 import CharacterList from '@/components/CharacterList';
 import Tier from '@/components/Tier';
@@ -19,6 +19,14 @@ import { MovePayload } from '../interfaces/MovePayload';
 const getListStyle = (isDraggingOver: boolean) => ({
   backgroundColor: isDraggingOver ? 'var(--alt-colour)' : ''
 });
+
+function getList(state: State, key: string) {
+  if (key === 'items') {
+    return state.items;
+  }
+
+  return state.tier.get(key);
+}
 
 interface State {
   items: YTWCharacter[];
@@ -67,14 +75,6 @@ function CharacterTier({ items, error }) {
     );
   }
 
-  function getList(key: string) {
-    if (key === 'items') {
-      return state.items;
-    }
-
-    return state.tier.get(key);
-  }
-
   function onDragEnd(result: DropResult): void {
     const { source, destination } = result;
 
@@ -84,7 +84,7 @@ function CharacterTier({ items, error }) {
 
     if (source.droppableId === destination.droppableId) {
       const items = reorder(
-        getList(source.droppableId),
+        getList(state, source.droppableId),
         source.index,
         destination.index
       );
@@ -95,8 +95,8 @@ function CharacterTier({ items, error }) {
       });
     } else {
       const payload = move(
-        getList(source.droppableId),
-        getList(destination.droppableId),
+        getList(state, source.droppableId),
+        getList(state, destination.droppableId),
         source,
         destination
       );
@@ -114,7 +114,7 @@ function CharacterTier({ items, error }) {
         <h1 className="character-tier__title">Character Tier</h1>
         <Button
           className="character-tier__save"
-          isPrimary
+          btnStyle="primary"
           onClick={() => console.log('SAVE NOT IMPLEMENTED')}
         >
           Save

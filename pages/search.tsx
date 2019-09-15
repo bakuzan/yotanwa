@@ -3,12 +3,12 @@ import fetch from 'node-fetch';
 import React from 'react';
 
 import { Button } from 'meiko/Button';
-import Image from 'meiko/Image';
 import SelectBox from 'meiko/SelectBox';
 import Tickbox from 'meiko/Tickbox';
 import Tooltip from 'meiko/Tooltip';
 
-import { YTWSeries } from '@/interfaces/YTWSeries';
+import { YTWSeries } from '../interfaces/YTWSeries';
+import Image from '../components/Image';
 import Tier from '../components/Tier';
 import { NewTabLink, YTWLink } from '../components/YTWLink';
 

@@ -7,7 +7,10 @@
     "target": "es2017",
     "esModuleInterop": true,
     "isolatedModules": false,
-    "noEmit": false
+    "noEmit": false,
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "include": ["server/**/*.ts", "server/**/*.d.ts"]
 }

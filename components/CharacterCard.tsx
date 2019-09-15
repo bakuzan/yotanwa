@@ -3,10 +3,11 @@ import classNames from 'classnames';
 import React, { HTMLAttributes } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 
-import { YTWCharacter } from '@/interfaces/YTWCharacter';
+import { YTWCharacter } from '../interfaces/YTWCharacter';
 import { Button } from 'meiko/Button';
-import Image from 'meiko/Image';
 import Tooltip from 'meiko/Tooltip';
+
+import Image from './Image';
 
 import { width, height } from '../consts/imageSize';
 

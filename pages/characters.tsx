@@ -3,14 +3,15 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import { YTWCharacter } from '@/interfaces/YTWCharacter';
-import Button from '../components/Button';
-import { CharacterCard } from '@/components/CharacterCard';
-import Grid from '../components/Grid';
-import Input from '../components/Input';
+import { Button } from 'meiko/Button';
+import Input from 'meiko/ClearableInput';
+import Grid from 'meiko/Grid';
 
-import { useDebounce } from '../hooks/useDebounce';
-import { usePrevious } from '../hooks/usePrevious';
+import { YTWCharacter } from '@/interfaces/YTWCharacter';
+import { CharacterCard } from '@/components/CharacterCard';
+
+import { useDebounce } from 'meiko/hooks/useDebounce';
+import { usePrevious } from 'meiko/hooks/usePrevious';
 
 export default function Characters() {
   const router = useRouter();
@@ -67,11 +68,14 @@ export default function Characters() {
             name="search"
             label="search"
             value={searchString}
-            onChange={(e) => setSearchString(e.target.value)}
+            onChange={(e: Event) => {
+              const t = e.target as HTMLInputElement;
+              setSearchString(t.value);
+            }}
           />
           <Button
             className="search-container__button"
-            isPrimary
+            btnStyle="primary"
             onClick={() => {
               if (selectedCharacters.length === 0) {
                 setMessage('You must select at least 1 character.');
