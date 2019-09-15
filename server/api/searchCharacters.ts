@@ -117,7 +117,7 @@ export default async function searchCharacters(req: Request, res: Response) {
 
     if (errors && errors.length) {
       const error = errors[0].message;
-      return respond({ items: [], error });
+      return respond({ items: [], error, success: false });
     }
 
     const list = data.Page.characters;
@@ -127,13 +127,15 @@ export default async function searchCharacters(req: Request, res: Response) {
         name: x.name.full,
         image: x.image.medium
       })),
-      error: null
+      error: null,
+      success: true
     });
   } catch (error) {
     console.error(error);
     respond({
       items: [],
-      error: `Something went wrong and your request could not be completed.`
+      error: `Something went wrong and your request could not be completed.`,
+      success: false
     });
   }
 }

@@ -16,13 +16,13 @@ export async function getTiers(req: Request, res: Response) {
       .skip(page * perPage)
       .limit(perPage);
 
-    res.status(200).json({ items, total });
+    res.status(200).json({ items, success: true, total });
   } catch (e) {
     const error = 'Failed to retreive tier';
 
     console.log(error);
     console.error(e);
-    res.status(200).json({ error });
+    res.status(200).json({ error, success: false });
   }
 }
 
@@ -32,12 +32,12 @@ export async function getTier(req: Request, res: Response) {
   try {
     const tier = await Tier.findById(id);
 
-    res.status(200).json({ tier });
+    res.status(200).json({ tier, success: true });
   } catch (e) {
     const error = 'Failed to retreive tier';
 
     console.log(error);
     console.error(e);
-    res.status(200).json({ error });
+    res.status(200).json({ error, success: false });
   }
 }

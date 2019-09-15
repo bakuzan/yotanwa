@@ -5,7 +5,7 @@ import { CharacterCardDraggable } from '@/components/CharacterCard';
 
 function CharacterList({ items, showNoItemsEntry }) {
   if (!items.length && showNoItemsEntry) {
-    return <li>Drop a character here to unrank.</li>;
+    return <li style={{ padding: 10 }}>Drop a character here to unrank.</li>;
   }
 
   return items.map((x: YTWCharacter, i: number) => (

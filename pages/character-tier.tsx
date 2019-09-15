@@ -1,10 +1,11 @@
 import '../styles/characters.scss';
 import fetch from 'node-fetch';
 import classNames from 'classnames';
-import React, { useReducer } from 'react';
+import React, { useReducer, useState } from 'react';
 import { DropResult, DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 import { Button } from 'meiko/Button';
+import Input from 'meiko/ClearableInput';
 
 import { YTWCharacter } from '@/interfaces/YTWCharacter';
 import { CharacterCardDraggable } from '@/components/CharacterCard';
@@ -15,6 +16,7 @@ import { YTWLink } from '@/components/YTWLink';
 import move from '@/utils/dragAndDrop/move';
 import reorder from '@/utils/dragAndDrop/reorder';
 import { MovePayload } from '../interfaces/MovePayload';
+import { useRouter } from 'next/router';
 
 const getListStyle = (isDraggingOver: boolean) => ({
   backgroundColor: isDraggingOver ? 'var(--alt-colour)' : ''
@@ -28,14 +30,22 @@ function getList(state: State, key: string) {
   return state.tier.get(key);
 }
 
+type Action = { type: string; [key: string]: any };
+
 interface State {
+  id?: string;
+  isLoading: boolean;
   items: YTWCharacter[];
+  name: string;
   tier: Map<string, YTWCharacter[]>;
 }
 
 function init(payload: any): State {
   return {
+    id: null,
+    isLoading: false,
     items: payload.items,
+    name: '',
     tier: ['S', 'A', 'B', 'C', 'D', 'E', 'F'].reduce(
       (p: Map<string, YTWCharacter[]>, t: string) => p.set(t, []),
       new Map([])
@@ -43,10 +53,17 @@ function init(payload: any): State {
   };
 }
 
+const UPDATE_NAME = 'UPDATE_NAME';
 const UPDATE = 'UPDATE';
+const SAVED = 'SAVED';
+const LOADING = 'LOADING';
 
-function reducer(state: State, action: { type: string; [key: string]: any }) {
+function reducer(state: State, action: Action) {
   switch (action.type) {
+    case LOADING:
+      return { ...state, isLoading: true };
+    case UPDATE_NAME:
+      return { ...state, name: action.value };
     case UPDATE:
       return action.payload.reduce((p: State, up: MovePayload) => {
         if (up.key === 'items') {
@@ -55,13 +72,21 @@ function reducer(state: State, action: { type: string; [key: string]: any }) {
 
         return { ...p, tier: p.tier.set(up.key, up.items) };
       }, state);
+    case SAVED:
+      return { ...state, id: action.value, isLoading: false };
     default:
       return state;
   }
 }
 
-function CharacterTier({ items, error }) {
-  const [state, dispatch] = useReducer(reducer, { items }, init);
+function CharacterTier({ items, tier, error }) {
+  const router = useRouter();
+  const [feedback, setFeedback] = useState('');
+  const [state, dispatch] = useReducer<(s: State, a: Action) => State, any>(
+    reducer,
+    { items, tier },
+    init
+  );
 
   if (error) {
     // TODO handler error
@@ -108,6 +133,42 @@ function CharacterTier({ items, error }) {
     }
   }
 
+  async function onSave() {
+    dispatch({ type: LOADING });
+
+    const body = JSON.stringify({
+      id: state.id,
+      name: state.name,
+      characterState: [
+        ...Array.from(state.tier.entries()).reduce(
+          (p, [t, list]) => [
+            ...p,
+            ...list.map((c) => ({ characterId: c.id, assignment: t }))
+          ],
+          []
+        ),
+        ...state.items.map((x) => ({
+          characterId: x.id,
+          assignment: 'Unassigned'
+        }))
+      ]
+    });
+
+    const response = await fetch(`/ytw/tier`, { method: 'POST', body });
+    const result = await response.json();
+
+    if (result.success) {
+      dispatch({ type: SAVED, value: result.id });
+
+      if (!router.query.id) {
+        const href = `/character-tier?id=${result.id}`;
+        router.push(href, href, { shallow: true });
+      }
+    } else {
+      setFeedback(result.error);
+    }
+  }
+
   return (
     <section className="page page--column character-tier">
       <header className="character-tier__header">
@@ -115,11 +176,23 @@ function CharacterTier({ items, error }) {
         <Button
           className="character-tier__save"
           btnStyle="primary"
-          onClick={() => console.log('SAVE NOT IMPLEMENTED')}
+          onClick={onSave}
         >
           Save
         </Button>
       </header>
+      <div>
+        <Input
+          id="name"
+          name="name"
+          label="Tier name"
+          value={state.name}
+          onChange={(e: Event) => {
+            const t = e.target as HTMLInputElement;
+            dispatch({ type: UPDATE_NAME, value: t.value });
+          }}
+        />
+      </div>
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="grids-container">
           <div className="tiers tiers--wide">

@@ -95,10 +95,9 @@ export default function Characters() {
       </div>
       <div className="grids-container">
         <div className="search-results">
+          <h2>Search Results</h2>
           <Grid
-            className={classNames('characters', {
-              'characters--no-border': filteredSearchResults.length === 0
-            })}
+            className={classNames('characters', 'characters--no-border')}
             uniformRows
             noItemsText={false}
             items={filteredSearchResults}
@@ -117,8 +116,11 @@ export default function Characters() {
           </Grid>
         </div>
         <div className="search-selection">
+          <h2>Selected Characters</h2>
           <Grid
-            className="characters"
+            className={classNames('characters characters--no-border', {
+              'characters--no-items': selectedCharacters.length === 0
+            })}
             uniformRows
             noItemsText="No characters selected"
             items={selectedCharacters}

@@ -12,12 +12,12 @@ export default async function saveTier(req: Request, res: Response) {
     const t = new Tier({ ...payload });
     const { id } = await t.save();
 
-    res.status(200).json({ id });
+    res.status(200).json({ id, success: true });
   } catch (e) {
     const error = 'Failed to save tier';
 
     console.log(error);
     console.error(e);
-    res.status(200).json({ error });
+    res.status(200).json({ error, success: false });
   }
 }
