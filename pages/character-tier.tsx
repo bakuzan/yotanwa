@@ -6,13 +6,16 @@ import { DropResult, DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 import { Button } from 'meiko/Button';
 import Input from 'meiko/ClearableInput';
+import LoadingBouncer from 'meiko/LoadingBouncer';
 
-import { YTWCharacter } from '@/interfaces/YTWCharacter';
+import { YTWCharacter } from '../interfaces/YTWCharacter';
+import { CharacterAssignmentModel } from '../interfaces/CharacterAssignmentModel';
 import { CharacterCardDraggable } from '@/components/CharacterCard';
 import CharacterList from '@/components/CharacterList';
 import Tier from '@/components/Tier';
 import { YTWLink } from '@/components/YTWLink';
 
+import { Tiers } from '../consts';
 import move from '@/utils/dragAndDrop/move';
 import reorder from '@/utils/dragAndDrop/reorder';
 import { MovePayload } from '../interfaces/MovePayload';
@@ -40,16 +43,43 @@ interface State {
   tier: Map<string, YTWCharacter[]>;
 }
 
-function init(payload: any): State {
+function init({ items, tier }): State {
+  let values = {};
+
+  if (tier) {
+    const characters = items as YTWCharacter[];
+    const characterState = tier.characterState as CharacterAssignmentModel[];
+
+    values = {
+      id: tier.id,
+      name: tier.name,
+      items: characters.filter((c) =>
+        characterState.some(
+          (s) => s.characterId === c.id && s.tier === 'Unassigned'
+        )
+      ),
+      tier: Tiers.reduce(
+        (p: Map<string, YTWCharacter[]>, t: string) =>
+          p.set(t, [
+            ...characters.filter((c) =>
+              characterState.some((s) => s.characterId === c.id && s.tier === t)
+            )
+          ]),
+        new Map([])
+      )
+    };
+  }
+
   return {
     id: null,
     isLoading: false,
-    items: payload.items,
+    items,
     name: '',
-    tier: ['S', 'A', 'B', 'C', 'D', 'E', 'F'].reduce(
+    tier: Tiers.reduce(
       (p: Map<string, YTWCharacter[]>, t: string) => p.set(t, []),
       new Map([])
-    )
+    ),
+    ...values
   };
 }
 
@@ -61,7 +91,7 @@ const LOADING = 'LOADING';
 function reducer(state: State, action: Action) {
   switch (action.type) {
     case LOADING:
-      return { ...state, isLoading: true };
+      return { ...state, isLoading: !state.isLoading };
     case UPDATE_NAME:
       return { ...state, name: action.value };
     case UPDATE:
@@ -73,7 +103,7 @@ function reducer(state: State, action: Action) {
         return { ...p, tier: p.tier.set(up.key, up.items) };
       }, state);
     case SAVED:
-      return { ...state, id: action.value, isLoading: false };
+      return { ...state, id: action.value };
     default:
       return state;
   }
@@ -154,7 +184,14 @@ function CharacterTier({ items, tier, error }) {
       ]
     });
 
-    const response = await fetch(`/ytw/tier`, { method: 'POST', body });
+    const response = await fetch(`/ytw/tier`, {
+      body,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST'
+    });
+
     const result = await response.json();
 
     if (result.success) {
@@ -167,19 +204,25 @@ function CharacterTier({ items, tier, error }) {
     } else {
       setFeedback(result.error);
     }
+
+    dispatch({ type: LOADING });
   }
 
   return (
     <section className="page page--column character-tier">
       <header className="character-tier__header">
         <h1 className="character-tier__title">Character Tier</h1>
-        <Button
-          className="character-tier__save"
-          btnStyle="primary"
-          onClick={onSave}
-        >
-          Save
-        </Button>
+        <div className="save-block">
+          {state.isLoading && <LoadingBouncer />}
+          {!state.isLoading && <div className="feedback">{feedback}</div>}
+          <Button
+            className="save-block__button"
+            btnStyle="primary"
+            onClick={onSave}
+          >
+            Save
+          </Button>
+        </div>
       </header>
       <div>
         <Input
@@ -239,14 +282,37 @@ function CharacterTier({ items, tier, error }) {
 }
 
 CharacterTier.getInitialProps = async ({ query }) => {
-  const { ids = '' } = query;
+  const queryBase = process.env.API_URL_BASE;
 
-  const response = await fetch(
-    `${process.env.API_URL_BASE}/api/charactersByIds?ids=${ids}`
-  );
-  const result = await response.json();
+  let { id = '', ids = '' } = query;
+  let error = '',
+    tier = null,
+    items = [];
 
-  return { items: result.items, error: result.error };
+  if (id) {
+    const tierResponse = await fetch(`${queryBase}/ytw/tier/${id}`);
+    const tierResult = await tierResponse.json();
+
+    if (tierResult.success) {
+      tier = tierResult.tier;
+      ids = tier.characterState
+        .map((x: CharacterAssignmentModel) => x.characterId)
+        .join(',');
+    } else {
+      error = tierResult.error;
+    }
+  }
+
+  if (ids) {
+    const response = await fetch(`${queryBase}/api/charactersByIds?ids=${ids}`);
+
+    const result = await response.json();
+
+    items = result.items;
+    error = result.error;
+  }
+
+  return { items, tier, error };
 };
 
 export default CharacterTier;

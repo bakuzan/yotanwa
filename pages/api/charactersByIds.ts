@@ -1,22 +1,22 @@
 import { AnilistCharactersResponse } from '@/interfaces/AnilistCharactersResponse';
 import { Request, Response } from 'express';
-// import fetch from 'node-fetch';
+import fetch from 'node-fetch';
 
 /* tslint:disable:object-literal-sort-keys */
-const TEMP_DATA = [
-  {
-    id: 14076,
-    name: 'Meiko',
-    image:
-      'https://s4.anilist.co/file/anilistcdn/character/medium/n14076-8v6IggCSPTmw.jpg'
-  },
-  {
-    id: 40592,
-    name: 'Meiko Honma',
-    image:
-      'https://s4.anilist.co/file/anilistcdn/character/medium/b40592-UxJe0T0HyczW.jpg'
-  }
-];
+// const TEMP_DATA = [
+//   {
+//     id: 14076,
+//     name: 'Meiko',
+//     image:
+//       'https://s4.anilist.co/file/anilistcdn/character/medium/n14076-8v6IggCSPTmw.jpg'
+//   },
+//   {
+//     id: 40592,
+//     name: 'Meiko Honma',
+//     image:
+//       'https://s4.anilist.co/file/anilistcdn/character/medium/b40592-UxJe0T0HyczW.jpg'
+//   }
+// ];
 
 const query = `
 query($ids: [Int]) {
@@ -34,32 +34,32 @@ query($ids: [Int]) {
   }
 `;
 async function search(ids: number[]) {
-  // const body = JSON.stringify({
-  //   query,
-  //   variables: { ids }
-  // });
+  const body = JSON.stringify({
+    query,
+    variables: { ids }
+  });
   // TODO - restore actual call
-  console.log('Fake search with ', ids);
-  return {
-    data: {
-      Page: {
-        characters: TEMP_DATA.map((x) => ({
-          id: x.id,
-          name: { full: x.name },
-          image: { medium: x.image }
-        }))
-      }
-    }
-  } as AnilistCharactersResponse;
-  // const response = await fetch('https://graphql.anilist.co', {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json'
-  //   },
-  //   body
-  // });
+  // console.log('Fake search with ', ids);
+  // return {
+  //   data: {
+  //     Page: {
+  //       characters: TEMP_DATA.map((x) => ({
+  //         id: x.id,
+  //         name: { full: x.name },
+  //         image: { medium: x.image }
+  //       }))
+  //     }
+  //   }
+  // } as AnilistCharactersResponse;
+  const response = await fetch('https://graphql.anilist.co', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body
+  });
 
-  // return (await response.json()) as AnilistCharactersResponse;
+  return (await response.json()) as AnilistCharactersResponse;
 }
 
 export default async function searchCharactersById(

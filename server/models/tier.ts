@@ -1,9 +1,6 @@
-import { Document, Model, model, Schema } from 'mongoose';
+import { Model, model, Schema } from 'mongoose';
 
-export interface CharacterAssignment extends Document {
-  characterId: number;
-  tier: 'S' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'Unassigned';
-}
+import { TierModel } from '../../interfaces/TierModel';
 
 export const CharacterAssignmentSchema: Schema = new Schema(
   {
@@ -12,11 +9,6 @@ export const CharacterAssignmentSchema: Schema = new Schema(
   },
   { id: false, _id: false, timestamps: false }
 );
-
-export interface TierModel extends Document {
-  characterState: CharacterAssignment[];
-  name: string;
-}
 
 export const TierSchema: Schema = new Schema(
   {

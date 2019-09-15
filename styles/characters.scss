@@ -3,8 +3,13 @@
     display: flex;
     justify-content: space-between;
   }
+}
 
-  &__save {
+.save-block {
+  display: flex;
+  align-items: center;
+
+  &__button {
     margin: 1rem 0;
   }
 }
@@ -21,6 +26,7 @@
 .feedback {
   min-height: 1rem;
   padding: 5px;
+  color: var(--danger-colour);
 }
 
 .grids-container {
