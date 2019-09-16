@@ -19,6 +19,7 @@ export const TierSchema: Schema = new Schema(
     name: { type: String, required: true }
   },
   {
+    id: true,
     timestamps: true
   }
 );

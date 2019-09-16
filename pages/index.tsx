@@ -55,7 +55,7 @@ export default class extends React.Component<any, HomeState> {
               name="username"
               label="Username"
               required
-              autocomplete="on"
+              autoComplete="on"
               disabled={isLoading}
             />
             <div className="search-form__options">

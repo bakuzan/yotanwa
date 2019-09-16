@@ -54,7 +54,7 @@ function Tier({ tier = '', scores, items, children, isDroppable }: TierProps) {
               className={classNames('tier__items', 'tier__items--bordered')}
             >
               <CharacterList showNoItemsEntry={false} items={items} />
-              {provided.placeholder}
+              <div style={{ display: 'none' }}>{provided.placeholder}</div>
             </ul>
           )}
         </Droppable>

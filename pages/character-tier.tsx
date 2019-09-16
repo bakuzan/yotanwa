@@ -1,5 +1,4 @@
 import '../styles/characters.scss';
-import fetch from 'node-fetch';
 import classNames from 'classnames';
 import React, { useReducer, useState } from 'react';
 import { DropResult, DragDropContext, Droppable } from 'react-beautiful-dnd';
@@ -7,6 +6,7 @@ import { DropResult, DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { Button } from 'meiko/Button';
 import Input from 'meiko/ClearableInput';
 import LoadingBouncer from 'meiko/LoadingBouncer';
+import fetch from 'meiko/utils/fetch';
 
 import { YTWCharacter } from '../interfaces/YTWCharacter';
 import { CharacterAssignmentModel } from '../interfaces/CharacterAssignmentModel';
@@ -62,7 +62,9 @@ function init({ items, tier }): State {
         (p: Map<string, YTWCharacter[]>, t: string) =>
           p.set(t, [
             ...characters.filter((c) =>
-              characterState.some((s) => s.characterId === c.id && s.tier === t)
+              characterState.some(
+                (s) => s.characterId === c.id && s.assignment === t
+              )
             )
           ]),
         new Map([])
@@ -184,15 +186,7 @@ function CharacterTier({ items, tier, error }) {
       ]
     });
 
-    const response = await fetch(`/ytw/tier`, {
-      body,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      method: 'POST'
-    });
-
-    const result = await response.json();
+    const result = await fetch(`/ytw/tier`, 'POST', body);
 
     if (result.success) {
       dispatch({ type: SAVED, value: result.id });
@@ -207,7 +201,11 @@ function CharacterTier({ items, tier, error }) {
 
     dispatch({ type: LOADING });
   }
-
+  console.groupCollapsed('RENDER > ');
+  console.log('state > ', state);
+  console.log('tier > ', tier);
+  console.log('items > ', items);
+  console.groupEnd();
   return (
     <section className="page page--column character-tier">
       <header className="character-tier__header">
@@ -277,6 +275,29 @@ function CharacterTier({ items, tier, error }) {
           </div>
         </div>
       </DragDropContext>
+      <footer>
+        {state.id && (
+          <Button
+            className="character-tier__delete"
+            onClick={async () => {
+              const response = await fetch(`/ytw/tier/${state.id}`, 'DELETE');
+              if (response.success) {
+                const url = `/characters`;
+                router.push(url, url);
+              } else {
+                const errorMessage =
+                  typeof response.error === 'string'
+                    ? response.error
+                    : response.error.message;
+
+                setFeedback(errorMessage);
+              }
+            }}
+          >
+            Delete {state.name}
+          </Button>
+        )}
+      </footer>
     </section>
   );
 }
@@ -290,8 +311,7 @@ CharacterTier.getInitialProps = async ({ query }) => {
     items = [];
 
   if (id) {
-    const tierResponse = await fetch(`${queryBase}/ytw/tier/${id}`);
-    const tierResult = await tierResponse.json();
+    const tierResult = await fetch(`${queryBase}/ytw/tier/${id}`);
 
     if (tierResult.success) {
       tier = tierResult.tier;
@@ -304,10 +324,9 @@ CharacterTier.getInitialProps = async ({ query }) => {
   }
 
   if (ids) {
-    const response = await fetch(`${queryBase}/api/charactersByIds?ids=${ids}`);
-
-    const result = await response.json();
-
+    const result = await fetch(`${queryBase}/api/charactersByIds?ids=${ids}`);
+    // TODO this doesnt work...
+    console.log('RESULT', result);
     items = result.items;
     error = result.error;
   }

@@ -32,7 +32,14 @@ export async function getTier(req: Request, res: Response) {
   try {
     const tier = await Tier.findById(id);
 
-    res.status(200).json({ tier, success: true });
+    if (tier !== null) {
+      res.status(200).json({
+        success: true,
+        tier: tier.toJSON({ virtuals: true })
+      });
+    } else {
+      res.status(200).json({ error: 'Tier not found.', success: false });
+    }
   } catch (e) {
     const error = 'Failed to retreive tier';
 

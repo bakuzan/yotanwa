@@ -3,6 +3,11 @@
     display: flex;
     justify-content: space-between;
   }
+
+  &__delete {
+    background-color: var(--danger-colour);
+    color: var(--danger-contrast);
+  }
 }
 
 .save-block {
