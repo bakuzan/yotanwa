@@ -1,5 +1,4 @@
 import '../styles/search.scss';
-import fetch from 'node-fetch';
 import React from 'react';
 
 import { Button } from 'meiko/Button';
@@ -19,6 +18,7 @@ import getUserLinks from '../utils/getUserLinks';
 import generateTiers from '../utils/generateTiers';
 import storage from '../utils/storage';
 import processQuery from '../utils/processQuery';
+import fetchOnServer from '../utils/fetch';
 
 type SearchProps = {
   cookies: any;
@@ -44,11 +44,9 @@ async function fetchListItems(
   username: string,
   type: string
 ) {
-  const response = await fetch(
+  return await fetchOnServer(
     `${process.env.API_URL_BASE}/api/${source}?username=${username}&type=${type}`
   );
-
-  return await response.json();
 }
 
 export default class extends React.Component<SearchProps, SearchState> {

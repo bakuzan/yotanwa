@@ -2,11 +2,12 @@ import '../styles/characters.scss';
 import classNames from 'classnames';
 import React, { useReducer, useState } from 'react';
 import { DropResult, DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { useRouter } from 'next/router';
 
 import { Button } from 'meiko/Button';
 import Input from 'meiko/ClearableInput';
 import LoadingBouncer from 'meiko/LoadingBouncer';
-import fetch from 'meiko/utils/fetch';
+import fetchFromServer from 'meiko/utils/fetch';
 
 import { YTWCharacter } from '../interfaces/YTWCharacter';
 import { CharacterAssignmentModel } from '../interfaces/CharacterAssignmentModel';
@@ -16,10 +17,10 @@ import Tier from '@/components/Tier';
 import { YTWLink } from '@/components/YTWLink';
 
 import { Tiers } from '../consts';
+import { MovePayload } from '../interfaces/MovePayload';
 import move from '@/utils/dragAndDrop/move';
 import reorder from '@/utils/dragAndDrop/reorder';
-import { MovePayload } from '../interfaces/MovePayload';
-import { useRouter } from 'next/router';
+import fetchOnServer from '@/utils/fetch';
 
 const getListStyle = (isDraggingOver: boolean) => ({
   backgroundColor: isDraggingOver ? 'var(--alt-colour)' : ''
@@ -55,7 +56,7 @@ function init({ items, tier }): State {
       name: tier.name,
       items: characters.filter((c) =>
         characterState.some(
-          (s) => s.characterId === c.id && s.tier === 'Unassigned'
+          (s) => s.characterId === c.id && s.assignment === 'Unassigned'
         )
       ),
       tier: Tiers.reduce(
@@ -186,7 +187,7 @@ function CharacterTier({ items, tier, error }) {
       ]
     });
 
-    const result = await fetch(`/ytw/tier`, 'POST', body);
+    const result = await fetchFromServer(`/ytw/tier`, 'POST', body);
 
     if (result.success) {
       dispatch({ type: SAVED, value: result.id });
@@ -280,7 +281,10 @@ function CharacterTier({ items, tier, error }) {
           <Button
             className="character-tier__delete"
             onClick={async () => {
-              const response = await fetch(`/ytw/tier/${state.id}`, 'DELETE');
+              const response = await fetchFromServer(
+                `/ytw/tier/${state.id}`,
+                'DELETE'
+              );
               if (response.success) {
                 const url = `/characters`;
                 router.push(url, url);
@@ -311,7 +315,7 @@ CharacterTier.getInitialProps = async ({ query }) => {
     items = [];
 
   if (id) {
-    const tierResult = await fetch(`${queryBase}/ytw/tier/${id}`);
+    const tierResult = await fetchOnServer(`${queryBase}/ytw/tier/${id}`);
 
     if (tierResult.success) {
       tier = tierResult.tier;
@@ -324,7 +328,9 @@ CharacterTier.getInitialProps = async ({ query }) => {
   }
 
   if (ids) {
-    const result = await fetch(`${queryBase}/api/charactersByIds?ids=${ids}`);
+    const result = await fetchOnServer(
+      `${queryBase}/api/charactersByIds?ids=${ids}`
+    );
     // TODO this doesnt work...
     console.log('RESULT', result);
     items = result.items;

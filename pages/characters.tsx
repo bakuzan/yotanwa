@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { Button } from 'meiko/Button';
 import Input from 'meiko/ClearableInput';
 import Grid from 'meiko/Grid';
+import fetchFromServer from 'meiko/utils/fetch';
 
 import { YTWCharacter } from '@/interfaces/YTWCharacter';
 import { CharacterCard } from '@/components/CharacterCard';
@@ -32,8 +33,7 @@ export default function Characters() {
   useEffect(() => {
     async function searchForCharacter(term: string) {
       try {
-        const response = await fetch(`/ytw/characters?term=${term}`);
-        const result = await response.json();
+        const result = await fetchFromServer(`/ytw/characters?term=${term}`);
 
         setSearchResults(result.items);
       } catch (e) {

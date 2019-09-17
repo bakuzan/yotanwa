@@ -1,7 +1,6 @@
 import '../styles/index.scss';
 import * as React from 'react';
 import App from 'next/app';
-import fetch from 'node-fetch';
 
 import Helmet, { HelmetProps } from '../components/Helmet';
 import Themer from '../components/Themer';
@@ -19,8 +18,6 @@ type AppProps = {
 
 class MyApp extends App<AppProps> {
   static async getInitialProps({ Component, ctx }) {
-    global['fetch'] = fetch; // Adding fetch to node, the "Dirty Way"
-
     const { pathname, req, query } = ctx;
     const params = processQuery(query);
     const cookies = processCookies(req ? req.headers.cookie : '');
