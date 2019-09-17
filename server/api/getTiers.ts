@@ -33,9 +33,11 @@ export async function getTier(req: Request, res: Response) {
     const tier = await Tier.findById(id);
 
     if (tier !== null) {
+      const tt = tier.toJSON({ virtuals: true });
+      console.log(tt);
       res.status(200).json({
         success: true,
-        tier: tier.toJSON({ virtuals: true })
+        tier: tt
       });
     } else {
       res.status(200).json({ error: 'Tier not found.', success: false });

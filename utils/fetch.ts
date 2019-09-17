@@ -1,13 +1,18 @@
 import fetch from 'node-fetch';
 
 function setOptions(method: string, body: any) {
+  const bodyProps = !body
+    ? {}
+    : {
+        body: typeof body === 'string' ? body : JSON.stringify(body),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+
   return {
     method,
-    body: !!body ? JSON.stringify(body) : null,
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    }
+    ...bodyProps
   };
 }
 
@@ -20,8 +25,9 @@ export default async function fetchYTW(
 
   try {
     const response = await fetch(url, options);
+
     return await response.json();
   } catch (error) {
-    return { success: false, error };
+    return { success: false, error: error.message };
   }
 }

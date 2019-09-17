@@ -125,8 +125,8 @@ function CharacterTier({ items, tier, error }) {
     // TODO handler error
     return (
       <div className="page page--column">
-        <div>{error}</div>
-        <div>
+        <div style={{ padding: 10 }}>{error}</div>
+        <div style={{ padding: 10 }}>
           <YTWLink href="/characters">Return to character selection</YTWLink>
         </div>
       </div>
@@ -257,7 +257,7 @@ function CharacterTier({ items, tier, error }) {
             ))}
           </div>
           <div className="character-selection">
-            <Droppable droppableId="items">
+            <Droppable droppableId="items" direction="horizontal">
               {(provided, snapshot) => (
                 <ul
                   ref={provided.innerRef}
@@ -276,10 +276,10 @@ function CharacterTier({ items, tier, error }) {
           </div>
         </div>
       </DragDropContext>
-      <footer>
+      <footer className="character-tier-footer">
         {state.id && (
           <Button
-            className="character-tier__delete"
+            className="character-tier-footer__delete"
             onClick={async () => {
               const response = await fetchFromServer(
                 `/ytw/tier/${state.id}`,
@@ -331,10 +331,9 @@ CharacterTier.getInitialProps = async ({ query }) => {
     const result = await fetchOnServer(
       `${queryBase}/api/charactersByIds?ids=${ids}`
     );
-    // TODO this doesnt work...
-    console.log('RESULT', result);
-    items = result.items;
-    error = result.error;
+
+    items = result.items || [];
+    error = result.error || '';
   }
 
   return { items, tier, error };

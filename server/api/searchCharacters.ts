@@ -60,7 +60,7 @@ import { AnilistCharactersResponse } from '../../interfaces/AnilistCharactersRes
 
 const query = `
 query($search: String!) {
-  Page(page: 1, perPage: 10) {
+  Page(page: 1, perPage: 15) {
     characters(search: $search) {
       id
       name {
@@ -104,7 +104,6 @@ async function searchQuery(search: string) {
 }
 
 export default async function searchCharacters(req: Request, res: Response) {
-  console.log(req, res);
   const { term = '' } = req.query || {};
   const respond = (a: any) => res.status(200).json(a);
 

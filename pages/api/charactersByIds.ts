@@ -1,6 +1,9 @@
-import { AnilistCharactersResponse } from '@/interfaces/AnilistCharactersResponse';
-import { Request, Response } from 'express';
-import fetch from 'node-fetch';
+import { NextApiRequest, NextApiResponse } from 'next';
+import {
+  AnilistCharacter,
+  AnilistCharactersResponse
+} from '../../interfaces/AnilistCharactersResponse';
+import fetchOnServer from '../../utils/fetch';
 
 /* tslint:disable:object-literal-sort-keys */
 // const TEMP_DATA = [
@@ -51,29 +54,29 @@ async function search(ids: number[]) {
   //     }
   //   }
   // } as AnilistCharactersResponse;
-  const response = await fetch('https://graphql.anilist.co', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+  console.log('Query > ', body);
+  const response = await fetchOnServer(
+    'https://graphql.anilist.co',
+    'POST',
     body
-  });
+  );
 
-  return (await response.json()) as AnilistCharactersResponse;
+  return response as AnilistCharactersResponse;
 }
 
 export default async function searchCharactersById(
-  req: Request,
-  res: Response
+  req: NextApiRequest,
+  res: NextApiResponse
 ) {
   const { ids = '' } = req.query || {};
   const respond = (a: any) => res.status(200).json(a);
 
-  const characterIds = ids.split(',').map((x: string) => Number(x));
+  const idString = ids as string;
+  const characterIds = idString.split(',').map((x: string) => Number(x));
 
   if (!characterIds.length) {
     respond({ items: [], error: 'No characters provided.' });
-  } else if (characterIds.some((x) => isNaN(x))) {
+  } else if (characterIds.some((x: any) => isNaN(x))) {
     respond({ items: [], error: `Some character id's were invalid.` });
   }
 
@@ -87,7 +90,7 @@ export default async function searchCharactersById(
 
     const list = data.Page.characters;
     respond({
-      items: list.map((x) => ({
+      items: list.map((x: AnilistCharacter) => ({
         id: x.id,
         name: x.name.full,
         image: x.image.medium

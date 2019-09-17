@@ -1,10 +1,18 @@
-import { SearchTypes } from '@/consts';
-import { Request, Response } from 'express';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { SearchTypes } from '../consts';
+
+interface SearchQuery {
+  username?: string;
+  type?: SearchTypes;
+}
 
 export default function createHandler(fn: (user: string, type: string) => any) {
-  return async function handler(req: Request, res: Response) {
+  return async function handler(req: NextApiRequest, res: NextApiResponse) {
     const respond = (a: any) => res.status(200).json(a);
-    const { username: user, type = SearchTypes.ANIME } = req.query;
+    const {
+      username: user,
+      type = SearchTypes.ANIME
+    } = req.query as SearchQuery;
 
     if (!user) {
       respond({ error: 'Username is required.', items: [] });

@@ -5,7 +5,6 @@ import { Tier } from '../models/tier';
 export default async function saveTier(req: Request, res: Response) {
   const errors = [];
   const payload = req.body;
-  console.log(req);
 
   if (!payload.name || !payload.name.trim()) {
     errors.push('Tier name is required.');

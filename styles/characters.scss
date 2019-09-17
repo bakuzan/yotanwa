@@ -3,10 +3,20 @@
     display: flex;
     justify-content: space-between;
   }
+}
+.character-tier-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px;
+  margin: 10px 0;
 
-  &__delete {
+  &__delete.character-tier-footer__delete {
     background-color: var(--danger-colour);
     color: var(--danger-contrast);
+
+    &:hover {
+      background-color: var(--danger-colour-hovered);
+    }
   }
 }
 

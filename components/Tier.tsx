@@ -46,7 +46,7 @@ function Tier({ tier = '', scores, items, children, isDroppable }: TierProps) {
         {tier}
       </Tooltip>
       {isDroppable ? (
-        <Droppable droppableId={tier}>
+        <Droppable droppableId={tier} direction="horizontal">
           {(provided, snapshot) => (
             <ul
               ref={provided.innerRef}

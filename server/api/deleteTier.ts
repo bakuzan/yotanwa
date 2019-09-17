@@ -6,7 +6,7 @@ export default async function deleteTier(req: Request, res: Response) {
   const { id } = req.params;
 
   try {
-    const deleted = await Tier.findOneAndRemove(id);
+    const deleted = await Tier.findOneAndDelete({ id });
     const message = deleted ? `Deleted ${deleted.name}` : `Tier not found.`;
 
     res.status(200).json({ message, success: true });
