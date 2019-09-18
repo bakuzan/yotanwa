@@ -20,11 +20,18 @@ export default async function saveTier(req: Request, res: Response) {
   }
 
   try {
-    const t = new Tier(payload);
-    console.log('Tier >> ', t);
-    const { id } = await t.save();
+    let itemId = null;
 
-    res.status(200).json({ id, success: true });
+    // Update or Create
+    if (payload.id) {
+      await Tier.findByIdAndUpdate(payload.id, payload);
+    } else {
+      const t = new Tier(payload);
+      const { id } = await t.save();
+      itemId = id;
+    }
+
+    res.status(200).json({ id: itemId, success: true });
   } catch (e) {
     const error = `${e.message ? e.message : 'Failed to save tier'}.`;
 

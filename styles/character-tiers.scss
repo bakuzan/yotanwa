@@ -1,0 +1,24 @@
+.count {
+  font-size: 0.8rem;
+}
+
+.tiers-list {
+  &__grid.tiers-list__grid {
+    grid-gap: 2px;
+    margin: 15px 0;
+  }
+
+  &__item {
+    padding: 5px 0;
+  }
+}
+
+.paging {
+  display: flex;
+  padding: 5px;
+  margin: 15px 0;
+
+  &__link {
+    margin: 0 5px;
+  }
+}

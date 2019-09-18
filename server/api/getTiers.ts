@@ -3,20 +3,26 @@ import { Request, Response } from 'express';
 import { Tier } from '../models/tier';
 
 export async function getTiers(req: Request, res: Response) {
-  const { page = 0, perPage = 10 } = req.query;
-
-  // TODO
-  // Validate query, put upper limit on page size
+  const { page = 1, perPage = 10 } = req.query;
+  const index = page - 1;
+  const pageSize = Math.min(perPage, 25);
+  const skipping = index * pageSize;
 
   try {
     const total = await Tier.count({});
 
     const items = await Tier.find()
+      .select({ id: 1, name: 1 })
       .sort({ name: 'asc' })
-      .skip(page * perPage)
-      .limit(perPage);
+      .skip(skipping)
+      .limit(pageSize);
 
-    res.status(200).json({ items, success: true, total });
+    const hasPrevPage = index !== 0;
+    const hasNextPage = skipping + pageSize <= total;
+
+    res
+      .status(200)
+      .json({ hasPrevPage, hasNextPage, items, success: true, total });
   } catch (e) {
     const error = 'Failed to retreive tier';
 
@@ -33,8 +39,8 @@ export async function getTier(req: Request, res: Response) {
     const tier = await Tier.findById(id);
 
     if (tier !== null) {
-      const tt = tier.toJSON({ virtuals: true });
-      console.log(tt);
+      const tt = tier.toJSON();
+
       res.status(200).json({
         success: true,
         tier: tt

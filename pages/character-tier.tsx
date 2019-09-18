@@ -14,7 +14,7 @@ import { CharacterAssignmentModel } from '../interfaces/CharacterAssignmentModel
 import { CharacterCardDraggable } from '@/components/CharacterCard';
 import CharacterList from '@/components/CharacterList';
 import Tier from '@/components/Tier';
-import { YTWLink } from '@/components/YTWLink';
+import ErrorInPage from '@/components/ErrorInPage';
 
 import { Tiers } from '../consts';
 import { MovePayload } from '../interfaces/MovePayload';
@@ -120,17 +120,9 @@ function CharacterTier({ items, tier, error }) {
     { items, tier },
     init
   );
-
+  console.log('STEA', state);
   if (error) {
-    // TODO handler error
-    return (
-      <div className="page page--column">
-        <div style={{ padding: 10 }}>{error}</div>
-        <div style={{ padding: 10 }}>
-          <YTWLink href="/characters">Return to character selection</YTWLink>
-        </div>
-      </div>
-    );
+    return <ErrorInPage error={error} />;
   }
 
   function onDragEnd(result: DropResult): void {
@@ -169,7 +161,7 @@ function CharacterTier({ items, tier, error }) {
   async function onSave() {
     dispatch({ type: LOADING });
 
-    const body = JSON.stringify({
+    const result = await fetchFromServer(`/ytw/tier`, 'POST', {
       id: state.id,
       name: state.name,
       characterState: [
@@ -187,8 +179,6 @@ function CharacterTier({ items, tier, error }) {
       ]
     });
 
-    const result = await fetchFromServer(`/ytw/tier`, 'POST', body);
-
     if (result.success) {
       dispatch({ type: SAVED, value: result.id });
 
@@ -202,11 +192,7 @@ function CharacterTier({ items, tier, error }) {
 
     dispatch({ type: LOADING });
   }
-  console.groupCollapsed('RENDER > ');
-  console.log('state > ', state);
-  console.log('tier > ', tier);
-  console.log('items > ', items);
-  console.groupEnd();
+
   return (
     <section className="page page--column character-tier">
       <header className="character-tier__header">

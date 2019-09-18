@@ -8,16 +8,17 @@ import Link from 'next/link';
 interface LinkProps {
   className?: string;
   href: string;
+  as?: string;
   nav?: boolean;
   children?: ReactNode;
 }
 
-function YTWLink({ className, href, nav, children, ...props }: LinkProps) {
+function YTWLink({ className, href, as, nav, children, ...props }: LinkProps) {
   const router = useRouter();
   const isActive = router.route === href;
 
   return (
-    <Link href={href}>
+    <Link href={href} as={as}>
       <a
         {...props}
         className={classNames(

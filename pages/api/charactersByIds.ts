@@ -5,22 +5,6 @@ import {
 } from '../../interfaces/AnilistCharactersResponse';
 import fetchOnServer from '../../utils/fetch';
 
-/* tslint:disable:object-literal-sort-keys */
-// const TEMP_DATA = [
-//   {
-//     id: 14076,
-//     name: 'Meiko',
-//     image:
-//       'https://s4.anilist.co/file/anilistcdn/character/medium/n14076-8v6IggCSPTmw.jpg'
-//   },
-//   {
-//     id: 40592,
-//     name: 'Meiko Honma',
-//     image:
-//       'https://s4.anilist.co/file/anilistcdn/character/medium/b40592-UxJe0T0HyczW.jpg'
-//   }
-// ];
-
 const query = `
 query($ids: [Int]) {
     Page {
@@ -41,20 +25,7 @@ async function search(ids: number[]) {
     query,
     variables: { ids }
   });
-  // TODO - restore actual call
-  // console.log('Fake search with ', ids);
-  // return {
-  //   data: {
-  //     Page: {
-  //       characters: TEMP_DATA.map((x) => ({
-  //         id: x.id,
-  //         name: { full: x.name },
-  //         image: { medium: x.image }
-  //       }))
-  //     }
-  //   }
-  // } as AnilistCharactersResponse;
-  console.log('Query > ', body);
+
   const response = await fetchOnServer(
     'https://graphql.anilist.co',
     'POST',
