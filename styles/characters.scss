@@ -3,6 +3,9 @@
     display: flex;
     justify-content: space-between;
   }
+  &__title {
+    display: flex;
+  }
 }
 .character-tier-footer {
   display: flex;

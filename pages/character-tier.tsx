@@ -15,12 +15,14 @@ import { CharacterCardDraggable } from '@/components/CharacterCard';
 import CharacterList from '@/components/CharacterList';
 import Tier from '@/components/Tier';
 import ErrorInPage from '@/components/ErrorInPage';
+import CopyToClipboard from '@/components/CopyToClipboard';
 
 import { Tiers } from '../consts';
 import { MovePayload } from '../interfaces/MovePayload';
 import move from '@/utils/dragAndDrop/move';
 import reorder from '@/utils/dragAndDrop/reorder';
 import fetchOnServer from '@/utils/fetch';
+import isClient from '@/utils/isClient';
 
 const getListStyle = (isDraggingOver: boolean) => ({
   backgroundColor: isDraggingOver ? 'var(--alt-colour)' : ''
@@ -120,7 +122,7 @@ function CharacterTier({ items, tier, error }) {
     { items, tier },
     init
   );
-  console.log('STEA', state);
+
   if (error) {
     return <ErrorInPage error={error} />;
   }
@@ -196,7 +198,17 @@ function CharacterTier({ items, tier, error }) {
   return (
     <section className="page page--column character-tier">
       <header className="character-tier__header">
-        <h1 className="character-tier__title">Character Tier</h1>
+        <h1 className="character-tier__title">
+          Character Tier{' '}
+          <div>
+            {state.id && (
+              <CopyToClipboard
+                name="tier link"
+                text={isClient() ? window.location.href : ''}
+              />
+            )}
+          </div>
+        </h1>
         <div className="save-block">
           {state.isLoading && <LoadingBouncer />}
           {!state.isLoading && <div className="feedback">{feedback}</div>}
@@ -209,6 +221,7 @@ function CharacterTier({ items, tier, error }) {
           </Button>
         </div>
       </header>
+
       <div>
         <Input
           id="name"

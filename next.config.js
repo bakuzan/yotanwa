@@ -20,7 +20,9 @@ const withSetup = (cfg) =>
 module.exports = withSetup({
   distDir: 'dist',
   env: {
-    API_URL_BASE: isProd ? '' : `http://localhost:${process.env.PORT}`
+    API_URL_BASE: isProd
+      ? 'https://yotanwa.herokuapp.com/'
+      : `http://localhost:${process.env.PORT}`
   },
   postcssLoaderOptions: { parser: 'postcss-scss', autoprefixer: true },
   webpack: (webpackConfig) => {

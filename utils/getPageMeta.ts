@@ -20,6 +20,12 @@ export default function getPageMeta(path: string, params: any) {
       description: 'Place the pre-selected characters into a tier.',
       title: 'Character tier | Tier List Generator'
     };
+  } else if (path.includes('/character-tiers')) {
+    const { page = 1 } = params;
+    return {
+      description: `Page ${page} of created character tiers.`,
+      title: `Character tiers, Page ${page} | Tier List Generator`
+    };
   }
 
   return { description: '', title: '' };

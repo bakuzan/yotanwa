@@ -73,6 +73,12 @@ main {
   padding: 0 5px;
 }
 
+input,
+select {
+  background: inherit;
+  color: inherit;
+}
+
 /* Header */
 .app-header {
   display: flex;

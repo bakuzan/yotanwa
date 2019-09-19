@@ -1,0 +1,22 @@
+.copy-to-clipboard {
+  position: relative;
+
+  &__message {
+    position: absolute;
+    left: 45px;
+    top: 50%;
+    padding: 5px;
+    background-color: var(--alt-colour);
+    font-size: 0.6rem;
+    transform: translateY(-50%);
+  }
+
+  &__button {
+    flex: unset;
+    margin: 0;
+
+    &::before {
+      font-size: 0.8rem !important;
+    }
+  }
+}

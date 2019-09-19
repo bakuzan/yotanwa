@@ -173,7 +173,7 @@ export default class extends React.Component<SearchProps, SearchState> {
                         key={k}
                         id={`${uid}-rank`}
                         name={k}
-                        label={`${k}`}
+                        text={`${k}`}
                         value={v}
                         onChange={this.handleCustomTierChange}
                       >
