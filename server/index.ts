@@ -4,6 +4,7 @@ config();
 import express from 'express';
 import mongoose from 'mongoose';
 import next from 'next';
+import path from 'path';
 
 import apiRoutes from './api';
 
@@ -28,6 +29,14 @@ app
     });
   })
   .then(() => {
+    const serviceWorkerPathname = '/service-worker.js';
+
+    server.use(serviceWorkerPathname, (req, res) => {
+      const filePath = path.join(__dirname, '.next', serviceWorkerPathname);
+
+      app.serveStatic(req, res, filePath);
+    });
+
     server.use('/ytw', apiRoutes);
     server.get('*', (req, res) => handle(req, res));
 
