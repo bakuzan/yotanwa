@@ -75,7 +75,7 @@ export default class extends React.Component<SearchProps, SearchState> {
     return { items, error, username, source, type, links };
   }
 
-  handleCustomTierChange(event: Event) {
+  handleCustomTierChange(event: React.FormEvent<HTMLSelectElement>) {
     const { name, value } = event.target as HTMLSelectElement;
     this.setState((p) => ({
       tierDistribution: p.tierDistribution.set(Number(name), value)
@@ -172,7 +172,7 @@ export default class extends React.Component<SearchProps, SearchState> {
                       <SelectBox
                         key={k}
                         id={`${uid}-rank`}
-                        name={k}
+                        name={`${k}`}
                         text={`${k}`}
                         value={v}
                         onChange={this.handleCustomTierChange}

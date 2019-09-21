@@ -46,9 +46,9 @@ export default async function searchCharactersById(
   const characterIds = idString.split(',').map((x: string) => Number(x));
 
   if (!characterIds.length) {
-    respond({ items: [], error: 'No characters provided.' });
+    respond({ error: 'No characters provided.', items: [] });
   } else if (characterIds.some((x: any) => isNaN(x))) {
-    respond({ items: [], error: `Some character id's were invalid.` });
+    respond({ error: `Some character id's were invalid.`, items: [] });
   }
 
   try {
@@ -56,23 +56,23 @@ export default async function searchCharactersById(
 
     if (errors && errors.length) {
       const error = errors[0].message;
-      respond({ items: [], error });
+      respond({ error, items: [] });
     }
 
     const list = data.Page.characters;
     respond({
+      error: null,
       items: list.map((x: AnilistCharacter) => ({
         id: x.id,
-        name: x.name.full,
-        image: x.image.medium
-      })),
-      error: null
+        image: x.image.medium,
+        name: x.name.full
+      }))
     });
   } catch (error) {
     console.error(error);
     respond({
-      items: [],
-      error: `Something went wrong and your request could not be completed.`
+      error: `Something went wrong and your request could not be completed.`,
+      items: []
     });
   }
 }

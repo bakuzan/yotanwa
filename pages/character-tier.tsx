@@ -11,9 +11,9 @@ import fetchFromServer from 'meiko/utils/fetch';
 
 import { YTWCharacter } from '../interfaces/YTWCharacter';
 import { CharacterAssignmentModel } from '../interfaces/CharacterAssignmentModel';
-import { CharacterCardDraggable } from '@/components/CharacterCard';
-import CharacterList from '@/components/CharacterList';
 import Tier from '@/components/Tier';
+import CharacterList from '@/components/CharacterList';
+import { CharacterCardDraggable } from '@/components/CharacterCard';
 import ErrorInPage from '@/components/ErrorInPage';
 import CopyToClipboard from '@/components/CopyToClipboard';
 
@@ -228,7 +228,7 @@ function CharacterTier({ items, tier, error }) {
           name="name"
           label="Tier name"
           value={state.name}
-          onChange={(e: Event) => {
+          onChange={(e: React.FormEvent<HTMLInputElement>) => {
             const t = e.target as HTMLInputElement;
             dispatch({ type: UPDATE_NAME, value: t.value });
           }}

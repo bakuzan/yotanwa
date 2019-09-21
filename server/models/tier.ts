@@ -21,10 +21,10 @@ export const TierSchema: Schema = new Schema(
   {
     id: true,
     timestamps: true,
-    toObject: { virtuals: true },
     toJSON: {
       virtuals: true
-    }
+    },
+    toObject: { virtuals: true }
   }
 );
 

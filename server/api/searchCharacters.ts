@@ -4,7 +4,7 @@ import { AnilistCharactersResponse } from '../../interfaces/AnilistCharactersRes
 
 const query = `
 query($search: String!) {
-  Page(page: 1, perPage: 15) {
+  Page(page: 1, perPage: ${process.env.CHARACTER_SEARCH_LIMIT}) {
     characters(search: $search) {
       id
       name {
@@ -25,11 +25,11 @@ async function searchQuery(search: string) {
   });
 
   const response = await fetch('https://graphql.anilist.co', {
-    method: 'POST',
+    body,
     headers: {
       'Content-Type': 'application/json'
     },
-    body
+    method: 'POST'
   });
 
   return (await response.json()) as AnilistCharactersResponse;
@@ -40,7 +40,7 @@ export default async function searchCharacters(req: Request, res: Response) {
   const respond = (a: any) => res.status(200).json(a);
 
   if (!term) {
-    return respond({ items: [], error: 'A search term is required.' });
+    return respond({ error: 'A search term is required.', items: [] });
   }
 
   try {
@@ -48,24 +48,24 @@ export default async function searchCharacters(req: Request, res: Response) {
 
     if (errors && errors.length) {
       const error = errors[0].message;
-      return respond({ items: [], error, success: false });
+      return respond({ error, items: [], success: false });
     }
 
     const list = data.Page.characters;
     respond({
+      error: null,
       items: list.map((x) => ({
         id: x.id,
-        name: x.name.full,
-        image: x.image.medium
+        image: x.image.medium,
+        name: x.name.full
       })),
-      error: null,
       success: true
     });
   } catch (error) {
     console.error(error);
     respond({
-      items: [],
       error: `Something went wrong and your request could not be completed.`,
+      items: [],
       success: false
     });
   }

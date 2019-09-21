@@ -68,7 +68,7 @@ export default function Characters() {
             name="search"
             label="search"
             value={searchString}
-            onChange={(e: Event) => {
+            onChange={(e: React.FormEvent<HTMLInputElement>) => {
               const t = e.target as HTMLInputElement;
               setSearchString(t.value);
             }}
