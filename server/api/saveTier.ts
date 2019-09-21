@@ -20,7 +20,7 @@ export default async function saveTier(req: Request, res: Response) {
   }
 
   try {
-    let itemId = null;
+    let itemId = payload.id || null;
 
     // Update or Create
     if (payload.id) {
