@@ -21,7 +21,7 @@ module.exports = withSetup({
   distDir: 'dist',
   env: {
     API_URL_BASE: isProd
-      ? 'https://yotanwa.herokuapp.com/'
+      ? 'https://yotanwa.herokuapp.com'
       : `http://localhost:${process.env.PORT}`
   },
   postcssLoaderOptions: { parser: 'postcss-scss', autoprefixer: true },
