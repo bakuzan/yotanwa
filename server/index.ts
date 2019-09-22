@@ -32,7 +32,9 @@ app
     const serviceWorkerPathname = '/service-worker.js';
 
     server.use(serviceWorkerPathname, (req, res) => {
-      const filePath = path.join(__dirname, serviceWorkerPathname);
+      const filePath = path.resolve(
+        path.join(__dirname, '../', serviceWorkerPathname)
+      );
 
       app.serveStatic(req, res, filePath);
     });

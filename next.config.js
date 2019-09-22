@@ -24,6 +24,7 @@ module.exports = withSetup({
       ? 'https://yotanwa.herokuapp.com'
       : `http://localhost:${process.env.PORT}`
   },
+  generateInDevMode: false, // next-offline: for service work
   postcssLoaderOptions: { parser: 'postcss-scss', autoprefixer: true },
   webpack: (webpackConfig) => {
     // Fixes npm packages
