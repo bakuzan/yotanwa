@@ -1,17 +1,19 @@
 import { Request, Response } from 'express';
 import fetch from 'node-fetch';
-import { AnilistCharacter } from '../../interfaces/AnilistCharacter';
+import { AnilistMedia } from '../../interfaces/AnilistMedia';
 import { AnilistResponse } from '../../interfaces/AnilistResponse';
 
 const query = `
 query($search: String!) {
   Page(page: 1, perPage: ${process.env.CHARACTER_SEARCH_LIMIT}) {
-    characters(search: $search) {
+    media(search: $search) {
       id
-      name {
-        full
+      type
+      title {
+        romanji
+        english
       }
-      image {
+      coverImage {
         medium
       }
     }
@@ -33,10 +35,10 @@ async function searchQuery(search: string) {
     method: 'POST'
   });
 
-  return (await response.json()) as AnilistResponse<AnilistCharacter>;
+  return (await response.json()) as AnilistResponse<AnilistMedia>;
 }
 
-export default async function searchCharacters(req: Request, res: Response) {
+export default async function searchSeries(req: Request, res: Response) {
   const { term = '' } = req.query || {};
   const respond = (a: any) => res.status(200).json(a);
 
@@ -52,14 +54,9 @@ export default async function searchCharacters(req: Request, res: Response) {
       return respond({ error, items: [], success: false });
     }
 
-    const list = data.Page.characters;
     respond({
       error: null,
-      items: list.map((x) => ({
-        id: x.id,
-        image: x.image.medium,
-        name: x.name.full
-      })),
+      items: data.Page.media,
       success: true
     });
   } catch (error) {

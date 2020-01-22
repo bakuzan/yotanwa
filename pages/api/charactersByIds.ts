@@ -1,8 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import {
-  AnilistCharacter,
-  AnilistCharactersResponse
-} from '../../interfaces/AnilistCharactersResponse';
+import { AnilistCharacter } from '../../interfaces/AnilistCharacter';
+import { AnilistResponse } from '../../interfaces/AnilistResponse';
 import fetchOnServer from '../../utils/fetch';
 
 const query = `
@@ -32,7 +30,7 @@ async function search(ids: number[]) {
     body
   );
 
-  return response as AnilistCharactersResponse;
+  return response as AnilistResponse<AnilistCharacter>;
 }
 
 export default async function searchCharactersById(
