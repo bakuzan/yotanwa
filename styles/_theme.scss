@@ -41,3 +41,26 @@
     bottom: 0;
   }
 }
+
+// Tabs
+.tabs__panels.tabs__panels {
+  border-top: 1px solid var(--primary-colour);
+}
+
+.tab-control.tab-control:not(.tab-control--active) {
+  &:not(:hover),
+  .tab-control__button:not(:hover) {
+    background-color: var(--faded-out);
+    color: var(--faded-out-contrast);
+    border-color: var(--faded-out);
+    border-bottom: none;
+  }
+}
+
+.tab-control--active.tab-control--active,
+.tab-control.tab-control:hover {
+  border: {
+    color: var(--primary-colour);
+    bottom-color: var(--base-background);
+  }
+}

@@ -2,7 +2,7 @@ export interface AnilistMedia {
   id: number;
   type: string;
   title: {
-    romanji: string;
+    romaji: string;
     english: string;
   };
   coverImage: {

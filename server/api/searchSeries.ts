@@ -10,7 +10,7 @@ query($search: String!) {
       id
       type
       title {
-        romanji
+        romaji
         english
       }
       coverImage {

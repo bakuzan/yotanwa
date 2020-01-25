@@ -48,9 +48,13 @@
 
 .grids-container {
   display: flex;
+
+  > * {
+    margin: 0 4px;
+  }
 }
 
-.search-results,
+.search-results.search-results,
 .search-selection,
 .tiers {
   width: 50vw;
@@ -66,7 +70,7 @@
   width: 25vw;
 }
 
-.characters {
+.card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, 96px); // img width
   grid-gap: 1px;
@@ -75,7 +79,7 @@
   margin: 0 !important;
   list-style-type: none;
 
-  &.characters--no-items {
+  &.card-grid--no-items {
     display: flex;
     min-height: var(--image-height);
   }
