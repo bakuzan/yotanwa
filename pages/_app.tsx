@@ -1,6 +1,6 @@
 import '../styles/index.scss';
 import * as React from 'react';
-import App from 'next/app';
+import App, { AppContext } from 'next/app';
 
 import Helmet, { HelmetProps } from '../components/Helmet';
 import Themer from '../components/Themer';
@@ -17,7 +17,7 @@ type AppProps = {
 };
 
 class MyApp extends App<AppProps> {
-  static async getInitialProps({ Component, ctx }) {
+  static async getInitialProps({ Component, ctx }: AppContext) {
     const { pathname, req, query } = ctx;
     const params = processQuery(query);
     const cookies = processCookies(req ? req.headers.cookie : '');

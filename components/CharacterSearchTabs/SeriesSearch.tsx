@@ -7,12 +7,14 @@ import fetchFromServer from 'meiko/utils/fetch';
 
 import { useDebounce } from 'meiko/hooks/useDebounce';
 import { usePrevious } from 'meiko/hooks/usePrevious';
+import { useProgressiveLoading } from 'meiko/hooks/useProgressiveLoading';
 
+import MediaCard from '../MediaCard';
 import { YTWCharacter } from '@/interfaces/YTWCharacter';
 import { CharacterCard } from '@/components/CharacterCard';
 import { AnilistMedia } from '@/interfaces/AnilistMedia';
+import distinct from '../../utils/distinct';
 
-import MediaCard from '../MediaCard';
 import {
   SearchProps,
   SearchState,
@@ -23,6 +25,8 @@ import {
 import './SearchTabs.scss';
 
 interface SeriesSearchState extends SearchState {
+  loading: boolean;
+  page: number;
   selectedSeries: AnilistMedia | null;
   searchString: string;
   seriesResults: AnilistMedia[];
@@ -37,18 +41,48 @@ type SeriesSearchAction =
   | {
       type: SearchTabAction.LoadSeries;
       item: AnilistMedia | null;
-    };
+    }
+  | { type: SearchTabAction.NextPage };
 
 function reducer(state: SeriesSearchState, action: SeriesSearchAction) {
+  console.log(
+    '%c Reduce > ',
+    'color: magenta; font-size: 18px;',
+    state,
+    action
+  );
   switch (action.type) {
     case SearchTabAction.UpdateSearchString:
       return { ...state, searchString: action.value };
 
-    case SearchTabAction.LoadResults:
-      return { ...state, results: action.items };
+    case SearchTabAction.NextPage: {
+      if (state.page < 0) {
+        return state;
+      }
+
+      return { ...state, loading: true, page: state.page + 1 };
+    }
+
+    case SearchTabAction.LoadResults: {
+      const count = action.items.length;
+      const page = count < 20 ? -1 : state.page;
+
+      return {
+        ...state,
+        loading: false,
+        page,
+        results:
+          state.page === 1
+            ? action.items
+            : distinct(
+                [...state.results, ...action.items],
+                (a, b) => a.id === b.id
+              )
+      };
+    }
 
     case SearchTabAction.LoadSeries:
-      return { ...state, results: [], selectedSeries: action.item };
+      return { ...state, page: 1, results: [], selectedSeries: action.item };
 
     case SearchTabAction.LoadSeriesResults:
       return { ...state, seriesResults: action.items };
@@ -60,6 +94,8 @@ function reducer(state: SeriesSearchState, action: SeriesSearchAction) {
 
 export default function SeriesSearch(props: SearchProps) {
   const [state, dispatch] = useReducer(reducer, {
+    loading: false,
+    page: 1,
     results: [],
     searchString: '',
     selectedSeries: null,
@@ -96,17 +132,33 @@ export default function SeriesSearch(props: SearchProps) {
   }, [prevSearchTerm, debouncedSearchTerm]);
 
   useEffect(() => {
-    async function fetchSeriesCharacters() {
-      // TODO
-      // Remember to make character list progressive load new pages.
-      console.log(' Fetch page for series characters no implemented yet!');
+    async function fetchSeriesCharacters(seriesId: number, page: number) {
+      try {
+        const result = await fetchFromServer(
+          `/ytw/seriescharacters/${seriesId}?page=${page}`
+        );
+
+        dispatch({
+          type: SearchTabAction.LoadResults,
+          items: result.items,
+          page
+        });
+      } catch (e) {
+        // TODO handle this
+      }
     }
 
-    if (selectedSeries) {
-      fetchSeriesCharacters();
+    if (selectedSeries && state.page > 0) {
+      fetchSeriesCharacters(selectedSeries.id, state.page);
     }
-  }, [selectedSeries]);
+  }, [selectedSeries, state.page]);
 
+  const ref = useProgressiveLoading<HTMLUListElement>(() => {
+    if (!state.loading) {
+      dispatch({ type: SearchTabAction.NextPage });
+    }
+  });
+  console.log('RENDER', state, ref);
   return (
     <div className="search-panel">
       {selectedSeries == null ? (
@@ -164,6 +216,7 @@ export default function SeriesSearch(props: SearchProps) {
           />
 
           <Grid
+            ref={ref}
             className={classNames('card-grid', 'card-grid--no-border')}
             uniformRows
             noItemsText={false}

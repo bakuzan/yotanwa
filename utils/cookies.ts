@@ -21,10 +21,10 @@ export default {
   setItem(
     sKey: string,
     sValue: string,
-    vEnd: any,
-    sPath: string,
-    sDomain: string,
-    bSecure: boolean
+    vEnd?: any,
+    sPath?: string,
+    sDomain?: string,
+    bSecure?: boolean
   ) {
     if (!sKey || /^(?:expires|max\-age|path|domain|secure)$/i.test(sKey)) {
       return false;

@@ -11,8 +11,8 @@ import Image from './Image';
 
 import { width, height } from '../consts/imageSize';
 
-type CharacterCardProps = HTMLAttributes<HTMLLIElement> & {
-  label: string;
+type CharacterCardProps = Omit<HTMLAttributes<HTMLLIElement>, 'onClick'> & {
+  label?: string;
   data: YTWCharacter;
   onClick?: (c: YTWCharacter) => void;
 };
@@ -26,7 +26,7 @@ const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
 
 const CharacterCardBase = React.forwardRef<HTMLLIElement, CharacterCardProps>(
   function CharacterCardBase({ label, data, onClick, ...props }, ref) {
-    const clickHandler = onClick ? () => onClick(data) : null;
+    const clickHandler = onClick ? () => onClick(data) : undefined;
     const ActionItem = clickHandler ? Button : 'div';
 
     return (
@@ -44,6 +44,7 @@ const CharacterCardBase = React.forwardRef<HTMLLIElement, CharacterCardProps>(
               alt={data.name}
               width={width}
               height={height}
+              isLazy
             />
           </ActionItem>
         </Tooltip>
@@ -61,7 +62,7 @@ export function CharacterCardDraggable({
   ...props
 }: CharacterCardProps & { index: number }) {
   return (
-    <Draggable draggableId={props.data.id} index={index}>
+    <Draggable draggableId={`${props.data.id}`} index={index}>
       {(providedDraggable, snapshotDraggable) => (
         <CharacterCardBase
           {...props}

@@ -1,7 +1,9 @@
 import { Request, Response } from 'express';
 import fetch from 'node-fetch';
 import { AnilistCharacter } from '../../interfaces/AnilistCharacter';
-import { AnilistResponse } from '../../interfaces/AnilistResponse';
+import { AnilistPagedResponse } from '../../interfaces/AnilistResponse';
+import { SearchResponse } from '../../interfaces/ApiResponse';
+import { YTWCharacter } from '../../interfaces/YTWCharacter';
 
 const query = `
 query($search: String!) {
@@ -33,15 +35,19 @@ async function searchQuery(search: string) {
     method: 'POST'
   });
 
-  return (await response.json()) as AnilistResponse<AnilistCharacter>;
+  return (await response.json()) as AnilistPagedResponse<AnilistCharacter>;
 }
 
 export default async function searchCharacters(req: Request, res: Response) {
   const { term = '' } = req.query || {};
-  const respond = (a: any) => res.status(200).json(a);
+  const respond = (a: SearchResponse<YTWCharacter>) => res.status(200).json(a);
 
   if (!term) {
-    return respond({ error: 'A search term is required.', items: [] });
+    return respond({
+      error: 'A search term is required.',
+      items: [],
+      success: false
+    });
   }
 
   try {
@@ -54,7 +60,6 @@ export default async function searchCharacters(req: Request, res: Response) {
 
     const list = data.Page.characters;
     respond({
-      error: null,
       items: list.map((x) => ({
         id: x.id,
         image: x.image.medium,

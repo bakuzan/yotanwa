@@ -14,7 +14,8 @@ export enum SearchTabAction {
   UpdateSearchString,
   LoadResults,
   LoadSeriesResults,
-  LoadSeries
+  LoadSeries,
+  NextPage
 }
 
 export type SearchAction =
@@ -25,4 +26,5 @@ export type SearchAction =
   | {
       type: SearchTabAction.LoadResults;
       items: YTWCharacter[];
+      page?: number;
     };

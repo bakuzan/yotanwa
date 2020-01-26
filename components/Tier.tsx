@@ -4,9 +4,11 @@ import classNames from 'classnames';
 import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 
-import CharacterList from './CharacterList';
 import Grid from 'meiko/Grid';
 import Tooltip from 'meiko/Tooltip';
+
+import CharacterList from './CharacterList';
+import { YTWCharacter } from '@/interfaces/YTWCharacter';
 
 type TierItem = {
   id: string | number;
@@ -16,7 +18,7 @@ type TierItem = {
 type TierProps = {
   tier?: string;
   scores: number[];
-  items: TierItem[];
+  items: YTWCharacter[];
   children: (props: any) => any;
   isDroppable?: boolean;
 };

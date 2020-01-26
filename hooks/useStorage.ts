@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
+import { YTWStorage } from '@/consts/defaultUserOptions';
 import storage from '../utils/storage';
 
-export function useStorage(key: string) {
+export function useStorage(key: keyof YTWStorage) {
   const setting = storage.get(key);
   const [value, setState] = useState(setting);
 

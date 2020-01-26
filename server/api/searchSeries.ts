@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import fetch from 'node-fetch';
 import { AnilistMedia } from '../../interfaces/AnilistMedia';
-import { AnilistResponse } from '../../interfaces/AnilistResponse';
+import { AnilistPagedResponse } from '../../interfaces/AnilistResponse';
+import { SearchResponse } from '../../interfaces/ApiResponse';
 
 const query = `
 query($search: String!) {
@@ -35,15 +36,19 @@ async function searchQuery(search: string) {
     method: 'POST'
   });
 
-  return (await response.json()) as AnilistResponse<AnilistMedia>;
+  return (await response.json()) as AnilistPagedResponse<AnilistMedia>;
 }
 
 export default async function searchSeries(req: Request, res: Response) {
   const { term = '' } = req.query || {};
-  const respond = (a: any) => res.status(200).json(a);
+  const respond = (a: SearchResponse<AnilistMedia>) => res.status(200).json(a);
 
   if (!term) {
-    return respond({ error: 'A search term is required.', items: [] });
+    return respond({
+      error: 'A search term is required.',
+      items: [],
+      success: false
+    });
   }
 
   try {
@@ -55,7 +60,6 @@ export default async function searchSeries(req: Request, res: Response) {
     }
 
     respond({
-      error: null,
       items: data.Page.media,
       success: true
     });

@@ -9,8 +9,6 @@ import Input from 'meiko/ClearableInput';
 import LoadingBouncer from 'meiko/LoadingBouncer';
 import fetchFromServer from 'meiko/utils/fetch';
 
-import { YTWCharacter } from '../interfaces/YTWCharacter';
-import { CharacterAssignmentModel } from '../interfaces/CharacterAssignmentModel';
 import Tier from '@/components/Tier';
 import CharacterList from '@/components/CharacterList';
 import { CharacterCardDraggable } from '@/components/CharacterCard';
@@ -18,11 +16,15 @@ import ErrorInPage from '@/components/ErrorInPage';
 import CopyToClipboard from '@/components/CopyToClipboard';
 
 import { Tiers } from '../consts';
+import { TierModel } from '../interfaces/TierModel';
+import { YTWCharacter } from '../interfaces/YTWCharacter';
+import { CharacterAssignmentModel } from '../interfaces/CharacterAssignmentModel';
 import { MovePayload } from '../interfaces/MovePayload';
 import move from '@/utils/dragAndDrop/move';
 import reorder from '@/utils/dragAndDrop/reorder';
 import fetchOnServer from '@/utils/fetch';
 import isClient from '@/utils/isClient';
+import { NextPageContext } from 'next';
 
 const getListStyle = (isDraggingOver: boolean) => ({
   backgroundColor: isDraggingOver ? 'var(--alt-colour)' : ''
@@ -33,7 +35,13 @@ function getList(state: State, key: string) {
     return state.items;
   }
 
-  return state.tier.get(key);
+  return state.tier.get(key) || [];
+}
+
+interface Props {
+  error?: string;
+  items: YTWCharacter[];
+  tier?: TierModel;
 }
 
 type Action = { type: string; [key: string]: any };
@@ -46,7 +54,7 @@ interface State {
   tier: Map<string, YTWCharacter[]>;
 }
 
-function init({ items, tier }): State {
+function init({ items, tier }: Props): State {
   let values = {};
 
   if (tier) {
@@ -76,7 +84,7 @@ function init({ items, tier }): State {
   }
 
   return {
-    id: null,
+    id: undefined,
     isLoading: false,
     items,
     name: '',
@@ -114,7 +122,7 @@ function reducer(state: State, action: Action) {
   }
 }
 
-function CharacterTier({ items, tier, error }) {
+function CharacterTier({ items, tier, error }: Props) {
   const router = useRouter();
   const [feedback, setFeedback] = useState('');
   const [state, dispatch] = useReducer<(s: State, a: Action) => State, any>(
@@ -170,9 +178,15 @@ function CharacterTier({ items, tier, error }) {
         ...Array.from(state.tier.entries()).reduce(
           (p, [t, list]) => [
             ...p,
-            ...list.map((c) => ({ characterId: c.id, assignment: t }))
+            ...list.map(
+              (c) =>
+                ({
+                  characterId: c.id,
+                  assignment: t
+                } as CharacterAssignmentModel)
+            )
           ],
-          []
+          [] as CharacterAssignmentModel[]
         ),
         ...state.items.map((x) => ({
           characterId: x.id,
@@ -262,9 +276,9 @@ function CharacterTier({ items, tier, error }) {
                   ref={provided.innerRef}
                   style={getListStyle(snapshot.isDraggingOver)}
                   className={classNames(
-                    'characters',
+                    'card-grid',
                     'character-selection__list',
-                    { 'characters--no-items': state.items.length === 0 }
+                    { 'card-grid--no-items': state.items.length === 0 }
                   )}
                 >
                   <CharacterList items={state.items} />
@@ -305,7 +319,7 @@ function CharacterTier({ items, tier, error }) {
   );
 }
 
-CharacterTier.getInitialProps = async ({ query }) => {
+CharacterTier.getInitialProps = async ({ query }: NextPageContext) => {
   const queryBase = process.env.API_URL_BASE;
 
   let { id = '', ids = '' } = query;

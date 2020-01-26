@@ -46,6 +46,7 @@ export default function MediaCard(props: MediaCardProps) {
             alt={mediaName}
             width={width}
             height={height}
+            isLazy
           />
           {showName && <div className="media__name"> {mediaName} </div>}
         </Button>

@@ -24,6 +24,10 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["node_modules/@types/node/globals.d.ts"],
+  "include": [
+    "./**/*.ts",
+    "./**/*.tsx",
+    "node_modules/@types/node/globals.d.ts"
+  ],
   "exclude": ["dist", ".next", "out", "next.config.js"]
 }

@@ -2,21 +2,22 @@ import React from 'react';
 import Head from 'next/head';
 
 import { YTWLink } from '../components/YTWLink';
+import { NextPageContext } from 'next';
 
 interface ErrorProps {
   statusCode: string;
   title?: string;
 }
 
-const statusCodes = {
-  400: 'Bad Request',
-  404: 'This page could not be found',
-  405: 'Method Not Allowed',
-  500: 'Internal Server Error'
+const statusCodes: Record<string, string> = {
+  '400': 'Bad Request',
+  '404': 'This page could not be found',
+  '405': 'Method Not Allowed',
+  '500': 'Internal Server Error'
 };
 
 class YTWError extends React.Component<ErrorProps> {
-  static getInitialProps({ res, err }) {
+  static getInitialProps({ res, err }: NextPageContext) {
     const statusCode = res ? res.statusCode : err ? err.statusCode : null;
     return { statusCode };
   }
