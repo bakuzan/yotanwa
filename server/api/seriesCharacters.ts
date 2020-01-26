@@ -5,11 +5,13 @@ import { YTWCharacter } from '@/interfaces/YTWCharacter';
 import { Request, Response } from 'express';
 import fetch from 'node-fetch';
 
+const pageSize = Number(process.env.CHARACTER_SEARCH_LIMIT) || 0;
+
 const query = `
 query ($id: Int, $page: Int) {
   Media(id: $id) {
     id
-    characters(sort: FAVOURITES_DESC, page: $page, perPage: ${process.env.CHARACTER_SEARCH_LIMIT}) {
+    characters(sort: FAVOURITES_DESC, page: $page, perPage: ${pageSize}) {
       nodes {
         id
         name {
@@ -79,6 +81,7 @@ export default async function fetchSeriesCharacters(
         image: x.image.medium,
         name: x.name.full
       })),
+      pageSize,
       success: true
     });
   } catch (error) {

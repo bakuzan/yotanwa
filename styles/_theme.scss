@@ -45,6 +45,8 @@
 // Tabs
 .tabs__panels.tabs__panels {
   border-top: 1px solid var(--primary-colour);
+  // overrides...
+  min-width: 200px;
 }
 
 .tab-control.tab-control:not(.tab-control--active) {

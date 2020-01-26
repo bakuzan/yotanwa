@@ -1,3 +1,5 @@
+@import './_mixins.scss';
+
 .character-tier {
   &__header {
     display: flex;
@@ -51,6 +53,14 @@
 
   > * {
     margin: 0 4px;
+  }
+
+  @include respondTo(xxs) {
+    flex-direction: column;
+
+    > * {
+      min-width: 100%;
+    }
   }
 }
 

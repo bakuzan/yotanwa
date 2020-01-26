@@ -3,6 +3,7 @@ import React, { useEffect, useReducer } from 'react';
 
 import Grid from 'meiko/Grid';
 import Input from 'meiko/ClearableInput';
+import LoadingBouncer from 'meiko/LoadingBouncer';
 import fetchFromServer from 'meiko/utils/fetch';
 
 import { useDebounce } from 'meiko/hooks/useDebounce';
@@ -42,34 +43,32 @@ type SeriesSearchAction =
       type: SearchTabAction.LoadSeries;
       item: AnilistMedia | null;
     }
-  | { type: SearchTabAction.NextPage };
+  | { type: SearchTabAction.NextPage }
+  | { type: SearchTabAction.ToggleLoading };
 
 function reducer(state: SeriesSearchState, action: SeriesSearchAction) {
-  console.log(
-    '%c Reduce > ',
-    'color: magenta; font-size: 18px;',
-    state,
-    action
-  );
   switch (action.type) {
     case SearchTabAction.UpdateSearchString:
       return { ...state, searchString: action.value };
+
+    case SearchTabAction.ToggleLoading:
+      return { ...state, loading: !state.loading };
 
     case SearchTabAction.NextPage: {
       if (state.page < 0) {
         return state;
       }
 
-      return { ...state, loading: true, page: state.page + 1 };
+      return { ...state, page: state.page + 1 };
     }
 
     case SearchTabAction.LoadResults: {
       const count = action.items.length;
-      const page = count < 20 ? -1 : state.page;
+      const pageSize = action.pageSize || 10;
+      const page = count < pageSize ? -1 : state.page;
 
       return {
         ...state,
-        loading: false,
         page,
         results:
           state.page === 1
@@ -134,6 +133,7 @@ export default function SeriesSearch(props: SearchProps) {
   useEffect(() => {
     async function fetchSeriesCharacters(seriesId: number, page: number) {
       try {
+        dispatch({ type: SearchTabAction.ToggleLoading });
         const result = await fetchFromServer(
           `/ytw/seriescharacters/${seriesId}?page=${page}`
         );
@@ -141,8 +141,10 @@ export default function SeriesSearch(props: SearchProps) {
         dispatch({
           type: SearchTabAction.LoadResults,
           items: result.items,
-          page
+          page,
+          pageSize: result.pageSize
         });
+        dispatch({ type: SearchTabAction.ToggleLoading });
       } catch (e) {
         // TODO handle this
       }
@@ -158,7 +160,7 @@ export default function SeriesSearch(props: SearchProps) {
       dispatch({ type: SearchTabAction.NextPage });
     }
   });
-  console.log('RENDER', state, ref);
+
   return (
     <div className="search-panel">
       {selectedSeries == null ? (
@@ -234,6 +236,7 @@ export default function SeriesSearch(props: SearchProps) {
               />
             )}
           </Grid>
+          {state.loading && <LoadingBouncer />}
         </React.Fragment>
       )}
     </div>

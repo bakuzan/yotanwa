@@ -10,12 +10,15 @@ export interface SearchState {
   searchString: string;
 }
 
+// TODO
+// If you can extend an enum, this could be split into 2 parts...
 export enum SearchTabAction {
   UpdateSearchString,
   LoadResults,
   LoadSeriesResults,
   LoadSeries,
-  NextPage
+  NextPage,
+  ToggleLoading
 }
 
 export type SearchAction =
@@ -27,4 +30,5 @@ export type SearchAction =
       type: SearchTabAction.LoadResults;
       items: YTWCharacter[];
       page?: number;
+      pageSize?: number;
     };

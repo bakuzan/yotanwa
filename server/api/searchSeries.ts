@@ -4,9 +4,11 @@ import { AnilistMedia } from '../../interfaces/AnilistMedia';
 import { AnilistPagedResponse } from '../../interfaces/AnilistResponse';
 import { SearchResponse } from '../../interfaces/ApiResponse';
 
+const pageSize = Number(process.env.CHARACTER_SEARCH_LIMIT) || 0;
+
 const query = `
 query($search: String!) {
-  Page(page: 1, perPage: ${process.env.CHARACTER_SEARCH_LIMIT}) {
+  Page(page: 1, perPage: ${pageSize}) {
     media(search: $search) {
       id
       type
@@ -61,6 +63,7 @@ export default async function searchSeries(req: Request, res: Response) {
 
     respond({
       items: data.Page.media,
+      pageSize,
       success: true
     });
   } catch (error) {

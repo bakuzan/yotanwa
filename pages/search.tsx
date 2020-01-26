@@ -1,5 +1,6 @@
 import '../styles/search.scss';
 import React from 'react';
+import { NextPageContext } from 'next';
 
 import { Button } from 'meiko/Button';
 import SelectBox from 'meiko/SelectBox';
@@ -66,7 +67,7 @@ export default class extends React.Component<SearchProps, SearchState> {
     );
   }
 
-  static async getInitialProps({ query }) {
+  static async getInitialProps({ query }: NextPageContext) {
     const { source, type, username } = processQuery(query);
 
     const { items, error } = await fetchListItems(source, username, type);

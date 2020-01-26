@@ -1,16 +1,31 @@
 import '../../styles/character-tiers.scss';
 import React from 'react';
+import { NextPageContext } from 'next';
 
 import Grid from 'meiko/Grid';
 import { YTWLink } from '@/components/YTWLink';
 import ErrorInPage from '@/components/ErrorInPage';
 
-import { TierModel } from '../../interfaces/TierModel';
+import { TierModel } from '@/interfaces/TierModel';
 import fetchOnServer from '@/utils/fetch';
 
 const PAGE_URL_BASE = `/character-tiers`;
 
-function CharacterTiers({ items, nextPage, prevPage, total, error }) {
+interface CharacterTierProps {
+  error?: string;
+  items: TierModel[];
+  nextPage: number;
+  prevPage: number;
+  total: number;
+}
+
+function CharacterTiers({
+  items,
+  nextPage,
+  prevPage,
+  total,
+  error
+}: CharacterTierProps) {
   if (error) {
     return <ErrorInPage error={error} />;
   }
@@ -61,7 +76,7 @@ function CharacterTiers({ items, nextPage, prevPage, total, error }) {
   );
 }
 
-CharacterTiers.getInitialProps = async ({ query }) => {
+CharacterTiers.getInitialProps = async ({ query }: NextPageContext) => {
   const queryBase = process.env.API_URL_BASE;
   const { page = 1 } = query;
 

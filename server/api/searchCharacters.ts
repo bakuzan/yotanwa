@@ -5,9 +5,11 @@ import { AnilistPagedResponse } from '../../interfaces/AnilistResponse';
 import { SearchResponse } from '../../interfaces/ApiResponse';
 import { YTWCharacter } from '../../interfaces/YTWCharacter';
 
+const pageSize = Number(process.env.CHARACTER_SEARCH_LIMIT) || 0;
+
 const query = `
 query($search: String!) {
-  Page(page: 1, perPage: ${process.env.CHARACTER_SEARCH_LIMIT}) {
+  Page(page: 1, perPage: ${pageSize}) {
     characters(search: $search) {
       id
       name {
@@ -65,6 +67,7 @@ export default async function searchCharacters(req: Request, res: Response) {
         image: x.image.medium,
         name: x.name.full
       })),
+      pageSize,
       success: true
     });
   } catch (error) {

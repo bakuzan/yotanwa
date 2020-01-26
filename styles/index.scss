@@ -1,4 +1,5 @@
 @import './_theme.scss';
+@import './_mixins.scss';
 
 :root {
   --font-size: 16px;
@@ -62,9 +63,6 @@ html {
 body {
   background-color: var(--base-background);
   color: var(--base-contrast);
-}
-
-body {
   min-height: 100vh;
   margin: 0;
 }
@@ -115,6 +113,10 @@ select {
 
   &--row {
     flex-direction: row;
+
+    @include respondToAll((xxs, xs)) {
+      flex-direction: column;
+    }
   }
 
   &--column {
@@ -127,6 +129,10 @@ select {
 
   &--end {
     justify-content: flex-end;
+  }
+
+  &--space-between {
+    justify-content: space-between;
   }
 }
 

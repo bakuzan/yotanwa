@@ -2,14 +2,25 @@ import './RadioGroup.scss';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-function RadioGroup({ label, options, ...props }) {
+interface RadioButtonProps extends React.HTMLProps<HTMLInputElement> {
+  label: string;
+}
+
+interface RadioGroupProps {
+  disabled?: boolean;
+  label?: string;
+  options: RadioButtonProps[];
+  required?: boolean;
+}
+
+function RadioGroup({ label, options, ...props }: RadioGroupProps) {
   return (
     <div className="ytw-radio-group">
       <div className="ytw-radio-group__label">{label}</div>
       <div className="ytw-radio-group__options">
         {options.map(({ label: opLabel, ...op }) => {
           return (
-            <div key={op.value} className="form-control">
+            <div key={`${op.value}`} className="form-control">
               <label className="form-control__label radio">
                 <input
                   type="radio"

@@ -29,11 +29,12 @@ export default function Characters() {
     <div className="page page--column">
       <div className="search-container">
         <h1>Character Search</h1>
-        <p>
-          Search for and select characters you would like to use in your tiered
-          list.
-        </p>
-        <div className="flex flex--row">
+
+        <div className="flex flex--row flex--space-between">
+          <p>
+            Search for and select characters you would like to use in your
+            tiered list.
+          </p>
           <Button
             className="search-container__button"
             btnStyle="primary"

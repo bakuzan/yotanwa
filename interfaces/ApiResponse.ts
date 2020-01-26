@@ -5,4 +5,5 @@ export interface ApiResponse {
 
 export interface SearchResponse<T> extends ApiResponse {
   items: T[];
+  pageSize?: number;
 }

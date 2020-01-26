@@ -29,11 +29,13 @@ export default function MediaCard(props: MediaCardProps) {
     ...pass
   } = props;
   const Container = listItem ? 'li' : 'div';
-  const mediaName = `${x.title.romaji}\n(${x.title.english})`;
+  const mediaName = `${x.title.romaji}\n${
+    x.title.english ? `(${x.title.english})` : ''
+  }`;
 
   return (
     <Container {...pass} className={classNames('media', pass.className)}>
-      <Tooltip text={mediaName} center highlight>
+      <Tooltip text={mediaName} center highlight allowWrapping>
         <Button
           className={classNames('media__button', {
             'media__button--show-name': showName
