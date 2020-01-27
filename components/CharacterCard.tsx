@@ -5,8 +5,7 @@ import { Draggable } from 'react-beautiful-dnd';
 
 import { YTWCharacter } from '../interfaces/YTWCharacter';
 import { Button } from 'meiko/Button';
-// import Tooltip from 'meiko/Tooltip';
-import TTooltip from './Tooltip';
+import Tooltip from 'meiko/Tooltip';
 
 import Image from './Image';
 
@@ -32,7 +31,7 @@ const CharacterCardBase = React.forwardRef<HTMLLIElement, CharacterCardProps>(
 
     return (
       <li className="character" ref={ref} {...props}>
-        <TTooltip text={data.name} center highlight>
+        <Tooltip text={data.name} center highlight>
           <ActionItem
             className={classNames('character__button', {
               'character__button--no-click': !clickHandler
@@ -48,7 +47,7 @@ const CharacterCardBase = React.forwardRef<HTMLLIElement, CharacterCardProps>(
               isLazy
             />
           </ActionItem>
-        </TTooltip>
+        </Tooltip>
       </li>
     );
   }

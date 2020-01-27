@@ -1,6 +1,6 @@
 {
   "name": "yotanwa",
-  "version": "2.3.0",
+  "version": "3.0.0",
   "private": true,
   "description": "Display your anime & manga lists as ranked tiers",
   "main": "index.jsx",
@@ -25,7 +25,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mal-scraper": "^2.6.7",
-    "meiko": "npm:bkz-meiko@^6.0.1",
+    "meiko": "npm:bkz-meiko@^6.1.0",
     "mongoose": "^5.8.9",
     "nano-css": "^5.2.1",
     "next": "^9.1.4",
