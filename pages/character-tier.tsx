@@ -2,6 +2,7 @@ import '../styles/characters.scss';
 import classNames from 'classnames';
 import React, { useReducer, useState } from 'react';
 import { DropResult, DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 
 import { Button } from 'meiko/Button';
@@ -24,7 +25,6 @@ import move from '@/utils/dragAndDrop/move';
 import reorder from '@/utils/dragAndDrop/reorder';
 import fetchOnServer from '@/utils/fetch';
 import isClient from '@/utils/isClient';
-import { NextPageContext } from 'next';
 
 const getListStyle = (isDraggingOver: boolean) => ({
   backgroundColor: isDraggingOver ? 'var(--alt-colour)' : ''
@@ -209,6 +209,10 @@ function CharacterTier({ items, tier, error }: Props) {
     dispatch({ type: LOADING });
   }
 
+  // TODO
+  // Remember to add an "edit character list" button
+  // Consider a "back" button for "in-progress" tiers
+
   return (
     <section className="page page--column character-tier">
       <header className="character-tier__header">
@@ -298,6 +302,7 @@ function CharacterTier({ items, tier, error }: Props) {
                 `/ytw/tier/${state.id}`,
                 'DELETE'
               );
+
               if (response.success) {
                 const url = `/characters`;
                 router.push(url, url);
