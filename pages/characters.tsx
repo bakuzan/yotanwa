@@ -1,17 +1,17 @@
-import '../styles/characters.scss';
 import classNames from 'classnames';
-import React, { useState } from 'react';
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import '../styles/characters.scss';
 
 import { Button } from 'meiko/Button';
 import Grid from 'meiko/Grid';
 import Tabs from 'meiko/Tabs';
 import fetchFromServer from 'meiko/utils/fetch';
 
+import { CharacterCard } from '@/components/CharacterCard';
 import CharacterSearch from '@/components/CharacterSearchTabs/CharacterSearch';
 import SeriesSearch from '@/components/CharacterSearchTabs/SeriesSearch';
-import { CharacterCard } from '@/components/CharacterCard';
 import ErrorInPage from '@/components/ErrorInPage';
 
 import { CharacterAssignmentModel } from '@/interfaces/CharacterAssignmentModel';
@@ -31,7 +31,7 @@ function Characters(props: Props) {
   const router = useRouter();
   const [message, setMessage] = useState('');
   const [selectedCharacters, setSelectedCharacters] = useState<YTWCharacter[]>(
-    []
+    props.items
   );
 
   if (props.error) {
@@ -52,17 +52,17 @@ function Characters(props: Props) {
     const states = tier.characterState;
 
     const result = await fetchFromServer(`/ytw/tier`, 'POST', {
-      id: tier.id,
-      name: tier.name,
       characterState: selectedCharacters.map((x) => {
-        const state = states.find((x) => x.characterId === x.id);
+        const state = states.find((s) => s.characterId === x.id);
         const assignment = state?.assignment || 'Unassigned';
 
         return {
-          characterId: x.id,
-          assignment
+          assignment,
+          characterId: x.id
         };
-      })
+      }),
+      id: tier.id,
+      name: tier.name
     });
 
     if (result.success) {
@@ -73,9 +73,6 @@ function Characters(props: Props) {
   }
 
   console.log('Render Characters > ', props);
-  // TODO
-  // Display the tier name, if there is one.
-  // Pre-populate the selected characters, if there is any.
 
   return (
     <div className="page page--column">
@@ -84,8 +81,14 @@ function Characters(props: Props) {
 
         <div className="flex flex--row flex--space-between">
           <p>
-            Search for and select characters you would like to use in your
-            tiered list.
+            {props.tier ? (
+              <span>
+                Search for and select characters you would like to use in{' '}
+                <strong>{props.tier.name}</strong> tier.
+              </span>
+            ) : (
+              `Search for and select characters you would like to use in your tiered list.`
+            )}
           </p>
           {!props.isEdit ? (
             <Button
@@ -148,9 +151,14 @@ function Characters(props: Props) {
         <div className="search-selection">
           <h2>Selected Characters</h2>
           <Grid
-            className={classNames('card-grid card-grid--no-border', {
-              'card-grid--no-items': selectedCharacters.length === 0
-            })}
+            className={classNames(
+              'card-grid',
+              'card-grid',
+              'card-grid--no-border',
+              {
+                'card-grid--no-items': selectedCharacters.length === 0
+              }
+            )}
             uniformRows
             noItemsText="No characters selected"
             items={selectedCharacters}
@@ -178,29 +186,33 @@ function Characters(props: Props) {
 
 Characters.getInitialProps = async ({ query }: NextPageContext) => {
   const queryBase = process.env.API_URL_BASE;
+
   const { id = '' } = query;
-  let error = '',
-    tier = null,
-    items = [];
+  let { ids = '' } = query;
+  let error = '';
+  let tier = null;
+  let items = [];
 
   if (id) {
-    const tResult = await fetchOnServer(`${queryBase}/ytw/tier/${id}`);
+    const tierResult = await fetchOnServer(`${queryBase}/ytw/tier/${id}`);
 
-    if (tResult.success) {
-      tier = tResult.tier;
-      const ids = tier.characterState
+    if (tierResult.success) {
+      tier = tierResult.tier;
+      ids = tier.characterState
         .map((x: CharacterAssignmentModel) => x.characterId)
         .join(',');
-
-      const cResult = await fetchOnServer(
-        `${queryBase}/api/charactersByIds?ids=${ids}`
-      );
-
-      items = cResult.items || [];
-      error = cResult.error || '';
     } else {
-      error = tResult.error;
+      error = tierResult.error;
     }
+  }
+
+  if (ids) {
+    const result = await fetchOnServer(
+      `${queryBase}/api/charactersByIds?ids=${ids}`
+    );
+
+    items = result.items || [];
+    error = result.error || '';
   }
 
   return { items, tier, error, isEdit: !!id };

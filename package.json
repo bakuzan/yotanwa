@@ -42,11 +42,11 @@
       "prettier --single-quote false --write",
       "git add"
     ],
-    "*.{js,ts}": [
+    "*.{js,ts,tsx}": [
       "prettier --write",
       "git add"
     ],
-    "*.{ts}": [
+    "*.{ts,tsx}": [
       "yarn run lint",
       "git add"
     ]

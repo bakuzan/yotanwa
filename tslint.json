@@ -10,7 +10,9 @@
     "whitespace": [true, "check-module"],
     "no-console": false,
     "no-require-imports": true,
-    "quotemark": [true, "single"]
+    "quotemark": [true, "single", "jsx-double"],
+    "only-arrow-functions": false,
+    "no-empty-interface": false
   },
   "rulesDirectory": ["tslint-plugin-prettier"]
 }

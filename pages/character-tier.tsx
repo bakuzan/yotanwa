@@ -1,26 +1,27 @@
-import '../styles/characters.scss';
+/* tslint:disable:object-literal-sort-keys */
 import classNames from 'classnames';
-import React, { useReducer, useState } from 'react';
-import { DropResult, DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
+import React, { useReducer, useState } from 'react';
+import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
+import '../styles/characters.scss';
 
 import { Button } from 'meiko/Button';
 import Input from 'meiko/ClearableInput';
 import LoadingBouncer from 'meiko/LoadingBouncer';
 import fetchFromServer from 'meiko/utils/fetch';
 
-import Tier from '@/components/Tier';
-import CharacterList from '@/components/CharacterList';
 import { CharacterCardDraggable } from '@/components/CharacterCard';
-import ErrorInPage from '@/components/ErrorInPage';
+import CharacterList from '@/components/CharacterList';
 import CopyToClipboard from '@/components/CopyToClipboard';
+import ErrorInPage from '@/components/ErrorInPage';
+import Tier from '@/components/Tier';
 
-import { Tiers } from '../consts';
-import { TierModel } from '../interfaces/TierModel';
-import { YTWCharacter } from '../interfaces/YTWCharacter';
-import { CharacterAssignmentModel } from '../interfaces/CharacterAssignmentModel';
-import { MovePayload } from '../interfaces/MovePayload';
+import { Tiers } from '@/consts';
+import { CharacterAssignmentModel } from '@/interfaces/CharacterAssignmentModel';
+import { MovePayload } from '@/interfaces/MovePayload';
+import { TierModel } from '@/interfaces/TierModel';
+import { YTWCharacter } from '@/interfaces/YTWCharacter';
 import move from '@/utils/dragAndDrop/move';
 import reorder from '@/utils/dragAndDrop/reorder';
 import fetchOnServer from '@/utils/fetch';
@@ -44,7 +45,10 @@ interface Props {
   tier?: TierModel;
 }
 
-type Action = { type: string; [key: string]: any };
+interface Action {
+  type: string;
+  [key: string]: any;
+}
 
 interface State {
   id?: string;
@@ -63,12 +67,12 @@ function init({ items, tier }: Props): State {
 
     values = {
       id: tier.id,
-      name: tier.name,
       items: characters.filter((c) =>
         characterState.some(
           (s) => s.characterId === c.id && s.assignment === 'Unassigned'
         )
       ),
+      name: tier.name,
       tier: Tiers.reduce(
         (p: Map<string, YTWCharacter[]>, t: string) =>
           p.set(t, [
@@ -143,7 +147,7 @@ function CharacterTier({ items, tier, error }: Props) {
     }
 
     if (source.droppableId === destination.droppableId) {
-      const items = reorder(
+      const cards = reorder(
         getList(state, source.droppableId),
         source.index,
         destination.index
@@ -151,7 +155,7 @@ function CharacterTier({ items, tier, error }: Props) {
 
       dispatch({
         type: UPDATE,
-        payload: [{ key: source.droppableId, items }]
+        payload: [{ key: source.droppableId, items: cards }]
       });
     } else {
       const payload = move(
@@ -172,8 +176,6 @@ function CharacterTier({ items, tier, error }: Props) {
     dispatch({ type: LOADING });
 
     const result = await fetchFromServer(`/ytw/tier`, 'POST', {
-      id: state.id,
-      name: state.name,
       characterState: [
         ...Array.from(state.tier.entries()).reduce(
           (p, [t, list]) => [
@@ -192,7 +194,9 @@ function CharacterTier({ items, tier, error }: Props) {
           characterId: x.id,
           assignment: 'Unassigned'
         }))
-      ]
+      ],
+      id: state.id,
+      name: state.name
     });
 
     if (result.success) {
@@ -208,10 +212,6 @@ function CharacterTier({ items, tier, error }: Props) {
 
     dispatch({ type: LOADING });
   }
-
-  // TODO
-  // Remember to add an "edit character list" button
-  // Consider a "back" button for "in-progress" tiers
 
   return (
     <section className="page page--column character-tier">
@@ -237,6 +237,25 @@ function CharacterTier({ items, tier, error }: Props) {
           >
             Save
           </Button>
+          <Button
+            className="save-block__button"
+            btnStyle="accent"
+            onClick={() => {
+              const characterIds = state.items.map((x) => x.id).join(',');
+              router.push(`/characters?ids=${characterIds}`);
+            }}
+          >
+            {state.id ? 'Clone' : 'Back'}
+          </Button>
+          {state.id && (
+            <Button
+              className="save-block__button"
+              btnStyle="accent"
+              onClick={() => router.push(`/characters?id=${state.id}`)}
+            >
+              Update character selection
+            </Button>
+          )}
         </div>
       </header>
 
@@ -255,14 +274,8 @@ function CharacterTier({ items, tier, error }: Props) {
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="grids-container">
           <div className="tiers tiers--wide">
-            {Array.from(state.tier.entries()).map(([tier, characters]) => (
-              <Tier
-                key={tier}
-                isDroppable
-                tier={tier}
-                scores={[]}
-                items={characters}
-              >
+            {Array.from(state.tier.entries()).map(([t, characters]) => (
+              <Tier key={t} isDroppable tier={t} scores={[]} items={characters}>
                 {({ index, data }) => (
                   <CharacterCardDraggable
                     key={data.id}
@@ -327,10 +340,11 @@ function CharacterTier({ items, tier, error }: Props) {
 CharacterTier.getInitialProps = async ({ query }: NextPageContext) => {
   const queryBase = process.env.API_URL_BASE;
 
-  let { id = '', ids = '' } = query;
-  let error = '',
-    tier = null,
-    items = [];
+  const { id = '' } = query;
+  let { ids = '' } = query;
+  let error = '';
+  let tier = null;
+  let items = [];
 
   if (id) {
     const tierResult = await fetchOnServer(`${queryBase}/ytw/tier/${id}`);
