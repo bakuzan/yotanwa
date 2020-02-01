@@ -15,7 +15,7 @@ export default function createHandler(fn: (user: string, type: string) => any) {
     } = req.query as SearchQuery;
 
     if (!user) {
-      respond({ error: 'Username is required.', items: [] });
+      return respond({ error: 'Username is required.', items: [] });
     }
 
     try {
