@@ -9,3 +9,16 @@ export interface AnilistMedia {
     medium: string;
   };
 }
+
+export interface AnilistMediaListItem {
+  mediaId: number;
+  score: number;
+  media: {
+    coverImage: {
+      medium: string;
+    };
+    title: {
+      userPreferred: string;
+    };
+  };
+}

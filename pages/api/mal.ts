@@ -7,7 +7,7 @@ import generateUniqueId from '../../utils/generateUniqueId';
 const g = (s: string) => (s ? s : '');
 
 function mapItem(type: string) {
-  return (item) => ({
+  return (item: any) => ({
     id: generateUniqueId(),
     image: g(item[`${type}ImagePath`])
       .replace('/r/96x136', '')

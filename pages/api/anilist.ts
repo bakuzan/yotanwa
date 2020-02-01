@@ -1,5 +1,7 @@
 import fetch from 'node-fetch';
 
+import { AnilistMediaListItem } from '@/interfaces/AnilistMedia';
+import { AnilistCollectionResponse } from '@/interfaces/AnilistResponse';
 import createHandler from '../../utils/createHandler';
 import generateUniqueId from '../../utils/generateUniqueId';
 
@@ -25,7 +27,7 @@ const query = `
 `;
 
 function mapItem(type: string) {
-  return (item) => ({
+  return (item: AnilistMediaListItem) => ({
     id: generateUniqueId(),
     image: item.media.coverImage.medium,
     score: item.score,
@@ -48,7 +50,9 @@ async function fetchList(user: string, type: string) {
     method: 'POST'
   });
 
-  return response.json();
+  return (await response.json()) as AnilistCollectionResponse<
+    AnilistMediaListItem
+  >;
 }
 
 export default createHandler(async function handler(
