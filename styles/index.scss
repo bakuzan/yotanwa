@@ -31,6 +31,7 @@
   --primary-colour-hover: var(--moderate-blue);
   --primary-contrast: #fff;
   --alt-colour: var(--soft-orange);
+  --alt-colour-hover: var(--bright-orange);
   --alt-contrast: #000;
 
   --tooltip-background: var(--primary-colour);
@@ -47,6 +48,7 @@
   --primary-colour-hover: var(--bright-orange);
   --primary-contrast: #000;
   --alt-colour: var(--desaturated-blue);
+  --alt-colour-hover: var(--moderate-blue);
   --alt-contrast: #fff;
 
   --tooltip-background: var(--primary-colour);
@@ -70,6 +72,7 @@ body {
 main {
   min-height: calc(100vh - var(--header-height));
   padding: 0 5px;
+  padding-top: var(--header-height);
 }
 
 input,
@@ -80,13 +83,18 @@ select {
 
 /* Header */
 .app-header {
+  $padding: 10px;
+
+  position: fixed;
+  width: calc(100% - #{$padding * 2});
   display: flex;
   align-items: center;
-  padding: 0 10px;
+  padding: 0 $padding;
   background-color: var(--primary-colour);
   color: var(--primary-contrast);
   height: var(--header-height);
   box-shadow: 1px 1px 2px 1px var(--alt-colour);
+  z-index: 1000;
 
   .radio-toggle__control {
     background-color: var(--radio-toggle--control-colour);

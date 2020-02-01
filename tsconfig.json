@@ -8,8 +8,8 @@
     "resolveJsonModule": true,
     "moduleResolution": "node",
     "strict": true,
-    "allowJs": true,
     "noEmit": true,
+    "allowJs": false,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -27,7 +27,8 @@
   "include": [
     "./**/*.ts",
     "./**/*.tsx",
-    "node_modules/@types/node/globals.d.ts"
+    "node_modules/@types/node/globals.d.ts",
+    "node_modules/meiko/types/component/*.ts"
   ],
   "exclude": ["dist", ".next", "out", "next.config.js"]
 }

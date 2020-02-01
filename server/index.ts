@@ -23,10 +23,12 @@ app
   .then(() => {
     const DATABASE_URL = process.env.DATABASE_URL || 'DB URL MISSING';
 
-    mongoose.connect(DATABASE_URL, { useNewUrlParser: true }).catch((e) => {
-      console.log('> Unable to connect to mongodb.');
-      console.error(e);
-    });
+    mongoose
+      .connect(DATABASE_URL, { useFindAndModify: false, useNewUrlParser: true })
+      .catch((e) => {
+        console.log('> Unable to connect to mongodb.');
+        console.error(e);
+      });
   })
   .then(() => {
     const serviceWorkerPathname = '/service-worker.js';

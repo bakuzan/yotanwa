@@ -174,6 +174,7 @@ function CharacterTier({ items, tier, error }: Props) {
 
   async function onSave() {
     dispatch({ type: LOADING });
+    setFeedback('');
 
     const result = await fetchFromServer(`/ytw/tier`, 'POST', {
       characterState: [
@@ -227,35 +228,46 @@ function CharacterTier({ items, tier, error }: Props) {
             )}
           </div>
         </h1>
-        <div className="save-block">
-          {state.isLoading && <LoadingBouncer />}
-          {!state.isLoading && <div className="feedback">{feedback}</div>}
-          <Button
-            className="save-block__button"
-            btnStyle="primary"
-            onClick={onSave}
-          >
-            Save
-          </Button>
-          <Button
-            className="save-block__button"
-            btnStyle="accent"
-            onClick={() => {
-              const characterIds = state.items.map((x) => x.id).join(',');
-              router.push(`/characters?ids=${characterIds}`);
-            }}
-          >
-            {state.id ? 'Clone' : 'Back'}
-          </Button>
-          {state.id && (
+        <div>
+          <div className="save-block">
+            {state.isLoading && <LoadingBouncer />}
+            <Button
+              className="save-block__button"
+              btnStyle="primary"
+              onClick={onSave}
+            >
+              Save
+            </Button>
             <Button
               className="save-block__button"
               btnStyle="accent"
-              onClick={() => router.push(`/characters?id=${state.id}`)}
+              onClick={() => {
+                const characterIds = [
+                  ...Array.from(state.tier.values()).reduce((p, c) => [
+                    ...p,
+                    ...c
+                  ]),
+                  ...state.items
+                ]
+                  .map((x) => x.id)
+                  .join(',');
+
+                router.push(`/characters?ids=${characterIds}`);
+              }}
             >
-              Update character selection
+              {state.id ? 'Clone' : 'Back'}
             </Button>
-          )}
+            {state.id && (
+              <Button
+                className="save-block__button"
+                btnStyle="accent"
+                onClick={() => router.push(`/characters?id=${state.id}`)}
+              >
+                Add/Remove characters
+              </Button>
+            )}
+          </div>
+          {!state.isLoading && <div className="feedback">{feedback}</div>}
         </div>
       </header>
 

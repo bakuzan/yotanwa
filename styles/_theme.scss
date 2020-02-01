@@ -12,6 +12,15 @@
     }
   }
 
+  &--accent {
+    background-color: var(--alt-colour);
+    color: var(--alt-contrast);
+
+    &:hover {
+      background-color: var(--alt-colour-hover);
+    }
+  }
+
   &[disabled],
   &[disabled]::hover {
     background-color: var(--disabled-colour);

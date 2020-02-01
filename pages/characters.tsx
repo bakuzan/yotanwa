@@ -90,35 +90,37 @@ function Characters(props: Props) {
               `Search for and select characters you would like to use in your tiered list.`
             )}
           </p>
-          {!props.isEdit ? (
-            <Button
-              className="search-container__button"
-              btnStyle="primary"
-              aria-label="Go to tier creation using the currently selected characters"
-              onClick={() => {
-                if (selectedCharacters.length === 0) {
-                  setMessage('You must select at least 1 character.');
-                } else {
-                  const characterIds = selectedCharacters
-                    .map((x) => x.id)
-                    .join(',');
+          <div>
+            {!props.isEdit ? (
+              <Button
+                className="search-container__button"
+                btnStyle="primary"
+                aria-label="Go to tier creation using the currently selected characters"
+                onClick={() => {
+                  if (selectedCharacters.length === 0) {
+                    setMessage('You must select at least 1 character.');
+                  } else {
+                    const characterIds = selectedCharacters
+                      .map((x) => x.id)
+                      .join(',');
 
-                  router.push(`/character-tier?ids=${characterIds}`);
-                }
-              }}
-            >
-              Go to tier creation
-            </Button>
-          ) : (
-            <Button
-              className="search-container__button"
-              btnStyle="primary"
-              aria-label="Update tier selected characters"
-              onClick={onSubmit}
-            >
-              Save
-            </Button>
-          )}
+                    router.push(`/character-tier?ids=${characterIds}`);
+                  }
+                }}
+              >
+                Go to tier creation
+              </Button>
+            ) : (
+              <Button
+                className="search-container__button"
+                btnStyle="primary"
+                aria-label="Update tier selected characters"
+                onClick={onSubmit}
+              >
+                Save
+              </Button>
+            )}
+          </div>
         </div>
         <div className="feedback">{message}</div>
       </div>

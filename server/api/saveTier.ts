@@ -3,6 +3,8 @@ import { Request, Response } from 'express';
 import { Tier } from '../models/tier';
 
 export default async function saveTier(req: Request, res: Response) {
+  const respond = (a: any) => res.status(200).json(a);
+
   const errors = [];
   const payload = req.body;
 
@@ -16,7 +18,7 @@ export default async function saveTier(req: Request, res: Response) {
 
   if (errors.length) {
     const error = errors[0];
-    res.status(200).json({ error, success: false });
+    return respond({ error, success: false });
   }
 
   try {
@@ -31,12 +33,12 @@ export default async function saveTier(req: Request, res: Response) {
       itemId = id;
     }
 
-    res.status(200).json({ id: itemId, success: true });
+    return respond({ id: itemId, success: true });
   } catch (e) {
     const error = `${e.message ? e.message : 'Failed to save tier'}.`;
 
     console.log(error);
     console.error(e);
-    res.status(200).json({ error, success: false });
+    return respond({ error, success: false });
   }
 }

@@ -25,7 +25,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mal-scraper": "^2.6.7",
-    "meiko": "npm:bkz-meiko@^6.1.0",
+    "meiko": "npm:bkz-meiko@^6.1.2",
     "mongoose": "^5.8.9",
     "nano-css": "^5.2.1",
     "next": "^9.1.4",
@@ -57,6 +57,9 @@
     }
   },
   "devDependencies": {
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
+    "@babel/plugin-proposal-object-rest-spread": "^7.8.3",
+    "@babel/plugin-proposal-optional-chaining": "^7.8.3",
     "@types/dotenv": "^6.1.1",
     "@types/express": "^4.17.1",
     "@types/mongoose": "^5.5.17",

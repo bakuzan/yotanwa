@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { AnilistCharacter } from '../../interfaces/AnilistCharacter';
-import { AnilistResponse } from '../../interfaces/AnilistResponse';
+import { AnilistPagedResponse } from '../../interfaces/AnilistResponse';
 import fetchOnServer from '../../utils/fetch';
 
 const query = `
@@ -27,10 +27,10 @@ async function search(ids: number[]) {
   const response = await fetchOnServer(
     'https://graphql.anilist.co',
     'POST',
-    body
+    body as any
   );
 
-  return response as AnilistResponse<AnilistCharacter>;
+  return response as AnilistPagedResponse<AnilistCharacter>;
 }
 
 export default async function searchCharactersById(
@@ -44,9 +44,9 @@ export default async function searchCharactersById(
   const characterIds = idString.split(',').map((x: string) => Number(x));
 
   if (!characterIds.length) {
-    respond({ error: 'No characters provided.', items: [] });
+    return respond({ error: 'No characters provided.', items: [] });
   } else if (characterIds.some((x: any) => isNaN(x))) {
-    respond({ error: `Some character id's were invalid.`, items: [] });
+    return respond({ error: `Some character id's were invalid.`, items: [] });
   }
 
   try {
@@ -54,11 +54,11 @@ export default async function searchCharactersById(
 
     if (errors && errors.length) {
       const error = errors[0].message;
-      respond({ error, items: [] });
+      return respond({ error, items: [] });
     }
 
     const list = data.Page.characters;
-    respond({
+    return respond({
       error: null,
       items: list.map((x: AnilistCharacter) => ({
         id: x.id,
@@ -68,7 +68,7 @@ export default async function searchCharactersById(
     });
   } catch (error) {
     console.error(error);
-    respond({
+    return respond({
       error: `Something went wrong and your request could not be completed.`,
       items: []
     });
