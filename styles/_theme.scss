@@ -70,6 +70,7 @@
 
 .tab-control--active.tab-control--active,
 .tab-control.tab-control:hover {
+  background-color: var(--base-background);
   border: {
     color: var(--primary-colour);
     bottom-color: var(--base-background);

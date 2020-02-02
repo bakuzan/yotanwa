@@ -285,7 +285,7 @@ function CharacterTier({ items, tier, error }: Props) {
       </div>
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="grids-container">
-          <div className="tiers tiers--wide">
+          <div className="character-tiers character-tiers--wide">
             {Array.from(state.tier.entries()).map(([t, characters]) => (
               <Tier key={t} isDroppable tier={t} scores={[]} items={characters}>
                 {({ index, data }) => (

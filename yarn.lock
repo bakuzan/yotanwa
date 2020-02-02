@@ -5313,10 +5313,10 @@ media-typer@0.3.0:
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
   integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
 
-"meiko@npm:bkz-meiko@^6.1.2":
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/bkz-meiko/-/bkz-meiko-6.1.2.tgz#cb54a0d56fa7fb7cb2be33779394bbfb15089a62"
-  integrity sha512-MdoCb+Bj4LpWSZRcGqNU2ckf7gcIPLRQ2vR3BAZ6rZ3tQbF4X+LH2G6cE+tUfOkAsevf1X++HKbctDDRs9iddQ==
+"meiko@npm:bkz-meiko@^6.1.3":
+  version "6.1.3"
+  resolved "https://registry.yarnpkg.com/bkz-meiko/-/bkz-meiko-6.1.3.tgz#4da8b6882274da8a9da8ad7cc6f053a6ac05cf10"
+  integrity sha512-jdsN8bD9Bqd2VEdN2Bz8RTTgU1KI2zmV333R8puHqyU0eBxC1IeG1TBu4eFURO8H78nrdJllryKTr9x7jZTq9Q==
   dependencies:
     "@babel/runtime" "^7.4.5"
 
