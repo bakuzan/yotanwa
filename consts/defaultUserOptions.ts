@@ -3,7 +3,7 @@ import defaultTiers from './defaultTiers';
 export interface YTWStorage {
   hiddenScores: string[];
   isDarkTheme: boolean;
-  tierDistribution: Array<[number, string]>;
+  tierDistribution: [number, string][];
 }
 
 export default {

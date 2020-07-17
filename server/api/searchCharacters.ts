@@ -44,7 +44,7 @@ export default async function searchCharacters(req: Request, res: Response) {
   const { term = '' } = req.query || {};
   const respond = (a: SearchResponse<YTWCharacter>) => res.status(200).json(a);
 
-  if (!term) {
+  if (!term || typeof term !== 'string') {
     return respond({
       error: 'A search term is required.',
       items: [],

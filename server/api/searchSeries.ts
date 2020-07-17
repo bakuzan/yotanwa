@@ -45,7 +45,7 @@ export default async function searchSeries(req: Request, res: Response) {
   const { term = '' } = req.query || {};
   const respond = (a: SearchResponse<AnilistMedia>) => res.status(200).json(a);
 
-  if (!term) {
+  if (!term || typeof term !== 'string') {
     return respond({
       error: 'A search term is required.',
       items: [],
