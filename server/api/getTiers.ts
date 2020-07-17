@@ -4,8 +4,8 @@ import { Tier } from '../models/tier';
 
 export async function getTiers(req: Request, res: Response) {
   const { page = 1, perPage = 10 } = req.query;
-  const index = page - 1;
-  const pageSize = Math.min(perPage, 25);
+  const index = Number(page) - 1;
+  const pageSize = Math.min(Number(perPage), 25);
   const skipping = index * pageSize;
 
   try {
