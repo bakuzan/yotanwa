@@ -1,4 +1,3 @@
-import './YTWLink.scss';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import React, { ReactNode } from 'react';

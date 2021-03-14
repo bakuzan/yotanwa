@@ -1,4 +1,3 @@
-import './Footer.scss';
 import React from 'react';
 
 import { NewTabLink } from './YTWLink';

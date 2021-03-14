@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import '../styles/characters.scss';
 
 import { Button } from 'meiko/Button';
 import Grid from 'meiko/Grid';

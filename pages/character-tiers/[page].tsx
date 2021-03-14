@@ -1,4 +1,3 @@
-import '../../styles/character-tiers.scss';
 import React from 'react';
 import { NextPageContext } from 'next';
 

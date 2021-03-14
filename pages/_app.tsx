@@ -1,4 +1,5 @@
 import '../styles/index.scss';
+import '../components/index.scss';
 import * as React from 'react';
 import App, { AppContext } from 'next/app';
 

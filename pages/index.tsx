@@ -1,4 +1,3 @@
-import '../styles/home.scss';
 import React from 'react';
 
 import { Button } from 'meiko/Button';

@@ -1,4 +1,4 @@
-import './CharacterCard.scss';
+/* tslint:disable:no-shadowed-variable */
 import classNames from 'classnames';
 import React, { HTMLAttributes } from 'react';
 import { Draggable } from 'react-beautiful-dnd';

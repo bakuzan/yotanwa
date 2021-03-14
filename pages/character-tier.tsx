@@ -4,7 +4,6 @@ import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import React, { useReducer, useState } from 'react';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
-import '../styles/characters.scss';
 
 import { Button } from 'meiko/Button';
 import Input from 'meiko/ClearableInput';

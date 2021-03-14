@@ -17,8 +17,6 @@ import {
   SearchTabAction
 } from './common';
 
-import './SearchTabs.scss';
-
 function reducer(state: SearchState, action: SearchAction) {
   switch (action.type) {
     case SearchTabAction.UpdateSearchString:

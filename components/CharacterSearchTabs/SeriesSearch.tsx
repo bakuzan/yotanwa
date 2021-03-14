@@ -23,8 +23,6 @@ import {
   SearchTabAction
 } from './common';
 
-import './SearchTabs.scss';
-
 interface SeriesSearchState extends SearchState {
   loading: boolean;
   page: number;

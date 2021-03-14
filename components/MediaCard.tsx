@@ -8,8 +8,6 @@ import Tooltip from 'meiko/Tooltip';
 import { width, height } from '../consts/imageSize';
 import { AnilistMedia } from '../interfaces/AnilistMedia';
 
-import './MediaCard.scss';
-
 interface MediaCardProps {
   className?: string;
   label?: string;

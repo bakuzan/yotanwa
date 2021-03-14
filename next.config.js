@@ -1,5 +1,4 @@
 const path = require('path');
-const withSass = require('@zeit/next-sass');
 const withOffline = require('next-offline');
 const withBundleAnalyzer = require('@next/bundle-analyzer');
 const { config } = require('dotenv');
@@ -13,7 +12,6 @@ const compose = (...fs) => (x) => fs.reduce((state, gs) => gs(state), x);
 const withSetup = (cfg) =>
   compose(
     withBundleAnalyzer({ enabled: Boolean(process.env.ANALYZE) }),
-    withSass,
     withOffline
   )(cfg);
 

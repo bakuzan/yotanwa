@@ -2,8 +2,6 @@ import React, { useState, useRef } from 'react';
 
 import { Button } from 'meiko/Button';
 
-import './CopyToClipboard.scss';
-
 const CLIPBOARD = `\uD83D\uDCCB\uFE0E`;
 
 interface CopyToClipboardProps {
