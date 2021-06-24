@@ -7,7 +7,10 @@ config();
 
 const empty = 'empty';
 const isProd = process.env.NODE_ENV === 'production';
-const compose = (...fs) => (x) => fs.reduce((state, gs) => gs(state), x);
+const compose =
+  (...fs) =>
+  (x) =>
+    fs.reduce((state, gs) => gs(state), x);
 
 const withSetup = (cfg) =>
   compose(
@@ -26,10 +29,11 @@ module.exports = withSetup({
   postcssLoaderOptions: { parser: 'postcss-scss', autoprefixer: true },
   webpack: (webpackConfig) => {
     // Fixes npm packages
-    webpackConfig.node = {
-      fs: empty,
-      net: empty,
-      tls: empty
+    webpackConfig.resolve.fallback = {
+      ...(webpackConfig.resolve.fallback || {}),
+      fs: false,
+      net: false,
+      tls: false
     };
 
     // Aliases
