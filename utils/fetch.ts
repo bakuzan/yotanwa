@@ -16,18 +16,18 @@ function setOptions(method: string, body: any) {
   };
 }
 
-export default async function fetchYTW(
+export default async function fetchYTW<T = any>(
   url: string,
   method = 'GET',
   body = null
-) {
+): Promise<T | { success: false; error: string }> {
   const options = setOptions(method, body);
 
   try {
     const response = await fetch(url, options);
 
-    return await response.json();
+    return (await response.json()) as T;
   } catch (error) {
-    return { success: false, error: error.message };
+    return { success: false, error: (error as Error).message };
   }
 }

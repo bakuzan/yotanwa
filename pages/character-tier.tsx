@@ -20,6 +20,7 @@ import { Tiers } from '@/consts';
 import { CharacterAssignmentModel } from '@/interfaces/CharacterAssignmentModel';
 import { MovePayload } from '@/interfaces/MovePayload';
 import { TierModel } from '@/interfaces/TierModel';
+import { TierResponse } from '@/interfaces/TierResponse';
 import { YTWCharacter } from '@/interfaces/YTWCharacter';
 import move from '@/utils/dragAndDrop/move';
 import reorder from '@/utils/dragAndDrop/reorder';
@@ -358,7 +359,9 @@ CharacterTier.getInitialProps = async ({ query }: NextPageContext) => {
   let items = [];
 
   if (id) {
-    const tierResult = await fetchOnServer(`${queryBase}/ytw/tier/${id}`);
+    const tierResult = await fetchOnServer<TierResponse>(
+      `${queryBase}/ytw/tier/${id}`
+    );
 
     if (tierResult.success) {
       tier = tierResult.tier;
