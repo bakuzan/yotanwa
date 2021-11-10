@@ -2,6 +2,11 @@ import { Request, Response } from 'express';
 
 import { Tier } from '../models/tier';
 
+function getErrorMessage(error: unknown) {
+  if (error instanceof Error) return error.message;
+  return String(error);
+}
+
 export default async function saveTier(req: Request, res: Response) {
   const respond = (a: any) => res.status(200).json(a);
 
@@ -35,7 +40,7 @@ export default async function saveTier(req: Request, res: Response) {
 
     return respond({ id: itemId, success: true });
   } catch (e) {
-    const error = `${e.message ? e.message : 'Failed to save tier'}.`;
+    const error = `${getErrorMessage(e) ?? 'Failed to save tier'}.`;
 
     console.log(error);
     console.error(e);

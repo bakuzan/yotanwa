@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import getErrorMessage from './getErrorMessage';
 
 function setOptions(method: string, body: any) {
   const bodyProps = !body
@@ -28,6 +29,6 @@ export default async function fetchYTW<T = any>(
 
     return (await response.json()) as T;
   } catch (error) {
-    return { success: false, error: (error as Error).message };
+    return { success: false, error: getErrorMessage(error) };
   }
 }
