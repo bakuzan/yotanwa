@@ -185,7 +185,7 @@ function Characters(props: Props) {
   );
 }
 
-Characters.getInitialProps = async ({ query }: NextPageContext) => {
+export async function getServerSideProps({ query }: NextPageContext) {
   const queryBase = process.env.API_URL_BASE;
 
   const { id = '' } = query;
@@ -217,6 +217,6 @@ Characters.getInitialProps = async ({ query }: NextPageContext) => {
   }
 
   return { items, tier, error, isEdit: !!id };
-};
+}
 
 export default Characters;

@@ -3,7 +3,11 @@
     "target": "esnext",
     "module": "esnext",
     "jsx": "preserve",
-    "lib": ["dom", "es2017", "es2018.promise"],
+    "lib": [
+      "dom",
+      "es2017",
+      "es2018.promise"
+    ],
     "baseUrl": ".",
     "resolveJsonModule": true,
     "moduleResolution": "node",
@@ -21,8 +25,11 @@
     "sourceMap": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "@/*": ["./*"]
-    }
+      "@/*": [
+        "./*"
+      ]
+    },
+    "incremental": true
   },
   "include": [
     "./**/*.ts",
@@ -30,5 +37,10 @@
     "node_modules/@types/node/globals.d.ts",
     "node_modules/meiko/types/component/*.ts"
   ],
-  "exclude": ["dist", ".next", "out", "next.config.js"]
+  "exclude": [
+    "dist",
+    ".next",
+    "out",
+    "next.config.js"
+  ]
 }

@@ -49,6 +49,15 @@ async function fetchListItems(
   );
 }
 
+export async function getServerSideProps({ query }: NextPageContext) {
+  const { source, type, username } = processQuery(query);
+
+  const { items, error } = await fetchListItems(source, username, type);
+  const links = getUserLinks(source, username, type);
+
+  return { items, error, username, source, type, links };
+}
+
 export default class extends React.Component<SearchProps, SearchState> {
   constructor(props: SearchProps) {
     super(props);
@@ -61,18 +70,8 @@ export default class extends React.Component<SearchProps, SearchState> {
     };
 
     this.handleCustomTierChange = this.handleCustomTierChange.bind(this);
-    this.handlePersistCustomTierChange = this.handlePersistCustomTierChange.bind(
-      this
-    );
-  }
-
-  static async getInitialProps({ query }: NextPageContext) {
-    const { source, type, username } = processQuery(query);
-
-    const { items, error } = await fetchListItems(source, username, type);
-    const links = getUserLinks(source, username, type);
-
-    return { items, error, username, source, type, links };
+    this.handlePersistCustomTierChange =
+      this.handlePersistCustomTierChange.bind(this);
   }
 
   handleCustomTierChange(event: React.FormEvent<HTMLSelectElement>) {

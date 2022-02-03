@@ -16,12 +16,12 @@ const statusCodes: Record<string, string> = {
   '500': 'Internal Server Error'
 };
 
-class YTWError extends React.Component<ErrorProps> {
-  static getInitialProps({ res, err }: NextPageContext) {
-    const statusCode = res ? res.statusCode : err ? err.statusCode : null;
-    return { statusCode };
-  }
+export async function getServerSideProps({ res, err }: NextPageContext) {
+  const statusCode = res ? res.statusCode : err ? err.statusCode : null;
+  return { statusCode };
+}
 
+class YTWError extends React.Component<ErrorProps> {
   render() {
     const { statusCode } = this.props;
     const title =

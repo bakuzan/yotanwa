@@ -349,7 +349,7 @@ function CharacterTier({ items, tier, error }: Props) {
   );
 }
 
-CharacterTier.getInitialProps = async ({ query }: NextPageContext) => {
+export async function getServerSideProps({ query }: NextPageContext) {
   const queryBase = process.env.API_URL_BASE;
 
   const { id = '' } = query;
@@ -383,6 +383,6 @@ CharacterTier.getInitialProps = async ({ query }: NextPageContext) => {
   }
 
   return { items, tier, error };
-};
+}
 
 export default CharacterTier;

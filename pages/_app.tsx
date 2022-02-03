@@ -17,23 +17,28 @@ type AppProps = {
   helmetProps: HelmetProps;
 };
 
-class MyApp extends App<AppProps> {
-  static async getInitialProps({ Component, ctx }: AppContext) {
-    const { pathname, req, query } = ctx;
-    const params = processQuery(query);
-    const cookies = processCookies(req ? req.headers.cookie : '');
-    const helmetProps = getPageMeta(pathname, params);
-    let pageProps = {};
+export async function getServerSideProps({ Component, ctx }: AppContext) {
+  const { pathname, req, query } = ctx;
+  const params = processQuery(query);
+  const cookies = processCookies(req ? req.headers.cookie : '');
+  const helmetProps = getPageMeta(pathname, params);
+  let pageProps = {};
 
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx);
-    }
-
-    return { pageProps, cookies, helmetProps };
+  if (Component.getInitialProps) {
+    pageProps = await Component.getInitialProps(ctx);
   }
 
+  return { pageProps, cookies, helmetProps };
+}
+
+class MyApp extends App<AppProps> {
   render() {
-    const { Component, pageProps, cookies, helmetProps } = this.props;
+    const {
+      Component,
+      pageProps,
+      cookies = { isDarkTheme: false },
+      helmetProps
+    } = this.props;
 
     return (
       <React.Fragment>

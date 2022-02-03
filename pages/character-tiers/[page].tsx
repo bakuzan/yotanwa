@@ -19,7 +19,7 @@ interface CharacterTierProps {
 }
 
 function CharacterTiers({
-  items,
+  items = [],
   nextPage,
   prevPage,
   total,
@@ -75,7 +75,7 @@ function CharacterTiers({
   );
 }
 
-CharacterTiers.getInitialProps = async ({ query }: NextPageContext) => {
+export async function getServerSideProps({ query }: NextPageContext) {
   const queryBase = process.env.API_URL_BASE;
   const { page = 1 } = query;
 
@@ -89,6 +89,6 @@ CharacterTiers.getInitialProps = async ({ query }: NextPageContext) => {
   const prevPage = tiers.hasPrevPage ? Number(page) - 1 : null;
 
   return { items, total, error, nextPage, prevPage };
-};
+}
 
 export default CharacterTiers;
