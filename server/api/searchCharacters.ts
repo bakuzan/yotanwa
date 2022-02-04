@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import fetch from 'node-fetch';
+import fetch from '../../utils/node-fetch';
 import { AnilistCharacter } from '../../interfaces/AnilistCharacter';
 import { AnilistPagedResponse } from '../../interfaces/AnilistResponse';
 import { SearchResponse } from '../../interfaces/ApiResponse';

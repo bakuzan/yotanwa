@@ -3,7 +3,7 @@ import { AnilistResponse } from '@/interfaces/AnilistResponse';
 import { SearchResponse } from '@/interfaces/ApiResponse';
 import { YTWCharacter } from '@/interfaces/YTWCharacter';
 import { Request, Response } from 'express';
-import fetch from 'node-fetch';
+import fetch from '../../utils/node-fetch';
 
 const pageSize = Number(process.env.CHARACTER_SEARCH_LIMIT) || 0;
 

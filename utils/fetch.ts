@@ -1,4 +1,4 @@
-// import fetch from 'node-fetch';
+import fetch from './node-fetch';
 import getErrorMessage from './getErrorMessage';
 
 function setOptions(method: string, body: any) {

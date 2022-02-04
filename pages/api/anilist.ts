@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+import fetch from '../../utils/node-fetch';
 
 import { AnilistMediaListItem } from '@/interfaces/AnilistMedia';
 import { AnilistCollectionResponse } from '@/interfaces/AnilistResponse';
@@ -50,9 +50,7 @@ async function fetchList(user: string, type: string) {
     method: 'POST'
   });
 
-  return (await response.json()) as AnilistCollectionResponse<
-    AnilistMediaListItem
-  >;
+  return (await response.json()) as AnilistCollectionResponse<AnilistMediaListItem>;
 }
 
 export default createHandler(async function handler(
