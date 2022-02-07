@@ -19,6 +19,9 @@ import generateTiers from '../utils/generateTiers';
 import storage from '../utils/storage';
 import processQuery from '../utils/processQuery';
 import fetchOnServer from '../utils/fetch';
+import createLogger from '../utils/logger';
+
+const debug = createLogger('Search');
 
 type SearchProps = {
   cookies: any;
@@ -49,16 +52,16 @@ async function fetchListItems(
   );
 }
 
-export const getServerSideProps: GetServerSideProps<SearchProps> = async (
-  context
-) => {
+export const getServerSideProps: GetServerSideProps<
+  Partial<SearchProps>
+> = async (context) => {
   const { source, type, username } = processQuery(context.query);
 
   const { items, error } = await fetchListItems(source, username, type);
   const links = getUserLinks(source, username, type);
 
   return {
-    props: { items, error, username, source, type, links, cookies: undefined }
+    props: { items, error, username, source, type, links }
   };
 };
 
@@ -117,7 +120,7 @@ export default class extends React.Component<SearchProps, SearchState> {
 
     const tierValues = Array.from(tierDistribution.entries());
     const tiers = generateTiers(items, tierDistribution, hiddenScores);
-
+    debug({ hiddenScores, items, tierDistribution });
     return (
       <section className="page page--column tier-page">
         <header className="tier-page__header">

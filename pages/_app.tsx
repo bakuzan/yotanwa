@@ -11,6 +11,9 @@ import Footer from '../components/Footer';
 import processCookies from '../utils/processCookies';
 import processQuery from '../utils/processQuery';
 import getPageMeta from '../utils/getPageMeta';
+import createLogger from '../utils/logger';
+
+const debug = createLogger('App');
 
 type AppProps = {
   cookies: any;
@@ -39,7 +42,7 @@ class MyApp extends App<AppProps> {
       cookies = { isDarkTheme: false },
       helmetProps
     } = this.props;
-
+    debug({ cookies, helmetProps, pageProps });
     return (
       <React.Fragment>
         <Helmet {...helmetProps} />
