@@ -1,6 +1,6 @@
 /* tslint:disable:object-literal-sort-keys */
 import classNames from 'classnames';
-import { GetServerSideProps, NextPageContext } from 'next';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import React, { useReducer, useState } from 'react';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
