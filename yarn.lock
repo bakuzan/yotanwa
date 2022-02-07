@@ -897,10 +897,17 @@
     "@babel/types" "^7.4.4"
     esutils "^2.0.2"
 
-"@babel/runtime@^7.1.2", "@babel/runtime@^7.10.5", "@babel/runtime@^7.15.4", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.1.2", "@babel/runtime@^7.10.5", "@babel/runtime@^7.15.4", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
   version "7.16.0"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.16.0.tgz#e27b977f2e2088ba24748bf99b5e1dece64e4f0b"
   integrity sha512-Nht8L0O8YCktmsDV6FqFue7vQLRx3Hb0B37lS5y0jDRqRxlBG4wIJHnf9/bgSE2UyipKFA01YtS+npRdTWBUyw==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
+"@babel/runtime@^7.12.5":
+  version "7.17.0"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.17.0.tgz#b8d142fc0f7664fb3d9b5833fd40dcbab89276c0"
+  integrity sha512-etcO/ohMNaNA2UBdaXBBSX/3aEzFMRrVfaPv8Ptc0k+cWpWW0QFiGZ2XnVqQZI1Cf734LbPGmqBKWESfW4x/dQ==
   dependencies:
     regenerator-runtime "^0.13.4"
 
@@ -1079,6 +1086,11 @@
     "@types/estree" "0.0.39"
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
+
+"@seznam/compose-react-refs@^1.0.5":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@seznam/compose-react-refs/-/compose-react-refs-1.0.6.tgz#6ec4e70bdd6e32f8e70b4100f27267cf306bd8df"
+  integrity sha512-izzOXQfeQLonzrIQb8u6LQ8dk+ymz3WXTIXjvOlTXHq6sbzROg3NWU+9TTAOpEoK9Bth24/6F/XrfHJ5yR5n6Q==
 
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
@@ -3431,12 +3443,13 @@ media-typer@0.3.0:
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
   integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
 
-"meiko@npm:bkz-meiko@^6.1.3":
-  version "6.1.3"
-  resolved "https://registry.yarnpkg.com/bkz-meiko/-/bkz-meiko-6.1.3.tgz#4da8b6882274da8a9da8ad7cc6f053a6ac05cf10"
-  integrity sha512-jdsN8bD9Bqd2VEdN2Bz8RTTgU1KI2zmV333R8puHqyU0eBxC1IeG1TBu4eFURO8H78nrdJllryKTr9x7jZTq9Q==
+"meiko@npm:bkz-meiko@^6.2.0":
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/bkz-meiko/-/bkz-meiko-6.2.0.tgz#047ad077223a1cf44fa8c0fc60958cd81a780d90"
+  integrity sha512-TTeeLblQ9JkZ2Ibc3qLFmj+a8xiFdKL0WA5hc0kVD75d5mogSS+THsLQBe7VDY8xMEwiYlb9SoWQj7S43UHWxA==
   dependencies:
-    "@babel/runtime" "^7.4.5"
+    "@babel/runtime" "^7.12.5"
+    "@seznam/compose-react-refs" "^1.0.5"
 
 memoize-one@^5.1.1:
   version "5.2.1"
