@@ -2,7 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 
 import { YTWLink } from '../components/YTWLink';
-import { NextPageContext } from 'next';
+import { GetServerSideProps } from 'next';
 
 interface ErrorProps {
   statusCode: string;
@@ -16,10 +16,12 @@ const statusCodes: Record<string, string> = {
   '500': 'Internal Server Error'
 };
 
-export async function getServerSideProps({ res, err }: NextPageContext) {
-  const statusCode = res ? res.statusCode : err ? err.statusCode : null;
-  return { statusCode };
-}
+export const getServerSideProps: GetServerSideProps<ErrorProps> = async (
+  context
+) => {
+  const statusCode = context.res ? `${context.res.statusCode}` : '';
+  return { props: { statusCode } };
+};
 
 class YTWError extends React.Component<ErrorProps> {
   render() {

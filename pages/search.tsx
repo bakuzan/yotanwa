@@ -1,5 +1,5 @@
 import React from 'react';
-import { NextPageContext } from 'next';
+import { GetServerSideProps } from 'next';
 
 import { Button } from 'meiko/Button';
 import SelectBox from 'meiko/SelectBox';
@@ -49,14 +49,18 @@ async function fetchListItems(
   );
 }
 
-export async function getServerSideProps({ query }: NextPageContext) {
-  const { source, type, username } = processQuery(query);
+export const getServerSideProps: GetServerSideProps<SearchProps> = async (
+  context
+) => {
+  const { source, type, username } = processQuery(context.query);
 
   const { items, error } = await fetchListItems(source, username, type);
   const links = getUserLinks(source, username, type);
 
-  return { items, error, username, source, type, links };
-}
+  return {
+    props: { items, error, username, source, type, links, cookies: undefined }
+  };
+};
 
 export default class extends React.Component<SearchProps, SearchState> {
   constructor(props: SearchProps) {

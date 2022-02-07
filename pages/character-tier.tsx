@@ -1,6 +1,6 @@
 /* tslint:disable:object-literal-sort-keys */
 import classNames from 'classnames';
-import { NextPageContext } from 'next';
+import { GetServerSideProps, NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import React, { useReducer, useState } from 'react';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
@@ -349,13 +349,15 @@ function CharacterTier({ items, tier, error }: Props) {
   );
 }
 
-export async function getServerSideProps({ query }: NextPageContext) {
+export const getServerSideProps: GetServerSideProps<Props> = async (
+  context
+) => {
   const queryBase = process.env.API_URL_BASE;
 
-  const { id = '' } = query;
-  let { ids = '' } = query;
+  const { id = '' } = context.query;
+  let { ids = '' } = context.query;
   let error = '';
-  let tier = null;
+  let tier = undefined;
   let items = [];
 
   if (id) {
@@ -382,7 +384,7 @@ export async function getServerSideProps({ query }: NextPageContext) {
     error = result.error || '';
   }
 
-  return { items, tier, error };
-}
+  return { props: { items, tier, error } };
+};
 
 export default CharacterTier;

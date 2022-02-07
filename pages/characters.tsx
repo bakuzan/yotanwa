@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { NextPageContext } from 'next';
+import { GetServerSideProps, NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
@@ -185,7 +185,9 @@ function Characters(props: Props) {
   );
 }
 
-export async function getServerSideProps({ query }: NextPageContext) {
+export const getServerSideProps: GetServerSideProps<Props> = async ({
+  query
+}) => {
   const queryBase = process.env.API_URL_BASE;
 
   const { id = '' } = query;
@@ -216,7 +218,7 @@ export async function getServerSideProps({ query }: NextPageContext) {
     error = result.error || '';
   }
 
-  return { items, tier, error, isEdit: !!id };
-}
+  return { props: { items, tier, error, isEdit: !!id } };
+};
 
 export default Characters;

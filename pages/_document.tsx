@@ -13,16 +13,16 @@ type DocumentProps = {
   cookies: any;
 };
 
-export async function getServerSideProps(ctx: DocumentContext) {
-  const { req } = ctx;
-  const cookies = processCookies(req ? req.headers.cookie : '');
-
-  const initialProps = await Document.getInitialProps(ctx);
-
-  return { ...initialProps, cookies };
-}
-
 class MyDocument extends Document<DocumentProps> {
+  async getInitialProps(ctx: DocumentContext) {
+    const { req } = ctx;
+    const cookies = processCookies(req ? req.headers.cookie : '');
+
+    const initialProps = await Document.getInitialProps(ctx);
+
+    return { ...initialProps, cookies };
+  }
+
   render() {
     const { cookies = { isDarkTheme: false } } = this.props;
 

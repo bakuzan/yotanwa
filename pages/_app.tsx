@@ -17,21 +17,21 @@ type AppProps = {
   helmetProps: HelmetProps;
 };
 
-export async function getServerSideProps({ Component, ctx }: AppContext) {
-  const { pathname, req, query } = ctx;
-  const params = processQuery(query);
-  const cookies = processCookies(req ? req.headers.cookie : '');
-  const helmetProps = getPageMeta(pathname, params);
-  let pageProps = {};
+class MyApp extends App<AppProps> {
+  async getInitialProps({ Component, ctx }: AppContext) {
+    const { pathname, req, query } = ctx;
+    const params = processQuery(query);
+    const cookies = processCookies(req ? req.headers.cookie : '');
+    const helmetProps = getPageMeta(pathname, params);
+    let pageProps = {};
 
-  if (Component.getInitialProps) {
-    pageProps = await Component.getInitialProps(ctx);
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx);
+    }
+
+    return { pageProps, cookies, helmetProps };
   }
 
-  return { pageProps, cookies, helmetProps };
-}
-
-class MyApp extends App<AppProps> {
   render() {
     const {
       Component,

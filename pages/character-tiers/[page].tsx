@@ -1,5 +1,5 @@
 import React from 'react';
-import { NextPageContext } from 'next';
+import { GetServerSideProps } from 'next';
 
 import Grid from 'meiko/Grid';
 import { YTWLink } from '@/components/YTWLink';
@@ -13,8 +13,8 @@ const PAGE_URL_BASE = `/character-tiers`;
 interface CharacterTierProps {
   error?: string;
   items: TierModel[];
-  nextPage: number;
-  prevPage: number;
+  nextPage: number | null;
+  prevPage: number | null;
   total: number;
 }
 
@@ -75,9 +75,11 @@ function CharacterTiers({
   );
 }
 
-export async function getServerSideProps({ query }: NextPageContext) {
+export const getServerSideProps: GetServerSideProps<
+  CharacterTierProps
+> = async (context) => {
   const queryBase = process.env.API_URL_BASE;
-  const { page = 1 } = query;
+  const { page = 1 } = context.query;
 
   const tiers = await fetchOnServer(`${queryBase}/ytw/tiers?page=${page}`);
 
@@ -88,7 +90,7 @@ export async function getServerSideProps({ query }: NextPageContext) {
   const nextPage = tiers.hasNextPage ? Number(page) + 1 : null;
   const prevPage = tiers.hasPrevPage ? Number(page) - 1 : null;
 
-  return { items, total, error, nextPage, prevPage };
-}
+  return { props: { items, total, error, nextPage, prevPage } };
+};
 
 export default CharacterTiers;
