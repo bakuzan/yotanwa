@@ -1,5 +1,7 @@
+import isClient from './isClient';
+
 function log(name: string, others: any[]) {
-  if (window && window.console && window.console.log) {
+  if (isClient()) {
     window.console.log(
       `%c :: [Yotanwa] ::` + `%c Location: ${name};`,
       `color: #7f7ec2;font-size:16px;`,
