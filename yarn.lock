@@ -3443,10 +3443,10 @@ media-typer@0.3.0:
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
   integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
 
-"meiko@npm:bkz-meiko@^6.2.0":
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/bkz-meiko/-/bkz-meiko-6.2.0.tgz#047ad077223a1cf44fa8c0fc60958cd81a780d90"
-  integrity sha512-TTeeLblQ9JkZ2Ibc3qLFmj+a8xiFdKL0WA5hc0kVD75d5mogSS+THsLQBe7VDY8xMEwiYlb9SoWQj7S43UHWxA==
+"meiko@npm:bkz-meiko@^6.2.1":
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/bkz-meiko/-/bkz-meiko-6.2.1.tgz#99b13b64b8c3fb73e734ba68f11666cad2a2e07d"
+  integrity sha512-Qjk/Rp9o1Dlt2znthDgwZbEZI7/hdniiTSgGHpgEsK8AipZ11s4xbW6op3nvEkjl2ugjCHLRRQs8OwE2gNFshQ==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@seznam/compose-react-refs" "^1.0.5"
