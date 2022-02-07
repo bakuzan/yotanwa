@@ -14,7 +14,7 @@ type DocumentProps = {
 };
 
 class MyDocument extends Document<DocumentProps> {
-  async getInitialProps(ctx: DocumentContext) {
+  static async getInitialProps(ctx: DocumentContext) {
     const { req } = ctx;
     const cookies = processCookies(req ? req.headers.cookie : '');
 

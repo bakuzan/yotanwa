@@ -21,7 +21,7 @@ type AppProps = {
 };
 
 class MyApp extends App<AppProps> {
-  async getInitialProps({ Component, ctx }: AppContext) {
+  static async getInitialProps({ Component, ctx }: AppContext) {
     const { pathname, req, query } = ctx;
     const params = processQuery(query);
     const cookies = processCookies(req ? req.headers.cookie : '');
