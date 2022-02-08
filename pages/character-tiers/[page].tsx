@@ -1,16 +1,16 @@
 import React from 'react';
-import { GetServerSideProps } from 'next';
 
 import Grid from 'meiko/Grid';
 import { YTWLink } from '@/components/YTWLink';
 import ErrorInPage from '@/components/ErrorInPage';
 
 import { TierModel } from '@/interfaces/TierModel';
-import fetchOnServer from '@/utils/fetch';
+import createLogger from '@/utils/logger';
 
+const debug = createLogger('CharacterTiers');
 const PAGE_URL_BASE = `/character-tiers`;
 
-interface CharacterTierProps {
+export interface CharacterTierProps {
   error?: string;
   items: TierModel[];
   nextPage: number | null;
@@ -18,13 +18,15 @@ interface CharacterTierProps {
   total: number;
 }
 
-function CharacterTiers({
+export default function CharacterTiers({
   items = [],
   nextPage,
   prevPage,
-  total,
+  total = 0,
   error
 }: CharacterTierProps) {
+  debug({ error, items, nextPage, prevPage, total });
+
   if (error) {
     return <ErrorInPage error={error} />;
   }
@@ -74,23 +76,3 @@ function CharacterTiers({
     </section>
   );
 }
-
-export const getServerSideProps: GetServerSideProps<
-  CharacterTierProps
-> = async (context) => {
-  const queryBase = process.env.API_URL_BASE;
-  const { page = 1 } = context.query;
-
-  const tiers = await fetchOnServer(`${queryBase}/ytw/tiers?page=${page}`);
-
-  const items = tiers.items || [];
-  const total = tiers.total || 0;
-  const error = tiers.error || '';
-
-  const nextPage = tiers.hasNextPage ? Number(page) + 1 : null;
-  const prevPage = tiers.hasPrevPage ? Number(page) - 1 : null;
-
-  return { props: { items, total, error, nextPage, prevPage } };
-};
-
-export default CharacterTiers;

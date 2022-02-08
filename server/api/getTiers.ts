@@ -9,7 +9,7 @@ export async function getTiers(req: Request, res: Response) {
   const skipping = index * pageSize;
 
   try {
-    const total = await Tier.count({});
+    const total = await Tier.countDocuments({});
 
     const items = await Tier.find()
       .select({ id: 1, name: 1 })
@@ -19,7 +19,7 @@ export async function getTiers(req: Request, res: Response) {
 
     const hasPrevPage = index !== 0;
     const hasNextPage = skipping + pageSize <= total;
-
+    console.log({ hasPrevPage, hasNextPage, items, success: true, total });
     res
       .status(200)
       .json({ hasPrevPage, hasNextPage, items, success: true, total });

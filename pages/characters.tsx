@@ -18,6 +18,9 @@ import { TierModel } from '@/interfaces/TierModel';
 import { YTWCharacter } from '@/interfaces/YTWCharacter';
 
 import fetchOnServer from '@/utils/fetch';
+import createLogger from '@/utils/logger';
+
+const debug = createLogger('Characters');
 
 interface Props {
   error?: string;
@@ -71,7 +74,7 @@ function Characters(props: Props) {
     }
   }
 
-  console.log('Render Characters > ', props);
+  debug(props);
 
   return (
     <div className="page page--column">
