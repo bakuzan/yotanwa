@@ -23,7 +23,7 @@
     "ayaka": "npm:bkz-ayaka@^2.1.0",
     "classnames": "^2.3.1",
     "dotenv": "^10.0.0",
-    "express": "^4.19.2",
+    "express": "^4.20.0",
     "mal-scraper": "^2.11.4",
     "meiko": "npm:bkz-meiko@^6.2.1",
     "mongoose": "^5.13.20",
